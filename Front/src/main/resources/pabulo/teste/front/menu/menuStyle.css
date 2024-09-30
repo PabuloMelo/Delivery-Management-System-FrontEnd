@@ -1,0 +1,111 @@
+.top-form{
+
+-fx-background-color: #777579;
+-fx-border-width: .4px .4px .2px .4px;
+
+}
+
+.top-form:hover{
+
+-fx-background-color: linear-gradient(to bottom left, #ab2d3e, #651d70 );
+
+}
+
+.nav-form{
+
+-fx-background-color: linear-gradient(to bottom right, #587b3f, #286b51);
+-fx-border-color: #000;
+-fx-border-width: .4px 0px .4px 0px;
+
+}
+
+
+.nav-form:hover{
+
+-fx-background-color: linear-gradient(to top right,#27c69e, #651d70 );
+
+}
+
+.nav-btn{
+
+-fx-background-color: #22555e;
+-fx-cursor: hand;
+-fx-text-size:14px;
+-fx-text-fill: #ffffff;
+}
+
+.nav-btn:hover{
+
+-fx-background-color: #c9345c
+
+}
+
+.cards-rep{
+
+-fx-background-color: linear-gradient(to bottom right, #587b3f, #286b51);
+
+
+}
+
+
+
+.white-background{
+
+-fx-background-color: #ffffff;
+-fx-radius: 5px;
+
+}
+
+.cards-text{
+-fx-text-fill:#fff;
+-fx-font-family:"Arial";
+-fx-alignment: CENTER-RIGHT;
+-fx-font-size: 15px;
+
+}
+
+.cards-text-data{
+-fx-text-fill:#fff;
+-fx-font-family:"Arial";
+-fx-alignment: CENTER-RIGHT;
+-fx-font-size: 30px;
+
+}
+
+
+.calendar-grid {
+    -fx-background-color: rgb(20, 156, 255);
+    -fx-text-fill: linear-gradient(from 28.91% 29.8578% to 0.0% 100.0%, #c9b7b1 0.0%, #ffffff 100.0%);
+}
+
+
+.calendar-header{
+
+-fx-background: linear-gradient(from 28.91% 29.8578% to 100.0% 100.0%, #c9b7b1 0.0%, #a15740 100.0%);
+-fx-base: #daa5a5;
+-fx-text-fill: #000;
+}
+
+.date-picker-popup {
+    -fx-text-fill: #ffffff;
+    -fx-background-color:
+        linear-gradient(to bottom,
+        derive(-fx-color,-17%),
+        derive(-fx-color,-30%)
+        );
+
+}
+
+.white-background{
+
+-fx-background-color: #ffffff;
+-fx-radius: 5px;
+
+}
+
+.gray-background-cards{
+
+-fx-background-color: #b9a7a8;
+-fx-radius: 10px;
+
+}

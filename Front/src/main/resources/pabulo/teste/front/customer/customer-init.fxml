@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.customer.CustomerControl">
+    <top>
+        <AnchorPane prefHeight="30.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@../menu/menuStyle.css">
+                    <children>
+                        <ImageView fitHeight="28.0" fitWidth="30.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/caminhão.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="56.0" layoutY="1.0" prefHeight="39.0" prefWidth="270.0" text=" Cliente" textFill="WHITE">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </top>
+    <left>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane prefHeight="739.0" prefWidth="200.0" stylesheets="@customer-styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Button layoutX="20.0" layoutY="151.0" mnemonicParsing="false" onAction="#saveCustomer" prefHeight="30.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@customer-styles.css" text="Salvar Novo Cliente" />
+                        <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="66.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/cliente-icon.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="50.0" layoutY="107.0" prefHeight="30.0" prefWidth="104.0" stylesheets="@customer-styles.css" text="Customers" textFill="#f7f7f7">
+                            <font>
+                                <Font name="Berlin Sans FB" size="22.0" />
+                            </font>
+                        </Label>
+                        <Button layoutX="20.0" layoutY="189.0" mnemonicParsing="false" onAction="#findCustomer" prefHeight="30.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@customer-styles.css" text="Pesquisar Cliente" />
+                        <Button layoutX="20.0" layoutY="226.0" mnemonicParsing="false" onAction="#customerUpdate" prefHeight="30.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@customer-styles.css" text="Editar Cliente" />
+                        <Button layoutX="20.0" layoutY="264.0" mnemonicParsing="false" onAction="#retunrMenuInit" prefHeight="44.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@customer-styles.css" text="Retornar para o Menu Inicial" wrapText="true" />
+                        <Label layoutX="20.0" layoutY="717.0" text="** Campo Obrigatorio" textFill="WHITE" />
+                    </children>
+                    <styleClass>
+                        <String fx:value="nav-form" />
+                        <String fx:value="nav-form" />
+                    </styleClass>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </left>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

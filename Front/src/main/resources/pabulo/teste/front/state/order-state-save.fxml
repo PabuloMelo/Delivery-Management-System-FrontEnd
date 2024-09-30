@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1560.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.state.OrderStateSaveController">
+    <left>
+        <AnchorPane prefHeight="790.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane layoutX="14.0" layoutY="-5.0" prefHeight="809.0" prefWidth="209.0" styleClass="left-nav" stylesheets="@../order/order-style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-9.0" AnchorPane.topAnchor="-5.0">
+                    <children>
+                        <ImageView fitHeight="99.0" fitWidth="131.0" layoutX="36.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/pedido-icon.png" />
+                            </image>
+                        </ImageView>
+                        <Button layoutX="10.0" layoutY="203.0" mnemonicParsing="false" onAction="#saveOrder" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Salvar Novo Pedido" />
+                        <Button layoutX="10.0" layoutY="241.0" mnemonicParsing="false" onAction="#findOrder" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Encontrar Pedido" />
+                        <Button layoutX="11.0" layoutY="279.0" mnemonicParsing="false" onAction="#updateOrder" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Atualizar Pedido" />
+                        <Button layoutX="11.0" layoutY="318.0" mnemonicParsing="false" onAction="#createLoad" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Montar Carregamento" />
+                        <Button layoutX="12.0" layoutY="355.0" mnemonicParsing="false" onAction="#validateLoad" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Validar Carregamento" />
+                        <Button layoutX="11.0" layoutY="392.0" mnemonicParsing="false" onAction="#saveOrderState" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Salvar Estado do Pedido" />
+                        <Button layoutX="11.0" layoutY="431.0" mnemonicParsing="false" onAction="#findOrderState" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Encontrar  Estado do Pedido" />
+                        <Button layoutX="10.0" layoutY="472.0" mnemonicParsing="false" onAction="#updateOrderState" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Atualizar Estado do Pedido" />
+                        <Button layoutX="10.0" layoutY="512.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="30.0" prefWidth="180.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Retornar Para o Menu Inicial" />
+                        <Label layoutX="61.0" layoutY="133.0" text="Pedido" textFill="#b4c6c9">
+                            <font>
+                                <Font name="Arial" size="25.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="36.0" layoutY="763.0" styleClass="labels-general" stylesheets="@../order/order-style.css" text="** Campo Obrigatorio" textFill="#afd5da" />
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </left>
+    <top>
+        <AnchorPane prefHeight="50.0" prefWidth="1392.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane layoutX="253.0" layoutY="-52.0" prefHeight="51.0" prefWidth="1392.0" styleClass="top-nav" stylesheets="@../order/order-style.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="41.0" fitWidth="43.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/caminhão.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="78.0" layoutY="12.0" prefHeight="24.0" prefWidth="230.0" styleClass="labels-general" stylesheets="@../order/order-style.css" text="Salvar Novo Estado do Pedido" textFill="WHITE">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </top>
+    <center>
+        <AnchorPane prefHeight="797.0" prefWidth="1429.0" styleClass="background-general" stylesheets="@../order/order-style.css" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane layoutX="23.0" layoutY="14.0" prefHeight="440.0" prefWidth="1307.0" styleClass="background-white" stylesheets="@../order/order-style.css">
+                    <children>
+                        <AnchorPane layoutX="13.0" layoutY="11.0" prefHeight="422.0" prefWidth="210.0" styleClass="left-edit-panel" stylesheets="@../order/order-style.css">
+                            <children>
+                                <Button layoutX="5.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="**Numero do Pedido:" />
+                                <Button layoutX="4.0" layoutY="172.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Situação Nivel 1" />
+                                <Button layoutX="4.0" layoutY="212.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Situação Nivel 2" />
+                                <Button layoutX="4.0" layoutY="252.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Status Atual" />
+                                <Button layoutX="4.0" layoutY="292.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Motorista Responsavel" />
+                                <Button layoutX="4.0" layoutY="333.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Data da Resolução" />
+                                <Button layoutX="4.0" layoutY="373.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Descrição" />
+                                <Button layoutX="5.0" layoutY="132.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="** Situação Inicial" />
+                        <Button layoutX="5.0" layoutY="95.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Nome do Cliente" />
+                        <Button layoutX="5.0" layoutY="56.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@../order/order-style.css" text="Codigo do Cliente" />
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="232.0" layoutY="13.0" prefHeight="421.0" prefWidth="1066.0" styleClass="right-fields-panel">
+                            <children>
+                                <TextField fx:id="stateOrdercodeField" layoutX="14.0" layoutY="16.0" prefHeight="25.0" prefWidth="180.0" promptText="Order Code" stylesheets="@../order/order-style.css" />
+                                <ChoiceBox fx:id="stateinit" layoutX="14.0" layoutY="131.0" prefHeight="25.0" prefWidth="1000.0" styleClass="btn-fields" stylesheets="@../order/order-style.css" />
+                                <ChoiceBox fx:id="stateNV1" layoutX="14.0" layoutY="168.0" prefHeight="25.0" prefWidth="1000.0" styleClass="btn-fields" stylesheets="@../order/order-style.css" />
+                                <ChoiceBox fx:id="stateNV2" layoutX="14.0" layoutY="209.0" prefHeight="25.0" prefWidth="1000.0" styleClass="btn-fields" stylesheets="@../order/order-style.css" />
+                                <DatePicker fx:id="resolveDate" layoutX="14.0" layoutY="333.0" prefHeight="23.0" prefWidth="156.0" promptText="Solve Date" styleClass="calendar-grid" stylesheets="@../order/order-style.css" />
+                        <ChoiceBox fx:id="actualStatus" layoutX="14.0" layoutY="252.0" prefHeight="25.0" prefWidth="1000.0" styleClass="btn-fields" stylesheets="@../order/order-style.css" />
+                        <ChoiceBox fx:id="driver" layoutX="14.0" layoutY="292.0" prefHeight="25.0" prefWidth="1000.0" styleClass="btn-fields" stylesheets="@../order/order-style.css" />
+                        <TextField fx:id="description" layoutX="14.0" layoutY="371.0" prefHeight="25.0" prefWidth="1000.0" promptText="Description" />
+                        <TextField fx:id="customerCodeField" editable="false" layoutX="14.0" layoutY="54.0" prefHeight="25.0" prefWidth="180.0" promptText="Customer Code" />
+                        <TextField fx:id="customerNameField" editable="false" layoutX="14.0" layoutY="93.0" prefHeight="25.0" prefWidth="1000.0" promptText="Customer Nme" />
+                        <Button fx:id="findOrderByCodeBtn" layoutX="204.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" styleClass="btn-fields" text="Pesquisar" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+                <Button layoutX="1182.0" layoutY="744.0" mnemonicParsing="false" onAction="#saveStateOrder" prefHeight="33.0" prefWidth="132.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="Salvar" />
+            <ScrollPane hbarPolicy="ALWAYS" layoutX="23.0" layoutY="480.0" prefHeight="231.0" prefWidth="1323.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="262.0" prefWidth="1612.0">
+                     <children>
+                        <AnchorPane prefHeight="259.0" prefWidth="1598.0" styleClass="background-white" stylesheets="@../order/order-style.css" />
+                        <TableView fx:id="stateTableView" prefHeight="260.0" prefWidth="1751.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-139.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="orderCodeColumn" prefWidth="118.0" text="Numero do Pedido" />
+                            <TableColumn fx:id="customerCodeColumn" prefWidth="117.0" text="Codigo do Cliente" />
+                              <TableColumn fx:id="customerNameTableColumn" prefWidth="117.0" text="Nome do Cliente" />
+                              <TableColumn fx:id="purchaseDateColumn" prefWidth="117.0" text="Data de Venda " />
+                              <TableColumn fx:id="invoiceDateColumn" prefWidth="135.0" text="Data de Faturamento" />
+                              <TableColumn fx:id="stateInitColumn" prefWidth="135.0" text="Situção Inicial" />
+                              <TableColumn fx:id="firstLevelColumn" prefWidth="135.0" text="Situação Nivel 1" />
+                              <TableColumn fx:id="secondLevelColumn" prefWidth="149.0" text="Situação Nivel 2" />
+                              <TableColumn fx:id="resolveStateColumn" prefWidth="149.0" text="Status Atual" />
+                              <TableColumn fx:id="resolveDateColumn" prefWidth="149.0" text="Data de Resolução" />
+                              <TableColumn fx:id="resolveDriverColumn" prefWidth="149.0" text="Motorista Responsavel " />
+                              <TableColumn fx:id="descriptionColumn" prefWidth="149.0" text="Descrição" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

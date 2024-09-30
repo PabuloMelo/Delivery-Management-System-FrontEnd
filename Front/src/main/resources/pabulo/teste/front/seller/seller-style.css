@@ -1,0 +1,112 @@
+
+.left-panel{
+
+-fx-background-color: #83625e;
+
+}
+
+.left-panel: hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #d01515 0.0%, #2a32a1 100.0%);
+
+}
+
+
+.top-form{
+
+-fx-background-color: #e15151;
+
+}
+
+
+.top-form:hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #d01515 0.0%, #2a32a1 100.0%);
+
+}
+
+.btn-menu-left{
+
+
+-fx-background-color: #9e9d9d;
+-fx-text-fill: #ffffff;
+-fx-font-family: "Arial";
+-fx-text-size: 15px;
+
+}
+
+.btn-menu-left: hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #445a72 0.0%, #e4c993 100.0%);
+-fx-text-fill: #ffffff;
+-fx-cursor: hand;
+
+}
+
+.white-background{
+
+-fx-background-color: #ffffff;
+
+
+}
+
+.gray-background{
+
+-fx-background-color: #7e8681;
+
+}
+
+.right-panel-fields{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #692090 0.0%, #1b1919 100.0%);
+
+
+}
+
+.rigth-panel-btn{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #bf9c3c 0.0%, #da917a 100.0%);
+-fx-text-fill: #ffffff;
+-fx-font-family: "Arial";
+-fx-text-size: 15px;
+
+}
+
+.rigth-panel-import{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #bf9c3c 0.0%, #da917a 100.0%);
+-fx-text-fill: #ffffff;
+-fx-cursor: hand;
+-fx-font-family: "Arial";
+-fx-text-size: 15px;
+
+}
+
+.rigth-panel-import: hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #1539a4 0.0%, #d32424 99.6644%, #d32424 100.0%);
+-fx-text-fill: #ffffff;
+}
+
+.right-fields{
+
+-fx-background-color: #95d0cf;
+-fx-font-family: "Arial";
+-fx-font-size: 15px;
+-fx-text-fill: #000000;
+-fx-alignment: Center-Left
+
+
+}
+
+.text-labels{
+
+-fx-font-family: "Arial";
+-fx-font-size: 15px;
+-fx-text-fill: white;
+-fx-alignment: Center-Left
+
+
+
+
+}
