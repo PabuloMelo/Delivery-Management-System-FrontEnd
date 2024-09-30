@@ -31,6 +31,14 @@ class TestController {
 
     private lateinit var button: Button
 
+    @FXML
+
+    private lateinit var fieldFind: TextField
+
+    @FXML
+
+    private lateinit var findbutton: Button
+
 
     private val connection = ConnectionBackend()
 
@@ -41,6 +49,19 @@ class TestController {
        val customerSave: Int = testParameterField.text.trim().toInt()
 
         connection.saveCustomerOnWebDb(customerSave)
+
+
+    }
+
+    @FXML
+
+    fun findTest(){
+
+
+        val customerFind: Long = fieldFind.text.trim().toLong()
+
+        connection.fetchCustomerOnWebDbByCode(customerFind)
+
 
 
     }

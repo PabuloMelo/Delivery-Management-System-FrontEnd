@@ -14,7 +14,6 @@ class ConnectionBackend {
     private val customerResource = CustomerResource()
 
 
-
     private fun postToBack(endPoint: String, jsonData: String): String {
 
         val url = URL(endPoint)
@@ -39,6 +38,17 @@ class ConnectionBackend {
 
     }
 
+    private fun getFromBack(endPoint: String): String {
+
+        val url = URL(endPoint)
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "GET"
+        connection.setRequestProperty("Accept", "application/json")
+
+        return connection.inputStream.bufferedReader().use { it.readText() }
+
+    }
+
 
     fun saveCustomerOnWebDb(customerCode: Int) {
 
@@ -50,7 +60,7 @@ class ConnectionBackend {
         val customerJson = Gson().toJson(customerDto)
 
         try {
-            val response = postToBack("http://localhost:8080/api/customers", customerJson)
+            val response = postToBack("http://localhost:8080/api/customers/save", customerJson)
             println("response from BackEnd $response")
 
             println(customerJson)
@@ -58,11 +68,26 @@ class ConnectionBackend {
         } catch (e: Exception) {
 
             println("erro ao tentar sincronizar com o backEnd ${e.message}")
-
             println(customerJson)
+        }
+    }
+
+    fun fetchCustomerOnWebDbByCode(customerCode: Long){
+
+        val endPoint = "http://localhost:8080/api/customers/code/$customerCode"
+
+        try {
+            val response = getFromBack(endPoint)
+
+            println("response from Back $response")
+
+        }catch (e: Exception){
+
+            println("erro ao buscar o cliente ${e.message}")
+
 
         }
 
-
     }
+
 }
