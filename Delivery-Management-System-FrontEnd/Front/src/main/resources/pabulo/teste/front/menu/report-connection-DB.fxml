@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="692.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.TestController">
+   <children>
+      <TextField fx:id="pedidoField" layoutX="18.0" layoutY="227.0" prefHeight="41.0" prefWidth="445.0" promptText="pedido" />
+      <Button layoutX="498.0" layoutY="218.0" mnemonicParsing="false" onAction="#orderTest" prefHeight="59.0" prefWidth="236.0" text="pedido teste" />
+      <TextField fx:id="loadField" layoutX="18.0" layoutY="155.0" prefHeight="41.0" prefWidth="445.0" promptText="carregamento" />
+      <Button layoutX="498.0" layoutY="146.0" mnemonicParsing="false" onAction="#loadTest" prefHeight="59.0" prefWidth="236.0" text="carregamento teste" />
+      <TextField fx:id="customer" layoutX="18.0" layoutY="69.0" prefHeight="41.0" prefWidth="445.0" promptText="cliente" />
+      <Button layoutX="498.0" layoutY="60.0" mnemonicParsing="false" onAction="#customerTest" prefHeight="59.0" prefWidth="236.0" text="cliente teste" />
+      <TextField fx:id="state" layoutX="18.0" layoutY="305.0" prefHeight="41.0" prefWidth="445.0" promptText="situaçao" />
+      <Button layoutX="498.0" layoutY="296.0" mnemonicParsing="false" onAction="#saveStateTest" prefHeight="59.0" prefWidth="236.0" text="situação teste" />
+      <TextField fx:id="sellerField" layoutX="18.0" layoutY="371.0" prefHeight="41.0" prefWidth="445.0" promptText="vendedor" />
+      <Button layoutX="498.0" layoutY="363.0" mnemonicParsing="false" onAction="#saveSellerTest" prefHeight="59.0" prefWidth="236.0" text="vendedor teste" />
+      <TextField fx:id="orderFindField" layoutX="18.0" layoutY="439.0" prefHeight="41.0" prefWidth="445.0" promptText="buscar pedido" />
+      <Button layoutX="498.0" layoutY="430.0" mnemonicParsing="false" onAction="#testOrderFind" prefHeight="59.0" prefWidth="236.0" text="teste buscar pedido" />
+      <Button layoutX="517.0" layoutY="591.0" mnemonicParsing="false" onAction="#updateOrdersData" prefHeight="59.0" prefWidth="236.0" text="Atualizar" />
+   </children>
+</AnchorPane>

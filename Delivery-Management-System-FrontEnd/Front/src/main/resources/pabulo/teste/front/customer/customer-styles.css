@@ -1,0 +1,151 @@
+.top-form{
+
+-fx-background-color: #777579;
+-fx-border-width: .4px .4px .2px .4px;
+
+}
+
+.top-form:hover{
+
+-fx-background-color: linear-gradient(to bottom left, #ab2d3e, #651d70 );
+
+}
+
+.nav-form{
+
+-fx-background-color: linear-gradient(to bottom right, #587b3f, #286b51);
+-fx-border-color: #000;
+-fx-border-width: .4px 0px .4px 0px;
+
+}
+
+
+.nav-form:hover{
+
+-fx-background-color: linear-gradient(to top right,#27c69e, #651d70 );
+-fx-text-fill: #ffffff;
+-fx-text-color:#ffffff;
+-fx-box-shadow: 5px, 3px, 5px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn{
+
+-fx-background-color: #bdc4f8;
+-fx-cursor: hand;
+-fx-text-size:14px;
+-fx-font-family:"Arial";
+
+}
+
+.nav-btn:hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #243883 0.0%, #c61010 100.0%);
+-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 6,0.0,0.0,0.0);
+-fx-text-fill: #ffffff;
+
+}
+
+.shadow{
+
+-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 6,0.0,0.0,0.0);
+
+}
+
+.white-background{
+
+-fx-background-color: #ffffff;
+-fx-radius: 5px;
+
+}
+
+.gray-background{
+
+-fx-background-color: #b6bcb5;
+-fx-radius: 5px;
+-fx-text-fill: #ffffff;
+}
+
+.blue-background{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #000000 0.0%, #94add7 100.0%);
+-fx-radius: 8px;
+
+}
+
+
+.bars-saveCustomer{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #243883 0.0%, #c61010 100.0%);
+-fx-text-fill: #ffffff;
+-fx-font-family:"Arial";
+-fx-alignment: CENTER-LEFT;
+}
+
+.bars-saveCustomer-btn{
+
+-fx-background-color: #ffffff;
+-fx-font-family:"Arial";
+-fx-cursor: hand;
+}
+
+.bars-saveCustomer-btn: hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #243883 0.0%, #c61010 100.0%);
+-fx-text-fill: #ffffff;
+-fx-font-family:"Arial";
+-fx-cursor: hand;
+
+}
+
+.choice-box-main{
+
+-fx-background-color: #ffffff;
+-fx-text-fill: black;
+-fx-font-family:"Arial";
+-fx-alignment: CENTER-LEFT;
+
+}
+
+.choice-box-main: hover{
+
+-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #243883 0.0%, #c61010 100.0%);
+-fx-text-fill: #ffffff;
+-fx-font-family:"Arial";
+-fx-cursor: hand;
+
+}
+
+.choice-box .text {
+    -fx-fill: black;
+}
+
+.choice-box:hover .text {
+    -fx-fill: #3bdd2f;
+
+
+}
+
+.choice-box .list-cell:filled {
+    -fx-text-fill: black;
+    -fx-background-color: black;
+}
+
+.choice-box .list-cell:filled:hover {
+    -fx-text-fill: black;
+    -fx-background-color: black;
+
+}
+
+
+.backgroundAlertPanel{
+
+ -fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #ddcfd1 0.0%, #e4dfdf 100.0%)
+
+}
+
+.labelAlert{
+
+-text-size: 20;
+-text-fill: black;
+-fx-font-family: "Book Antiqua"
+}
