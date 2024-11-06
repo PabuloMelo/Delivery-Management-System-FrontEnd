@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.seller.SellerFindController">
+    <left>
+        <AnchorPane prefHeight="748.0" prefWidth="201.0" styleClass="left-panel" stylesheets="@seller-style.css" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="109.0" fitWidth="120.0" layoutX="41.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../icons/vendedor-icon.png" />
+                    </image>
+                </ImageView>
+                <Button layoutX="18.0" layoutY="241.0" mnemonicParsing="false" onAction="#saveSellerMenu" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Salvar Novo Vendedor" />
+                <Button layoutX="18.0" layoutY="283.0" mnemonicParsing="false" onAction="#findSellerMenu" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Encontrar Vendedor" />
+                <Button layoutX="18.0" layoutY="325.0" mnemonicParsing="false" onAction="#returnToInit" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Voltar Para o Menu Inicial" wrapText="true" />
+                <Label layoutX="52.0" layoutY="187.0" text="Vendedores" textFill="WHITE">
+                    <font>
+                        <Font name="Arial" size="16.0" />
+                    </font>
+                </Label>
+                <Label layoutX="30.0" layoutY="701.0" prefHeight="17.0" prefWidth="127.0" text="** Campo Obrigatorio" textFill="WHITE" />
+            </children></AnchorPane>
+    </left>
+    <top>
+        <BorderPane prefHeight="52.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
+            <center>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="top-form" stylesheets="@seller-style.css" BorderPane.alignment="CENTER">
+                    <children>
+                        <ImageView fitHeight="40.0" fitWidth="52.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/caminhão.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="71.0" layoutY="19.0" prefHeight="17.0" prefWidth="264.0" text="Sistema de Gerenciamento de entregas" textFill="#fffbfb">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font></Label>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </top>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane prefHeight="748.0" prefWidth="914.0">
+                    <children>
+                        <AnchorPane layoutX="46.0" layoutY="67.0" prefHeight="268.0" prefWidth="822.0" styleClass="white-background" stylesheets="@seller-style.css">
+                            <children>
+                                <AnchorPane layoutX="14.0" layoutY="15.0" prefHeight="178.0" prefWidth="341.0" styleClass="gray-background" stylesheets="@../customer/customer-styles.css">
+                                    <children>
+                                        <Button layoutX="14.0" layoutY="108.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" styleClass="rigth-panel-import" stylesheets="@seller-style.css" text="**Codigo do Vendedor :" />
+                                        <Button layoutX="14.0" layoutY="62.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" styleClass="rigth-panel-import" stylesheets="@seller-style.css" text="**Nome do Vendedor :   " />
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane layoutX="193.0" layoutY="14.0" prefHeight="180.0" prefWidth="615.0" styleClass="right-panel-fields" stylesheets="@seller-style.css">
+                                    <children>
+                                        <TextField fx:id="sellerNameField" layoutX="16.0" layoutY="63.0" prefHeight="30.0" prefWidth="294.0" promptText="Seller Name" />
+                                        <TextField fx:id="sellerRcafield" layoutX="17.0" layoutY="107.0" prefHeight="30.0" prefWidth="292.0" promptText="Seller Code" />
+                                      <Button layoutX="336.0" layoutY="63.0" mnemonicParsing="false" onAction="#findSellerByName" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Pesquisar" wrapText="true" />
+                              <Button layoutX="336.0" layoutY="107.0" mnemonicParsing="false" onAction="#findSellerByRca" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Pesquisar" wrapText="true" />
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </AnchorPane>
+                        <Label layoutX="52.0" layoutY="14.0" prefHeight="30.0" prefWidth="210.0" text="Encontrar Vendedor">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <AnchorPane layoutX="44.0" layoutY="362.0" prefHeight="359.0" prefWidth="824.0">
+                            <children>
+                                <AnchorPane layoutX="37.0" layoutY="14.0" prefHeight="359.0" prefWidth="824.0" styleClass="white-background" stylesheets="@seller-style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <children>
+                                        <TableView fx:id="sellerTableView" layoutX="192.0" layoutY="2.0" prefHeight="357.0" prefWidth="414.0">
+                                            <columns>
+                                                <TableColumn fx:id="sellerRcaColumn" prefWidth="127.0" text="Codigo do Vendedor" />
+                                                <TableColumn fx:id="sellerNameColumn" minWidth="0.0" prefWidth="286.0" text="Nome do Vendedor" />
+                                            </columns>
+                                        </TableView>
+                                        <AnchorPane layoutX="30.0" layoutY="16.0" prefHeight="165.0" prefWidth="137.0" styleClass="white-background" stylesheets="@seller-style.css">
+                                            <children>
+                                                <ImageView fx:id="sellerImageView" fitHeight="126.0" fitWidth="132.0" layoutX="4.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                                                <Button layoutX="1.0" layoutY="143.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="137.0" styleClass="rigth-panel-btn" stylesheets="@seller-style.css" text="Vendedor" />
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
