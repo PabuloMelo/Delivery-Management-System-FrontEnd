@@ -9,6 +9,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.seller.SellerSaveController">
@@ -59,14 +62,14 @@
                      <children>
                         <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="201.0" prefWidth="341.0" styleClass="gray-background" stylesheets="@../customer/customer-styles.css">
                            <children>
-                              <Button layoutX="171.0" layoutY="151.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" styleClass="rigth-panel-btn" stylesheets="@seller-style.css" text="**Codigo do Vendedor :" />
+                              <Button layoutX="164.0" layoutY="149.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="155.0" styleClass="rigth-panel-btn" stylesheets="@seller-style.css" text="**Codigo do Vendedor :" />
                               <AnchorPane layoutX="20.0" layoutY="14.0" prefHeight="165.0" prefWidth="137.0" styleClass="white-background" stylesheets="@seller-style.css">
                                  <children>
                                     <Button fx:id="uploadImageBtn" layoutY="137.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="137.0" styleClass="rigth-panel-import" stylesheets="@seller-style.css" text="Importar" />
                                     <ImageView fx:id="imageSellerChoice" fitHeight="126.0" fitWidth="132.0" layoutX="3.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <Button layoutX="171.0" layoutY="104.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" styleClass="rigth-panel-btn" stylesheets="@seller-style.css" text="**Nome do Vendedor :" />
+                              <Button layoutX="162.0" layoutY="104.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="158.0" styleClass="rigth-panel-btn" stylesheets="@seller-style.css" text="**Nome do Vendedor :" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="338.0" layoutY="14.0" prefHeight="201.0" prefWidth="470.0" styleClass="right-panel-fields" stylesheets="@seller-style.css">
@@ -75,7 +78,33 @@
                               <TextField fx:id="sellerRcaField" layoutX="9.0" layoutY="149.0" prefHeight="30.0" prefWidth="446.0" promptText="Seller Code" />
                            </children>
                         </AnchorPane>
-                        <Button layoutX="648.0" layoutY="225.0" mnemonicParsing="false" onAction="#saveSeller" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Salvar" wrapText="true" />
+                        <Button fx:id="saveSellerBT" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" onAction="#saveSeller" prefHeight="30.0" prefWidth="160.0" styleClass="btn-menu-left" stylesheets="@seller-style.css" text="Salvar" wrapText="true" />
+                        <AnchorPane fx:id="dialogPane" layoutX="9.0" layoutY="28.0" prefHeight="209.0" prefWidth="803.0" styleClass="backgroundAlertPanel" visible="false">
+                           <children>
+                              <Button layoutX="493.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleOkButton" prefHeight="25.0" prefWidth="119.0" styleClass="btn-nav" stylesheets="@../order/order-style.css" text="OK" />
+                              <Label fx:id="dialogLabel" layoutX="8.0" layoutY="12.0" prefHeight="138.0" prefWidth="605.0" styleClass="labelAlert" text="Label" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="0.7345971563981042" endY="0.6161137440758293" startX="0.25118483412322273" startY="0.5071090047393365">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="0.6315789222717285" green="0.07309941202402115" blue="0.13825535774230957" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <font>
+                                    <Font name="Book Antiqua" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                   <Label layoutX="52.0" layoutY="14.0" prefHeight="30.0" prefWidth="210.0" text="Salvar Novo Vendedor">

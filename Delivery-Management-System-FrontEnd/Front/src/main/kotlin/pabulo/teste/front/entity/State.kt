@@ -14,7 +14,8 @@ data class State(
     val purchaseDate: String,
     val solveDriver: String,
     val solveDate: String,
-    val resolve: String
+    val resolve: String,
+    var stateThrowble: String = " "
 
 
 )

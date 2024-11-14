@@ -9,7 +9,8 @@ import java.sql.ResultSet
 
 class CustomerResource {
 
-    private val tempUrl = "C:/Users/pabul/projects/FrontEnd/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private val tempUrl =
+        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
     private val urlLocalDb =
 
@@ -23,7 +24,7 @@ class CustomerResource {
 
         val statement = connection.prepareStatement(
 
-            "INSERT INTO clientes( customer_code ,customer_name ,phone , customer_type ,customer_registered) VALUES(?,?,?,?,?)"
+            "INSERT INTO clientes(customer_code ,customer_name ,phone , customer_type ,customer_registered, customerSCN) VALUES(?,?,?,?,?,?)"
         )
 
 
@@ -32,6 +33,7 @@ class CustomerResource {
         statement.setString(3, customerDtoToDb.phone)
         statement.setString(4, customerDtoToDb.customerRegistered)
         statement.setString(5, customerDtoToDb.customerType)
+        statement.setString(6, customerDtoToDb.customerSync)
 
 
         statement.executeUpdate()
@@ -49,7 +51,7 @@ class CustomerResource {
             DriverManager.getConnection(urlLocalDb)
 
         val query =
-            "SELECT customer_code ,customer_name ,phone , customer_type ,customer_registered FROM clientes WHERE customer_code = ?"
+            "SELECT customer_code ,customer_name ,phone , customer_type ,customer_registered, customerSCN FROM clientes WHERE customer_code = ?"
 
         val statement = connection.prepareStatement(query)
 
@@ -66,7 +68,8 @@ class CustomerResource {
                 customerName = resultSet.getString("customer_name"),
                 phone = resultSet.getString("phone"),
                 customerRegistered = resultSet.getString("customer_registered"),
-                customerType = resultSet.getString("customer_type")
+                customerType = resultSet.getString("customer_type"),
+                customerSync = resultSet.getString("customerSCN")
             )
         } else {
 
@@ -84,14 +87,13 @@ class CustomerResource {
     }
 
 
-
     fun findCustomerByNameInLocalDb(customerName: String): Customer? {
 
         val connection =
             DriverManager.getConnection(urlLocalDb)
 
         val query =
-            "SELECT customer_code ,customer_name ,phone , customer_type ,customer_registered FROM clientes WHERE customer_name = ?"
+            "SELECT customer_code ,customer_name ,phone , customer_type ,customer_registered, customerSCN FROM clientes WHERE customer_name = ?"
 
         val statement = connection.prepareStatement(query)
 
@@ -108,7 +110,8 @@ class CustomerResource {
                 customerName = resultSet.getString("customer_name"),
                 phone = resultSet.getString("phone"),
                 customerRegistered = resultSet.getString("customer_registered"),
-                customerType = resultSet.getString("customer_type")
+                customerType = resultSet.getString("customer_type"),
+                customerSync = resultSet.getString("customerSCN")
             )
         } else {
 
@@ -202,7 +205,8 @@ class CustomerResource {
                         customerName = resultSet.getString("customer_name"),
                         phone = resultSet.getString("phone"),
                         customerType = resultSet.getString("customer_type"),
-                        customerRegistered = resultSet.getString("customer_registered")
+                        customerRegistered = resultSet.getString("customer_registered"),
+                        customerSync = resultSet.getString("customerSCN")
                     )
                 } else {
                     null
@@ -242,7 +246,8 @@ class CustomerResource {
                 customerName = resultSet.getString("customer_name"),
                 phone = resultSet.getString("phone"),
                 customerRegistered = resultSet.getString("customer_registered"),
-                customerType = resultSet.getString("customer_type")
+                customerType = resultSet.getString("customer_type"),
+                customerSync = resultSet.getString("customerSCN")
             )
 
             customersList.add(customers)
@@ -258,5 +263,72 @@ class CustomerResource {
         return customersList
 
     }
+
+    fun findCustomerSync(): List<Customer?> {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+        val customersList = mutableListOf<Customer>()
+        val parameter = "Não Sincronizado"
+
+        val query = "SELECT * FROM clientes WHERE customerSCN = ?"
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setString(1, parameter)
+
+        val resultSet = statement.executeQuery()
+
+
+
+        while (resultSet.next()) {
+
+            val customers = Customer(
+                customerCode = resultSet.getInt("customer_code"),
+                customerName = resultSet.getString("customer_name"),
+                phone = resultSet.getString("phone"),
+                customerRegistered = resultSet.getString("customer_registered"),
+                customerType = resultSet.getString("customer_type"),
+                customerSync = resultSet.getString("customerSCN")
+            )
+
+            customersList.add(customers)
+
+        }
+
+        resultSet.close()
+        statement.close()
+
+
+        connection.close()
+
+        return customersList
+
+    }
+
+
+    fun deleteCustomerValidated(){
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val parameter = "Sincronizado"
+
+        val query = "DELETE FROM clientes WHERE customerSCN = ?"
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setString(1,parameter)
+
+        val rowsUpdated = statement.executeUpdate()
+
+        println(rowsUpdated)
+
+
+
+        statement.close()
+
+        connection.close()
+
+    }
+
 
 }

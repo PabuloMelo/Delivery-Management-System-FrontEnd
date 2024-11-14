@@ -32,6 +32,8 @@ class SellerFind(private val sellerFind: Stage) {
 
         sellerFind.scene = sellermainScene
 
+        sellerFind.isResizable = false
+
 
     }
 

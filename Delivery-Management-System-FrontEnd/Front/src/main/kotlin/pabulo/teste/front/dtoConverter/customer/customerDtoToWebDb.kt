@@ -31,7 +31,8 @@ fun convertCustomerWebDb(customerWeb: CustomerDtoToWebDb): Customer{
         customerCode = customerWeb.customerCode.toInt(),
         phone =  customerWeb.phone,
         customerRegistered = customerWeb.customerRegistered,
-        customerType = customerWeb.customerType
+        customerType = customerWeb.customerType,
+        customerSync = ""
 
     )
 

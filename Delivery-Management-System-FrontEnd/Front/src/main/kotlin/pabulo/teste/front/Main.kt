@@ -9,6 +9,7 @@ import pabulo.teste.front.controllers.MenuController
 import pabulo.teste.front.enumms.MenuChoices
 import pabulo.teste.front.scenesManager.ScenesManager
 import pabulo.teste.front.scenesManager.TestMenu
+import pabulo.teste.front.scenesManager.address.AddressInit
 import pabulo.teste.front.scenesManager.customer.CustomerMenu
 import pabulo.teste.front.scenesManager.driver.DriverMenu
 import pabulo.teste.front.scenesManager.load.LoadSave
@@ -45,7 +46,7 @@ class Main : Application() {
 
         stageInit.title = "Delivery Management System"
         stageInit.scene = mainScene
-        stageInit.isResizable = true
+        stageInit.isResizable = false
         stageInit.show()
     }
 
@@ -98,12 +99,21 @@ class Main : Application() {
 
             }
 
+            MenuChoices.addressMenu -> {
+
+                val address = AddressInit(stageInit)
+                address.showAddressMenu(stageInit)
+
+
+            }
+
             MenuChoices.TestArea -> {
 
                 val test = TestMenu(stageInit)
                 test.showTestMenu(stageInit)
 
             }
+
 
 
             else -> {}

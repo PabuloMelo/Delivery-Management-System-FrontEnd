@@ -13,6 +13,7 @@ import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtos.orders.OrderSaveDto
 import pabulo.teste.front.dtos.orders.SaverOrderDTOtoDb
 import pabulo.teste.front.enumms.OrderChoicesMenu
+import pabulo.teste.front.resource.addressResource.AddressResource
 import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.orderResource.OrderResource
 import pabulo.teste.front.resource.sellerResource.SellerResource
@@ -146,6 +147,14 @@ class OrderSaveController {
     @FXML
     private lateinit var invoiceDatePicker: DatePicker
 
+    @FXML
+
+    private lateinit var orderAddress: ChoiceBox<String>
+
+    @FXML
+
+    private lateinit var orderAddressCodeField: TextField
+
 
     /*-------------------------------------------------TableView----------------------------------------------------------*/
 
@@ -182,6 +191,10 @@ class OrderSaveController {
     @FXML
 
     private lateinit var invoiceDateColumn: TableColumn<OrderSaveDto, String>
+
+    @FXML
+
+    private lateinit var orderAddressColumn: TableColumn<OrderSaveDto, String>
 
 
     @FXML
@@ -221,6 +234,8 @@ class OrderSaveController {
 
     private val orderConnection = OrderConnection(GsonProvider.gson)
 
+    private val addressConnection = AddressResource()
+
 
     fun handleOkButton() {
 
@@ -256,9 +271,9 @@ class OrderSaveController {
     }
 
 
-    fun defineLoadByOrderType(orderType: String): Int {
+    private fun defineLoadByOrderType(orderType: String): Int {
 
-        var loadCodeDef: Int
+        val loadCodeDef: Int
 
         loadCodeField.isEditable = true
 
@@ -318,7 +333,7 @@ class OrderSaveController {
     @FXML
     private fun findCustomerNameByCode(): String {
 
-        var customerFinded: String = " "
+        var customerFinded = " "
 
 
         if (customerCodeField.text.isNullOrBlank()) {
@@ -391,7 +406,7 @@ class OrderSaveController {
 
     /*--------------------------------------------------------------------------------------------------------------*/
     @FXML
-    private fun SaveOrder() {
+    private fun saveOrderFuncion() {
 
         orderList.clear()
 
@@ -446,6 +461,7 @@ class OrderSaveController {
         val sellerName: String = findSellerNameByRca(sellerRca)
         val ordertype: String = ordertype.value
         val loadNumber: Int = defineLoadByOrderType(ordertype)
+        val orderAddress: String = orderAddress.value
         val orderStatus: String = orderStatus.value
         val puchaseDate: String = purchaseDatePicker.value?.toString() ?: " "
         val invoiceDate: String = invoiceDatePicker.value?.toString() ?: " "
@@ -460,7 +476,8 @@ class OrderSaveController {
             puchaseDate,
             invoiceDate,
             sellerRca,
-            sellerName
+            sellerName,
+            orderAddress
         )
         val orderSaveToDb = SaverOrderDTOtoDb(
             orderCode,
@@ -472,10 +489,11 @@ class OrderSaveController {
             puchaseDate,
             invoiceDate,
             sellerRca,
-            sellerName
+            sellerName,
+            orderAddress
         )
 
-        println(orderSaveToDb)
+
 
         orderList.add(newOrderToSave)
 
@@ -483,7 +501,7 @@ class OrderSaveController {
 
         clearFields()
 
-        // orderResource.saveOrderOnLocalDb(orderSaveToDb)
+        orderResource.saveOrderOnLocalDb(orderSaveToDb)
 
 
     }
@@ -527,7 +545,6 @@ class OrderSaveController {
     }
 
 
-
     @FXML
 
 
@@ -566,6 +583,43 @@ class OrderSaveController {
         ordertype.setOnAction { defineLoadByOrderType(ordertype.value) }
 
 
+        orderAddressCodeField.focusedProperty().addListener { _, _, newValue ->
+
+
+            if (!newValue) {
+
+
+                try {
+
+                    val districtCode: Int = orderAddressCodeField.text.trim().toInt()
+
+                    val districtFounded = addressConnection.findAddressByDistrictCode(districtCode)
+
+                    if (districtFounded == null) {
+
+                        showDialog("Nenhum bairro localizado com esse codigo: $districtCode ")
+
+                        orderAddressCodeField.clear()
+
+                    } else {
+
+                        orderAddress.value = districtFounded.district
+
+
+                    }
+
+                } catch (e: NumberFormatException) {
+
+                    showDialog("Erro: Valor Invalido para o campo codigo do bairro")
+
+                }
+
+
+            }
+
+
+        }
+
 
         orderCodeField.focusedProperty().addListener { _, _, newValue ->
 
@@ -600,14 +654,20 @@ class OrderSaveController {
         sellerRcaColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.sellerRCA.get()).asObject() }
         invoiceDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.invoicingDate.get()) }
         puchaseDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.purchaseDate.get()) }
+        orderAddressColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.orderAddress.get()) }
 
+
+        val districts = addressConnection.getAddress()
+
+        orderAddress.items = FXCollections.observableArrayList(districts)
+
+        orderAddress.setOnAction { orderAddressCodeField.clear() }
 
         customerFindBtn.text
 
         customerFindBtn.setOnAction { findCustomerNameByCode() }
 
         orderTableView.items = orderList
-
 
 
     }

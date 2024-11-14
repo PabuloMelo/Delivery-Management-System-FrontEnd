@@ -26,6 +26,8 @@ class CustomerSave(private val saveStage: Stage) {
         val controller = fxmlLoader.getController<CustomerSaveControl>()
         controller.setCustomerSaveApp(this)
 
+        saveStage.isResizable = false
+
         saveStage.scene = customerSaveScene
 
     }

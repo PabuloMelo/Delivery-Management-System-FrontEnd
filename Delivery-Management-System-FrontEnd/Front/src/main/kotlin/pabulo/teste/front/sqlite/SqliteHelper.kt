@@ -6,7 +6,7 @@ import java.sql.SQLException
 
 object SqliteHelper {
     private var connection: Connection? = null
-    private const val URL = "C:/Users/pabul/projects/FrontEnd/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private const val URL = "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
 
     private const val URLDBLOCAL =
@@ -117,19 +117,34 @@ object SqliteHelper {
                     );""",
 
 
-                    """ALTER TABLE pedido ADD COLUMN orderSCN TEXT"""
-                    ,
+
+                    """CREATE TABLE IF NOT EXISTS endereco (
+                    address_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    address TEXT
+                    );""",
+
+                    """ALTER TABLE carregamento ADD COLUMN load_sync TEXT;""",
 
 
 
 
                 )
 
-            /*    """DELETE FROM carregamento;""",
+                //
 
-                """DELETE FROM pedido;""",
 
-                """DELETE FROM situacao"""*/
+
+
+                // """DELETE FROM carregamento;""",
+
+                // """DELETE FROM pedido;""",
+
+                // """DELETE FROM situacao""",
+
+                // """DELETE FROM clientes""",
+
+
+
 
                 connect().use { conn ->
 

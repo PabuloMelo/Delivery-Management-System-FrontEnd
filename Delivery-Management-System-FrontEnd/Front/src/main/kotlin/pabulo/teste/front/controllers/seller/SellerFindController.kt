@@ -5,11 +5,12 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextField
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.AnchorPane
+import pabulo.teste.front.adapters.GsonProvider
+import pabulo.teste.front.connectionBackEnd.SellerConnection
 import pabulo.teste.front.entity.Seller
 import pabulo.teste.front.enumms.SellerMenuChoices
 import pabulo.teste.front.resource.sellerResource.SellerResource
@@ -60,7 +61,7 @@ class SellerFindController {
 
     @FXML
 
-    private lateinit var sellerRcafield: TextField
+    private lateinit var sellerRcaField: TextField
 
     /*-----------------------------------------------Find--View-------------------------------------------------------*/
 
@@ -87,41 +88,104 @@ class SellerFindController {
 
     @FXML
 
-    private fun findSellerByRca() {
+    private lateinit var dialogLabel: Label
 
-        tableView()
+    @FXML
 
-        val sellerRca: Int = sellerRcafield.text.trim().toInt()
-        val sellerFind = SellerResource()
+    private lateinit var dialogPane: AnchorPane
 
-        clearFields()
+    @FXML
 
-        val seller = sellerFind.findSellerInLocalDbByRca(sellerRca)
-
-
-        seller?.let {
-            sellerList.add(it)
+    private lateinit var searchSellerBT: Button
 
 
-            if (!it.sellerImagePath.isNullOrEmpty()) {
+    private val sellerConnectionBackend = SellerConnection(GsonProvider.gson)
 
-                val imageFile = File(it.sellerImagePath)
+    private val sellerFind = SellerResource()
 
-                if (imageFile.exists()) {
 
-                    val image = Image(imageFile.toURI().toString())
-                    sellerImageView.image = image
+    fun handleOkButton() {
 
-                } else {
-                    sellerImageView.image = null
+        dialogPane.isVisible = false
+        searchSellerBT.isDisable = false
+        searchSellerBT.opacity = 1.0
 
-                }
+    }
 
-            } else {
 
-                sellerImageView.image = null
+    private fun showDialog(message: String) {
+
+        dialogLabel.text = message
+
+        dialogPane.isVisible = true
+
+        searchSellerBT.isDisable = true
+
+        searchSellerBT.opacity = 0.5
+
+
+    }
+
+
+    @FXML
+
+    private fun findSellerByRca(sellerRca: Int) {
+
+
+        try {
+
+            val seller = sellerConnectionBackend.fetchSellerByRca(sellerRca.toLong())
+
+            seller?.let {
+
+                sellerList.add(it)
+
             }
 
+        } catch (e: Exception) {
+
+            println(e.message)
+
+        }
+
+        if (sellerList.isEmpty()) {
+
+
+            val seller = sellerFind.findSellerInLocalDbByRca(sellerRca)
+
+
+
+            seller?.let {
+                sellerList.add(it)
+
+
+                if (it.sellerImagePath.isNotEmpty()) {
+
+                    val imageFile = File(it.sellerImagePath)
+
+                    if (imageFile.exists()) {
+
+                        val image = Image(imageFile.toURI().toString())
+                        sellerImageView.image = image
+
+                    } else {
+                        sellerImageView.image = null
+
+                    }
+
+                } else {
+
+                    sellerImageView.image = null
+                }
+
+
+            }
+
+        }
+
+        if (sellerList.isEmpty()) {
+
+            showDialog("Nenhum Vendedor encontrado com o codigo $sellerRca ")
 
         }
 
@@ -131,65 +195,129 @@ class SellerFindController {
 
     @FXML
 
-    private fun findSellerByName() {
+    private fun findSellerByName(sellerName: String) {
+
+
+        try {
+
+            val seller = sellerConnectionBackend.fetchSellerByName(sellerName)
+
+            seller?.let {
+                sellerList.add(it)
+            }
+
+        } catch (e: Exception) {
+
+            println(e.message)
+
+        }
+
+        if (sellerList.isEmpty()) {
+
+
+            val seller = sellerFind.findSellerInLocalDbByName(sellerName)
+
+
+            seller?.let {
+                sellerList.add(it)
+
+
+                if (it.sellerImagePath.isNotEmpty()) {
+
+                    val imageFile = File(it.sellerImagePath)
+
+                    if (imageFile.exists()) {
+
+                        val image = Image(imageFile.toURI().toString())
+                        sellerImageView.image = image
+
+                    } else {
+                        sellerImageView.image = null
+
+                    }
+
+                } else {
+
+                    sellerImageView.image = null
+                }
+
+
+            }
+        }
+
+        if (sellerList.isEmpty()) {
+
+            showDialog("Nenhum Vendedor encontrado com o nome $sellerName ")
+
+        }
+
+    }
+
+    @FXML
+
+    private fun searchSellerByUserParameters() {
 
         tableView()
 
-        val sellerName: String = sellerNameField.text.trim()
-        val sellerFind = SellerResource()
 
-        clearFields()
+        if (sellerNameField.text.isNullOrBlank() && sellerRcaField.text.isNullOrBlank()) {
 
-        val seller = sellerFind.findSellerInLocalDbByName(sellerName)
+            showDialog("Nenhum parametro forncecido para busca")
 
+            return
 
-        seller?.let {
-            sellerList.add(it)
+        }else if(!sellerNameField.text.isNullOrBlank() && !sellerRcaField.text.isNullOrBlank()){
 
+            showDialog("por favor forneça apenas 1 parametro")
 
-            if (!it.sellerImagePath.isNullOrEmpty()) {
+            clearFields()
 
-                val imageFile = File(it.sellerImagePath)
-
-                if (imageFile.exists()) {
-
-                    val image = Image(imageFile.toURI().toString())
-                    sellerImageView.image = image
-
-                } else {
-                    sellerImageView.image = null
-
-                }
-
-            } else {
-
-                sellerImageView.image = null
-            }
-
+            return
 
         }
 
 
+        if (!sellerRcaField.text.isNullOrBlank() && sellerNameField.text.isNullOrBlank()) {
+
+            if (sellerRcaField.text.all { it.isDigit() }) {
+
+                val sellerRca: Int = sellerRcaField.text.trim().toInt()
+
+                findSellerByRca(sellerRca)
+
+            } else {
+
+                showDialog("Por favor digite um numero valido maior do que 0")
+
+                clearFields()
+
+
+            }
+
+        } else if (sellerList.isEmpty() && !sellerNameField.text.isNullOrBlank() && sellerRcaField.text.isNullOrBlank()) {
+
+            val sellerName: String = sellerNameField.text.trim().uppercase()
+
+            findSellerByName(sellerName)
+
+        }
 
     }
 
 
-
     private fun clearFields() {
 
-        sellerRcafield.clear()
+        sellerRcaField.clear()
         sellerNameField.clear()
 
 
     }
 
-    private fun tableView(){
+    private fun tableView() {
 
 
         sellerImageView.image = null
         sellerList.clear()
-
-
 
 
     }
@@ -200,7 +328,6 @@ class SellerFindController {
 
         sellerRcaColumn.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.sellerRca).asObject() }
         sellerNameColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.sellerName) }
-
 
         sellerTableView.items = sellerList
 

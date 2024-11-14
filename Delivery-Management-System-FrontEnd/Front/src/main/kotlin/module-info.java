@@ -23,6 +23,8 @@ module pabulo.teste.front {
 
     opens pabulo.teste.front.controllers.state to javafx.fxml;
 
+    opens pabulo.teste.front.controllers.address to javafx.fxml;
+
     opens pabulo.teste.front.entity to com.google.gson;
 
     opens pabulo.teste.front.dtoConverter.customer to com.google.gson;
@@ -49,6 +51,8 @@ module pabulo.teste.front {
     exports pabulo.teste.front.controllers.load to javafx.fxml;
 
     exports pabulo.teste.front.controllers.state to javafx.fxml;
+
+    exports pabulo.teste.front.controllers.address to javafx.fxml;
 
     exports pabulo.teste.front;
 }

@@ -1,5 +1,6 @@
 package pabulo.teste.front.dtoConverter.order
 
+import pabulo.teste.front.dtoConverter.load.adapterStringInEnumnDb
 import pabulo.teste.front.entity.Order
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -15,6 +16,7 @@ data class OrderWebConverter(
     val invoicingDate: LocalDate?,
     val daysUntilDelivery: Int,
     val orderFutureDelState: String,
+    val orderAddress: String
 )
 
 data class WebOrder(
@@ -31,6 +33,7 @@ data class WebOrder(
     val sellerName: String?,
     val daysUntilDelivery: Int,
     val orderFutureDelState: String,
+    val orderAddress: String
 
     )
 
@@ -47,7 +50,8 @@ fun covertOrderLocalToWeb(localOrder: Order): OrderWebConverter {
         purchaseDate = convertStringInToLocalDate(localOrder.purchaseDate),
         invoicingDate = convertStringInToLocalDate(localOrder.invoiceDate),
         daysUntilDelivery = localOrder.daysUntilDelivery,
-        orderFutureDelState = localOrder.orderFutureDelState
+        orderFutureDelState = localOrder.orderFutureDelState,
+        orderAddress = adapterStringInEnumnDb(localOrder.orderAddress)
 
     )
 
@@ -99,6 +103,7 @@ fun convertWebOrderToLocalOrder(webOrder: WebOrder): Order {
         orderTrouble = " ",
         daysUntilDelivery = webOrder.daysUntilDelivery,
         orderFutureDelState = adapterStringWebToLocal (webOrder.orderFutureDelState),
+        orderAddress = adapterStringWebToLocal(webOrder.orderAddress)
 
         )
 }

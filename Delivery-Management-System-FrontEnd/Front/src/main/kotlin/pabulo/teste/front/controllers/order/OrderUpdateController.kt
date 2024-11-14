@@ -11,10 +11,12 @@ import pabulo.teste.front.adapters.GsonProvider
 import pabulo.teste.front.connectionBackEnd.CustomerConnection
 import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtoConverter.order.OrderUpdateToWeb
+import pabulo.teste.front.dtos.orders.OrderSaveDto
 import pabulo.teste.front.dtos.orders.OrderUpdateDTO
 import pabulo.teste.front.dtos.orders.OrderUpdateDTOtoDb
 import pabulo.teste.front.entity.Order
 import pabulo.teste.front.enumms.OrderChoicesMenu
+import pabulo.teste.front.resource.addressResource.AddressResource
 import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.orderResource.OrderResource
 import pabulo.teste.front.resource.sellerResource.SellerResource
@@ -160,6 +162,14 @@ class OrderUpdateController {
     @FXML
     private lateinit var invoiceDatePicker: DatePicker
 
+    @FXML
+
+    private lateinit var orderAddress: ChoiceBox<String>
+
+    @FXML
+
+    private lateinit var orderAddressCodeField: TextField
+
 
     /*-------------------------------------------------TableView----------------------------------------------------------*/
 
@@ -203,6 +213,10 @@ class OrderUpdateController {
     private lateinit var sellerRcaColumn: TableColumn<Order, Int>
 
     @FXML
+
+    private lateinit var orderAddressColumn: TableColumn<OrderSaveDto, String>
+
+    @FXML
     private lateinit var customerFindBtn: Button
 
     @FXML
@@ -226,6 +240,7 @@ class OrderUpdateController {
     private val orderResource = OrderResource()
     private val orderConnection = OrderConnection(GsonProvider.gson)
     private val customerConnection = CustomerConnection()
+    private val addressConnection = AddressResource()
 
 
     private val orderList: ObservableList<Order> = FXCollections.observableArrayList()
@@ -344,7 +359,7 @@ class OrderUpdateController {
         val customerLocal = customerResource.findCustomerByCodeInLocalDb(customerCode)
         val customerWeb = customerConnection.fetchCustomerOnWebDbByCode(customerCode.toLong())
 
-        var customerFinded: String = " "
+        var customerFinded = " "
 
         if (customerLocal != null || customerWeb != null) {
 
@@ -385,17 +400,9 @@ class OrderUpdateController {
         val verifieOrderOnLocalDb = orderResource.findOrderByCode(newOrderCode)
         val verifieOrderOnWebDb = orderConnection.fetchOrderByCode(newOrderCode.toLong())
 
-        val existsOrder = if (verifieOrderOnLocalDb != null || verifieOrderOnWebDb != null) {
+        val existsOrder = verifieOrderOnLocalDb != null || verifieOrderOnWebDb != null
 
-            true
-
-        } else {
-
-            false
-
-        }
-
-        if (existsOrder == true) {
+        if (existsOrder) {
 
             showDialog("já existe um pedido com o codigo $newOrderCode salvo no banco de dados!!")
             orderCodeField.clear()
@@ -408,15 +415,7 @@ class OrderUpdateController {
 
         val customer = customerConnection.fetchCustomerOnWebDbByCode(newCustomerCode.toLong())
 
-        return if (customer != null) {
-
-            true
-
-        } else {
-
-            false
-
-        }
+        return customer != null
 
     }
 
@@ -428,7 +427,7 @@ class OrderUpdateController {
 
             val customerFinded = verifieNewCustomerExists(updateOrderDto.customerCode!!)
 
-            if(customerFinded == true) {
+            if(customerFinded) {
 
                 try {
 
@@ -478,6 +477,8 @@ class OrderUpdateController {
 
                 orderTableView.refresh()
 
+                clearFields()
+
             }catch (e: Exception){
 
                 println(e.message)
@@ -516,6 +517,8 @@ class OrderUpdateController {
 
             orderTableView.refresh()
 
+            clearFields()
+
         }
 
     }
@@ -537,7 +540,7 @@ class OrderUpdateController {
                 ?.let { SimpleIntegerProperty(it) },
             customerCode = customerCodeField.text.takeIf { it.isNotBlank() }?.trim()?.toInt()
                 ?.let { SimpleIntegerProperty(it) },
-            customerName = customerNameField.text.takeIf { it.isNotBlank() }?.let { SimpleStringProperty(it) },
+            customerName = customerNameField.text.takeIf { it.isNotBlank() }?.trim().let { SimpleStringProperty(it) },
             loadNumber = loadCodeField.text.takeIf { it.isNotBlank() }?.trim()?.toInt()
                 ?.let { SimpleIntegerProperty(it) },
             orderType = orderType.value?.takeIf { it.isNotBlank() }?.let { SimpleStringProperty(it) },
@@ -545,7 +548,8 @@ class OrderUpdateController {
             invoicingDate = invoiceDatePicker.value?.toString()?.let { SimpleStringProperty(it) },
             purchaseDate = purchaseDatePicker.value?.toString()?.let { SimpleStringProperty(it) },
             sellerName = findSellerNameByRca(orderRca),
-            sellerRCA = SimpleIntegerProperty(orderRca)
+            sellerRCA = SimpleIntegerProperty(orderRca),
+            orderAddress = orderAddress.value?.takeIf { it.isNotBlank() }?.let { SimpleStringProperty(it) }
 
         )
 
@@ -596,7 +600,7 @@ class OrderUpdateController {
 
     private fun enableSaveButon(){
 
-        if (orderList.isEmpty() == true) {
+        if (orderList.isEmpty()) {
 
             saveUpdateOrder.isDisable = true
             saveUpdateOrder.opacity = 0.5
@@ -697,9 +701,59 @@ class OrderUpdateController {
         sellerRcaColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.orderSellerRca).asObject() }
         invoiceDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.invoiceDate) }
         purchaseDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.purchaseDate) }
+        orderAddressColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderAddress.get()) }
 
 
         saveUpdateOrder.setOnAction { orderToUpdate() }
+
+
+        orderAddressCodeField.focusedProperty().addListener { _, _, newValue ->
+
+
+            if (!newValue) {
+
+
+                try {
+
+                    val districtCode: Int = orderAddressCodeField.text.trim().toInt()
+
+                    val districtFounded = addressConnection.findAddressByDistrictCode(districtCode)
+
+                    if (districtFounded == null) {
+
+                        showDialog("Nenhum bairro localizado com esse codigo: $districtCode ")
+
+                        orderAddressCodeField.clear()
+
+                    } else {
+
+                        orderAddress.value = districtFounded.district
+
+
+                    }
+
+                } catch (e: NumberFormatException) {
+
+                    showDialog("Erro: Valor Invalido para o campo codigo do bairro")
+
+                }
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+        val addressConnection = AddressResource()
+
+        val districts = addressConnection.getAddress()
+
+        orderAddress.items = FXCollections.observableArrayList(districts)
 
         orderTableView.items = orderList
 

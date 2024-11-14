@@ -205,6 +205,7 @@ class CustomerFindControl {
 
         clearTableView()
 
+
         if (findByName.text.isNullOrBlank()) {
 
             showDialog("O campo nome do cliente está vazio")

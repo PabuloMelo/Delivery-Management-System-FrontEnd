@@ -35,6 +35,8 @@ class OrderStateSave(private val stateSave: Stage) {
 
         stateSave.scene = orderStateSave
 
+        stateSave.isResizable = false
+
 
     }
 

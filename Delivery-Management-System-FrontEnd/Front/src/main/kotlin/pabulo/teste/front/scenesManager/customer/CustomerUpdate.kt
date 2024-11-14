@@ -27,6 +27,8 @@ class CustomerUpdate(private val updateStage: Stage) {
         val controller = fxmlLoader.getController<CustomerUpdateControl>()
         controller.setUpdateCustomerApp(this)
 
+        updateStage.isResizable = false
+
         updateStage.scene = customerUpdateScene
 
 

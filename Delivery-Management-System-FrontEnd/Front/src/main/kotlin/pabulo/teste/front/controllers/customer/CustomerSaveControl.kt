@@ -241,8 +241,9 @@ class CustomerSaveControl {
         val phone: String = phoneField.text.trim()
         val customerType: String = customerTypes.value
         val customerRegistered: String = customerRegistered.value
+        val customerSync = "Não Sincronizado"
         val newCustomerSave = SaveCustomerDto(customerCode, customerName, phone, customerType, customerRegistered)
-        val saveCustomerToDb = SaveCustomerDtoToDb(customerCode, customerName, phone, customerType, customerRegistered)
+        val saveCustomerToDb = SaveCustomerDtoToDb(customerCode, customerName, phone, customerType, customerRegistered,customerSync)
 
         if (!customerCodeField.text.isNullOrBlank() || !customerNameField.text.isNullOrBlank()){
 

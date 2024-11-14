@@ -14,7 +14,6 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.AnchorPane
 import pabulo.teste.front.adapters.GsonProvider
-import pabulo.teste.front.connectionBackEnd.ConnectionBackend
 import pabulo.teste.front.connectionBackEnd.CustomerConnection
 import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtos.load.LoadDTOtoDB
@@ -22,6 +21,7 @@ import pabulo.teste.front.dtos.orders.OrderSaveDto
 import pabulo.teste.front.dtos.orders.SaverOrderDTOtoDb
 import pabulo.teste.front.entity.Order
 import pabulo.teste.front.enumms.OrderChoicesMenu
+import pabulo.teste.front.resource.addressResource.AddressResource
 import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.loadResource.LoadResource
 import pabulo.teste.front.resource.orderResource.OrderResource
@@ -162,6 +162,9 @@ class LoadSaveController {
     @FXML
     private lateinit var invoiceDatePicker: DatePicker
 
+    @FXML
+    private lateinit var orderAddressCodeField: TextField
+
 
     /*-------------------------------------------------TableView----------------------------------------------------------*/
 
@@ -199,6 +202,11 @@ class LoadSaveController {
 
     private lateinit var invoiceDateColumn: TableColumn<OrderSaveDto, String>
 
+
+    @FXML
+
+    private lateinit var orderAddressColumn: TableColumn<OrderSaveDto, String>
+
     @FXML
 
     private lateinit var driverViewField: TextField
@@ -218,6 +226,10 @@ class LoadSaveController {
 
     private lateinit var saveLoad: Button
 
+    @FXML
+
+    private lateinit var orderAddress: ChoiceBox<String>
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     private val orderResource = OrderResource()
 
@@ -235,6 +247,8 @@ class LoadSaveController {
     private val webDb = CustomerConnection()
 
     private val orderConnection = OrderConnection(GsonProvider.gson)
+
+    private val addressConnection = AddressResource()
 
     @FXML
 
@@ -291,12 +305,8 @@ class LoadSaveController {
 
     private fun verifieLoadExistTest(loadCode: Int): Boolean {
 
-        val loadTest = loadResource.findLoadByLoadCode(loadCode)
+        val loadTest = loadResource.findLoadByLoadCode(loadCode) ?: return false
 
-        if (loadTest == null) {
-
-            return false
-        }
         return true
     }
 
@@ -307,7 +317,7 @@ class LoadSaveController {
 
         do {
             randownInt = Random.nextInt(1, 10000)
-        } while (verifieLoadExistTest(randownInt) == true)
+        } while (verifieLoadExistTest(randownInt))
 
         return randownInt
 
@@ -367,8 +377,8 @@ class LoadSaveController {
 
     private fun findDriverId(driverName: String): Int {
 
-        var driver = loadResource.findDriverByName(driverName)
-        var driverId = driver!!.driverID
+        val driver = loadResource.findDriverByName(driverName)
+        val driverId = driver!!.driverID
 
         return driverId
     }
@@ -381,12 +391,12 @@ class LoadSaveController {
         val driver: String = driver.value
         val departureDate: String = invoiceDatePicker.value.toString()
         val driverFinded = loadResource.findDriverByName(driver)
-        val loadValidate: String = "Validação Pendente"
-        var loadCode: Int = findDriverId(driver)
+        val loadValidate = "Validação Pendente"
+        val loadCode: Int = findDriverId(driver)
 
         driverFinded?.let {
 
-            if (!it.driverPhotoPath.isNullOrEmpty()) {
+            if (it.driverPhotoPath.isNotEmpty()) {
 
                 val imagefile = File(it.driverPhotoPath)
 
@@ -519,6 +529,14 @@ class LoadSaveController {
                 return
             }
 
+            orderAddress.value == null -> {
+
+                showDialog("É necessario informar o bairro de destino do pedido")
+
+                return
+
+            }
+
             ordertype.value == null -> {
 
                 showDialog("É necessario informar o tipo de pedido")
@@ -567,6 +585,7 @@ class LoadSaveController {
         val customerName: String = findCustomerNameByCode(customerCode)
         val sellerName: String = findSellerNameByRca(sellerRca)
         val loadNumber = 1
+        val orderAddressA: String = orderAddress.value
 
 
         val ordertype: String = ordertype.value
@@ -585,7 +604,8 @@ class LoadSaveController {
             purchaseDate,
             invoiceDate,
             sellerRca,
-            sellerName
+            sellerName,
+            orderAddressA
         )
         val orderSaveToDb = SaverOrderDTOtoDb(
             orderCode,
@@ -597,7 +617,9 @@ class LoadSaveController {
             purchaseDate,
             invoiceDate,
             sellerRca,
-            sellerName
+            sellerName,
+            orderAddressA
+
         )
 
 
@@ -668,7 +690,7 @@ class LoadSaveController {
 
     private fun enableSaveButon() {
 
-        if (orderList.isEmpty() == true) {
+        if (orderList.isEmpty()) {
 
             saveLoad.isDisable = true
             saveLoad.opacity = 0.5
@@ -695,6 +717,7 @@ class LoadSaveController {
         orderStatusColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.status.get()) }
         invoiceDateColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.invoicingDate.get()) }
         purchaseDateColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.purchaseDate.get()) }
+        orderAddressColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.orderAddress.get()) }
         //Customer Actions
 
         customerFindBtn.text
@@ -713,8 +736,11 @@ class LoadSaveController {
 
         }
 
+        val addressList = addressConnection.getAddress()
 
+        orderAddress.items = FXCollections.observableArrayList(addressList)
 
+        orderAddress.setOnAction { orderAddressCodeField.clear() }
 
         customerCodeField.setOnAction {
             if (customerCodeField.text.isNullOrBlank()) {
@@ -785,6 +811,47 @@ class LoadSaveController {
             }
 
         }
+
+
+        orderAddressCodeField.focusedProperty().addListener { _, _, newValue ->
+
+
+            if (!newValue) {
+
+
+                try {
+
+                    val districtCode: Int = orderAddressCodeField.text.trim().toInt()
+
+                    val districtFounded = addressConnection.findAddressByDistrictCode(districtCode)
+
+                    if (districtFounded == null) {
+
+                        showDialog("Nenhum bairro localizado com esse codigo: $districtCode ")
+
+                        orderAddressCodeField.clear()
+
+                    } else {
+
+                        orderAddress.value = districtFounded.district
+
+
+                    }
+
+                } catch (e: NumberFormatException) {
+
+                    showDialog("Erro: Valor Invalido para o campo codigo do bairro")
+
+                }
+
+
+            }
+
+
+        }
+
+
+
 
 
         saveLoad.setOnAction { saveLoadOrder() }

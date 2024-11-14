@@ -9,7 +9,7 @@ import java.sql.ResultSet
 
 class OrderResource {
     private val tempUrl =
-        "C:/Users/pabul/projects/FrontEnd/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
     private val urlLocalDb =
         "jdbc:sqlite:$tempUrl"
@@ -23,7 +23,7 @@ class OrderResource {
 
         val statement = connection.prepareStatement(
 
-            "INSERT INTO pedido (order_code, customer_code, customer_name, load_number, order_type, status, purchase_date, invoicing_date,sellers_rca,seller_name) VALUES(?,?,?,?,?,?,?,?,?,?)"
+            "INSERT INTO pedido (order_code, customer_code, customer_name, load_number, order_type, status, purchase_date, invoicing_date,sellers_rca,seller_name, order_adress) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
 
 
         )
@@ -38,6 +38,7 @@ class OrderResource {
         statement.setString(8, orderSaverOrderDTOtoDb.invoicingDate)
         statement.setInt(9, orderSaverOrderDTOtoDb.sellerRCA)
         statement.setString(10, orderSaverOrderDTOtoDb.sellerName)
+        statement.setString(11, orderSaverOrderDTOtoDb.orderAddress)
 
         statement.executeUpdate()
 
@@ -87,7 +88,8 @@ class OrderResource {
                         purchaseDate = resultSet.getString("purchase_date"),
                         invoiceDate = resultSet.getString("invoicing_date"),
                         orderSellerRca = resultSet.getInt("sellers_rca"),
-                        sellerName = resultSet.getString("seller_name")
+                        sellerName = resultSet.getString("seller_name"),
+                        orderAddress = resultSet.getString("order_adress")
                     )
 
                     updatedOrders.add(order)
@@ -144,7 +146,8 @@ class OrderResource {
                 purchaseDate = resultSet.getString("purchase_date"),
                 invoiceDate = resultSet.getString("invoicing_date"),
                 orderSellerRca = resultSet.getInt("sellers_rca"),
-                sellerName = resultSet.getString("seller_name")
+                sellerName = resultSet.getString("seller_name"),
+                orderAddress = resultSet.getString("order_adress")
 
             )
 
@@ -165,7 +168,7 @@ class OrderResource {
         val connection = DriverManager.getConnection(urlLocalDb)
 
         val query =
-            "SELECT order_code, customer_code, customer_name, load_number, order_type, status, purchase_date, invoicing_date,sellers_rca,seller_name FROM pedido WHERE order_code = ?"
+            "SELECT order_code, customer_code, customer_name, load_number, order_type, status, purchase_date, invoicing_date,sellers_rca,seller_name, order_adress FROM pedido WHERE order_code = ?"
 
 
         val statement = connection.prepareStatement(query)
@@ -187,7 +190,8 @@ class OrderResource {
                 purchaseDate = resultSet.getString("purchase_date"),
                 invoiceDate = resultSet.getString("invoicing_date"),
                 orderSellerRca = resultSet.getInt("sellers_rca"),
-                sellerName = resultSet.getString("seller_name")
+                sellerName = resultSet.getString("seller_name"),
+                orderAddress = resultSet.getString("order_adress")
 
             )
 
@@ -320,7 +324,8 @@ class OrderResource {
                 purchaseDate = resultSet.getString("purchase_date"),
                 invoiceDate = resultSet.getString("invoicing_date"),
                 orderSellerRca = resultSet.getInt("sellers_rca"),
-                sellerName = resultSet.getString("seller_name")
+                sellerName = resultSet.getString("seller_name"),
+                orderAddress = resultSet.getString("order_adress")
 
             )
 
@@ -415,6 +420,13 @@ class OrderResource {
 
             }
 
+            orderUpdateDTO.orderAddress?.let {
+
+                queryBuilder.append("order_adress = ?,")
+                parameters.add(it)
+
+            }
+
             if (parameters.isEmpty()) {
 
                 println("Nenhuma Linha Atualizada")
@@ -465,7 +477,8 @@ class OrderResource {
                         purchaseDate = resultSet.getString("purchase_date"),
                         invoiceDate = resultSet.getString("invoicing_date"),
                         orderSellerRca = resultSet.getInt("sellers_rca"),
-                        sellerName = resultSet.getString("seller_name")
+                        sellerName = resultSet.getString("seller_name"),
+                        orderAddress = resultSet.getString("order_adress")
                     )
 
                 } else {
@@ -523,7 +536,8 @@ class OrderResource {
                 purchaseDate = resultSet.getString("purchase_date"),
                 invoiceDate = resultSet.getString("invoicing_date"),
                 orderSellerRca = resultSet.getInt("sellers_rca"),
-                sellerName = resultSet.getString("seller_name")
+                sellerName = resultSet.getString("seller_name"),
+                orderAddress = resultSet.getString("order_adress")
             )
 
             ordersList.add(orders)
@@ -563,7 +577,8 @@ class OrderResource {
                 purchaseDate = resultSet.getString("purchase_date"),
                 invoiceDate = resultSet.getString("invoicing_date"),
                 orderSellerRca = resultSet.getInt("sellers_rca"),
-                sellerName = resultSet.getString("seller_name")
+                sellerName = resultSet.getString("seller_name"),
+                orderAddress = resultSet.getString("order_adress")
             )
 
             ordersList.add(orders)

@@ -13,13 +13,16 @@ import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
-import pabulo.teste.front.enumms.MenuChoices
 import pabulo.teste.front.Main
-import pabulo.teste.front.adapters.AutoInsertOrdersTypeOnDb
+import pabulo.teste.front.connectionBackEnd.validators.CustomerValidation
+import pabulo.teste.front.connectionBackEnd.validators.LoadValidation
+import pabulo.teste.front.connectionBackEnd.validators.OrderValidation
+import pabulo.teste.front.connectionBackEnd.validators.StateValidation
 import pabulo.teste.front.entity.Customer
 import pabulo.teste.front.entity.Load
 import pabulo.teste.front.entity.Order
 import pabulo.teste.front.entity.State
+import pabulo.teste.front.enumms.MenuChoices
 import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.loadResource.LoadResource
 import pabulo.teste.front.resource.orderResource.OrderResource
@@ -74,7 +77,15 @@ class MenuController {
 
     @FXML
 
-    private fun testeArea(){
+    private fun addressMenu() {
+
+        mainApp.changeScene(MenuChoices.addressMenu)
+
+    }
+
+    @FXML
+
+    private fun testeArea() {
 
         mainApp.changeScene(MenuChoices.TestArea)
 
@@ -124,11 +135,19 @@ class MenuController {
 
     @FXML
 
+    private lateinit var customerThrowableColumn: TableColumn<Customer, String>
+
+    @FXML
+
     private lateinit var updateButton: Button
 
     @FXML
 
     private var customerList: ObservableList<Customer> = FXCollections.observableArrayList()
+
+    private val customerValidation = CustomerValidation()
+
+    private val orderThrowable = StringBuilder(" ")
 
 
     private fun customersOnLocalDb() {
@@ -142,11 +161,14 @@ class MenuController {
 
         customers.forEach {
 
+            val customerExists = customerValidation.verifiesCustomerExistsOnDataWeb(it?.customerCode!!.toLong())
+
+            it.customerState = customerExists
+
 
             customerList.add(it)
 
             customerFindTableView.refresh()
-
 
         }
 
@@ -165,7 +187,7 @@ class MenuController {
 
     @FXML
 
-    private lateinit var loadCodeOrderColumn: TableColumn <Order, Int>
+    private lateinit var loadCodeOrderColumn: TableColumn<Order, Int>
 
     @FXML
     private lateinit var customerNameOrderColumn: TableColumn<Order, String>
@@ -175,7 +197,7 @@ class MenuController {
     private lateinit var orderTypeColumn: TableColumn<Order, String>
 
     @FXML
-    private lateinit var orderTroubleColumn: TableColumn<Order, String>
+    private lateinit var orderThrowableColumn: TableColumn<Order, String>
     /*--------------------------------------------------------------------------------------------------------------------*/
 
     private var loadList: ObservableList<Load> = FXCollections.observableArrayList()
@@ -206,6 +228,10 @@ class MenuController {
 
     @FXML
     private lateinit var loadDepartureDateColumn: TableColumn<Load, String>
+
+    @FXML
+
+    private lateinit var loadThrowableColumn: TableColumn<Load, String>
     /*--------------------------------------------------------------------------------------------------------------------*/
 
     @FXML
@@ -260,6 +286,10 @@ class MenuController {
 
     private lateinit var descriptionColumn: TableColumn<State, String>
 
+    @FXML
+
+    private lateinit var orderStateThrowableColumn: TableColumn<State, String>
+
 
     private val stateList: ObservableList<State> = FXCollections.observableArrayList()
 
@@ -275,7 +305,13 @@ class MenuController {
 
         val states: List<State> = stateResource.findAllStateOnLocalDb()
 
+        val stateValidation = StateValidation()
+
         states.forEach {
+
+            val stateExists = stateValidation.verifiesOrderStateExists(it!!.orderCodeState.toLong())
+
+            it.stateThrowble = stateExists
 
             stateList.add(it)
 
@@ -291,9 +327,17 @@ class MenuController {
 
         loadList.clear()
 
+        val loadValidation = LoadValidation()
+
+
         val loadsOrders: List<Load?> = loadResource.findLoadToTable()
 
         loadsOrders.forEach {
+
+            val loadExists = loadValidation.verifiesLoadExists(it!!.loadCode.toLong())
+
+            it.loadThrowable = loadExists
+
 
             loadList.add(it)
 
@@ -307,16 +351,35 @@ class MenuController {
     private fun ordersOnLocalDb() {
 
         orderList.clear()
+        val orderValidation = OrderValidation()
 
         val orders: List<Order?> = orderResource.ordersToTableView()
 
         orders.forEach {
-            if (it!!.customerName == "Cliente Não encontardo"){
 
-                it.orderTrouble = "Cadastro do Cliente Pendente"
+            val orderExists = orderValidation.verifiesOrderExistsOnWebDb(it!!.orderCode.toLong())
+
+            orderThrowable.append(orderExists)
+
+
+            if (it.customerName == "Cliente Não encontardo") {
+
+                if (orderThrowable.isEmpty()) {
+
+                    orderThrowable.append(" Cadastro do Cliente Pendente")
+
+                } else {
+
+                    orderThrowable.append(" e Cadastro do Cliente Pendente")
+
+                }
+
             }
 
-                orderList.add(it)
+
+            it.orderTrouble = orderThrowable.toString()
+
+            orderList.add(it)
 
             orderTableView.refresh()
 
@@ -377,6 +440,7 @@ class MenuController {
         customerPhoneColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.phone) }
         customerRegisteredColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.customerRegistered) }
         customerTypeColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.customerType) }
+        customerThrowableColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.customerState) }
 
         /*-------------------------------------------Tables--Config---------------------------------------------------*/
         customerFindTableView.items = customerList
@@ -403,12 +467,12 @@ class MenuController {
 
         /*----------------------------------------------------OrdersTable----------------------------------------------*/
 
-        orderCodeOrderColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.orderCode).asObject()}
+        orderCodeOrderColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.orderCode).asObject() }
         loadCodeOrderColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.loadCode).asObject() }
-        customerCodeOrderColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.customerCode).asObject()}
-        customerNameOrderColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.customerName)}
-        orderTypeColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderType)}
-        orderTroubleColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderTrouble)}
+        customerCodeOrderColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.customerCode).asObject() }
+        customerNameOrderColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.customerName) }
+        orderTypeColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderType) }
+        orderThrowableColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderTrouble) }
 
         orderTableView.selectionModel.isCellSelectionEnabled = true
 
@@ -432,10 +496,11 @@ class MenuController {
         orderTableView.items = orderList
         /*--------------------------------------------------Load--Table-----------------------------------------------*/
 
-        loadCodeLoadColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.loadCode).asObject()}
+        loadCodeLoadColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.loadCode).asObject() }
         driverLoadColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.driver) }
         validateLoadColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.loadValidate) }
-        loadDepartureDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.departureDate)}
+        loadDepartureDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.departureDate) }
+        loadThrowableColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.loadThrowable) }
 
         loadTableView.selectionModel.isCellSelectionEnabled = true
 
@@ -461,8 +526,8 @@ class MenuController {
         /*--------------------------------------------State--Table----------------------------------------------------*/
 
 
-        orderCodeColumn.setCellValueFactory{cellData -> SimpleIntegerProperty(cellData.value.orderCodeState).asObject()}
-        customerCodeColumn.setCellValueFactory{cellData -> SimpleIntegerProperty(cellData.value.customerCode).asObject()}
+        orderCodeColumn.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.orderCodeState).asObject() }
+        customerCodeColumn.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.customerCode).asObject() }
         customerNameTableColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.customerName) }
         purchaseDateColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.purchaseDate) }
         invoiceDateColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.invoiceDate) }
@@ -473,6 +538,7 @@ class MenuController {
         resolveDateColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.solveDate) }
         resolveDriverColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.solveDriver) }
         descriptionColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.description) }
+        orderStateThrowableColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.stateThrowble) }
 
         stateTableView.selectionModel.isCellSelectionEnabled = true
 

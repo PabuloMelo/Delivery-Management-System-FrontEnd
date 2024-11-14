@@ -35,6 +35,8 @@ class OrderUpdate(private val orderupdate: Stage) {
 
         orderupdate.scene = orderUpdateScene
 
+        orderupdate.isResizable = false
+
 
 
     }

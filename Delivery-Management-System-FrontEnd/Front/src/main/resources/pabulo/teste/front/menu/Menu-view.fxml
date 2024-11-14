@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.MenuController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.MenuController">
    <children>
       <BorderPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1100.0">
          <top>
@@ -85,7 +85,13 @@
                         <Image url="@../icons/motorista-icon.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="18.0" layoutY="444.0" mnemonicParsing="false" onAction="#testeArea" prefHeight="25.0" prefWidth="157.0" text="teste Area" />
+                  <Button layoutX="18.0" layoutY="493.0" mnemonicParsing="false" onAction="#testeArea" prefHeight="25.0" prefWidth="157.0" text="teste Area" />
+                  <Button layoutX="19.0" layoutY="442.0" mnemonicParsing="false" onAction="#addressMenu" prefHeight="30.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@menuStyle.css" text="Endereços" />
+                  <ImageView fitHeight="22.0" fitWidth="23.0" layoutX="28.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/maps-icon-16.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </left>
@@ -107,6 +113,7 @@
                                                 <TableColumn fx:id="customerPhoneColumn" prefWidth="127.0" text="Telefone" />
                                                 <TableColumn fx:id="customerTypeColumn" prefWidth="113.0" text="Tipo de Cliente" />
                                                 <TableColumn fx:id="customerRegisteredColumn" prefWidth="137.0" text="Cliente Cadastrado" />
+                                                <TableColumn fx:id="customerThrowableColumn" prefWidth="238.0" text="Pendencias" />
                                             </columns>
                                           </TableView>
                                        </children>
@@ -128,7 +135,7 @@
                                               <TableColumn fx:id="customerCodeOrderColumn" prefWidth="125.0" text="Codigo do Cliente" />
                                                 <TableColumn fx:id="customerNameOrderColumn" prefWidth="210.0" text="Nome do Cliente" />
                                                 <TableColumn fx:id="orderTypeColumn" prefWidth="166.0" text="Tipo de Pedido" />
-                                                <TableColumn fx:id="orderTroubleColumn" prefWidth="290.0" text="Dado Pendente" />
+                                                <TableColumn fx:id="orderThrowableColumn" prefWidth="290.0" text="Dado Pendente" />
                                             </columns>
                                           </TableView>
                                        </children>
@@ -149,6 +156,7 @@
                                               <TableColumn fx:id="driverLoadColumn" minWidth="0.0" prefWidth="161.0" text="Motorista" />
                                                 <TableColumn fx:id="validateLoadColumn" minWidth="0.0" prefWidth="251.0" text="Validação" />
                                                 <TableColumn fx:id="loadDepartureDateColumn" minWidth="0.0" prefWidth="183.0" text="Data de Saida" />
+                                                <TableColumn fx:id="loadThrowableColumn" minWidth="0.0" prefWidth="183.0" text="Pendencias" />
                                             </columns>
                                           </TableView>
                                        </children>
@@ -165,7 +173,8 @@
                                        <children>
                                           <TableView fx:id="stateTableView" editable="true" prefHeight="435.0" prefWidth="1694.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn fx:id="orderCodeColumn" prefWidth="118.0" text="Numero do Pedido" />
+                                                <TableColumn fx:id="orderStateThrowableColumn" prefWidth="122.0" text="Pendencias" />
+                                                <TableColumn fx:id="orderCodeColumn" prefWidth="114.0" text="Numero do Pedido" />
                                                 <TableColumn fx:id="customerCodeColumn" prefWidth="117.0" text="Codigo do Cliente" />
                                                 <TableColumn fx:id="customerNameTableColumn" prefWidth="117.0" text="Nome do Cliente" />
                                                 <TableColumn fx:id="purchaseDateColumn" prefWidth="117.0" text="Data de Venda " />

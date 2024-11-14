@@ -98,7 +98,7 @@ class OrderConnection(private val gson: Gson) {
 
     fun fetchAllOrdersByLoadCode(loadNumber: Long?): List<Order>? {
 
-        val endPoint = "http://localhost:8080/api/orders/load/$loadNumber"
+        val endPoint = "http://localhost:8080/api/loads/load/$loadNumber"
 
         var ordersList: List<Order>? = null
 

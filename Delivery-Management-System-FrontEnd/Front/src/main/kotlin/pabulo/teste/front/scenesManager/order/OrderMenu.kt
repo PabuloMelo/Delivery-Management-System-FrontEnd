@@ -32,6 +32,7 @@ class OrderMenu(private val orderMenu: Stage) {
         controller.setOrderMenuApp(this)
 
         orderMenu.scene = orderMenuScene
+        orderMenu.isResizable = false
 
 
     }

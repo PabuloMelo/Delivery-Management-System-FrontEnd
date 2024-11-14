@@ -207,10 +207,6 @@ class LoadValidateController {
 
     private lateinit var dialogPane: AnchorPane
 
-    @FXML
-
-    private lateinit var okButonDialog: Button
-
 
     fun handleOkButton() {
 
@@ -232,7 +228,7 @@ class LoadValidateController {
 
         validateLoadButton.isDisable = false
 
-        var loadFounded: ObservableList<Order> = FXCollections.observableArrayList()
+        val loadFounded: ObservableList<Order> = FXCollections.observableArrayList()
 
 
         try {

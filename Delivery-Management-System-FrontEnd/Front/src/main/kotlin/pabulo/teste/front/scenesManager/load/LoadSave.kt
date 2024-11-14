@@ -33,6 +33,7 @@ class LoadSave(private val loadSave: Stage) {
         controller.setLoadSave(this)
 
         loadSave.scene = loadSaveScene
+        loadSave.isResizable = false
 
 
     }

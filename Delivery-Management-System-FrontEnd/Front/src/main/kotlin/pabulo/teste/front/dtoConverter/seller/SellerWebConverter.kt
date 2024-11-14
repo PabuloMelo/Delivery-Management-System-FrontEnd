@@ -4,8 +4,8 @@ import pabulo.teste.front.entity.Seller
 
 data class SellerWebConverter(
 
-    val sellersName: String,
-    val sellerRca: Long?,
+    val sellerName: String,
+    val sellerRca: Long,
 
     )
 
@@ -14,8 +14,18 @@ fun covertLocalSellerToWebDb(localSeller: Seller): SellerWebConverter {
     return SellerWebConverter(
 
         sellerRca = localSeller.sellerRca.toLong(),
-        sellersName = adapterStringToWebDb(localSeller.sellerName)
+        sellerName = adapterStringToWebDb(localSeller.sellerName)
 
+    )
+
+}
+
+fun convertWebSellerToLocal(sellerWeb: SellerWebConverter): Seller {
+
+    return Seller(
+        sellerRca = sellerWeb.sellerRca.toInt(),
+        sellerName = adapterStringToLocal( sellerWeb.sellerName),
+        sellerImagePath = ""
     )
 
 }
@@ -36,4 +46,10 @@ fun adapterStringToWebDb(string: String): String {
         .replace("Ô", "O")
         .replace("Â", "A")
         .replace(" ", "_")
+}
+
+fun adapterStringToLocal(string: String?): String{
+
+    return string?.trim()?.uppercase()?.replace(" ", "_")?: " "
+
 }

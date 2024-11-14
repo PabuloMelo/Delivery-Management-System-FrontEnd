@@ -35,6 +35,7 @@ class ValidateLoad(private val validateLoad: Stage) {
         controller.setLoadValidate(this)
 
         validateLoad.scene = loadValidateScene
+        validateLoad.isResizable = false
 
 
     }

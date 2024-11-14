@@ -6,9 +6,13 @@ import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.AnchorPane
 import javafx.stage.FileChooser
+import pabulo.teste.front.adapters.GsonProvider
+import pabulo.teste.front.connectionBackEnd.SellerConnection
 import pabulo.teste.front.dtos.driver.SaveDriverDtoToDb
 import pabulo.teste.front.resource.loadResource.LoadResource
+import pabulo.teste.front.resource.sellerResource.SellerResource
 import pabulo.teste.front.scenesManager.driver.DriverMenu
 import java.io.File
 import java.nio.file.Files
@@ -55,15 +59,36 @@ class DriverController {
 
     @FXML
 
-    private lateinit var sucessLabel: Label
-
-    @FXML
-
     private lateinit var uploadImageBtn: Button
 
     private var selectedImageFile: File? = null
 
     private val loadResource = LoadResource()
+
+    @FXML
+
+    private lateinit var dialogLabel: Label
+
+    @FXML
+
+    private lateinit var dialogPane: AnchorPane
+
+
+    fun handleOkButton() {
+
+        dialogPane.isVisible = false
+
+
+    }
+
+
+    private fun showDialog(message: String) {
+
+        dialogLabel.text = message
+
+        dialogPane.isVisible = true
+
+    }
 
 
     private fun handleUploadImage() {
@@ -128,6 +153,13 @@ class DriverController {
     @FXML
     private fun saveDriver() {
 
+        if (driverNameField.text.isNullOrBlank()) {
+
+            showDialog("O campo nome do motorista está vazio, por favor digite um nome")
+
+            return
+        }
+
         val driverName: String = driverNameField.text.trim()
         var driverPath = ""
 
@@ -149,14 +181,24 @@ class DriverController {
 
         val driverToDb = LoadResource()
 
-        val saveDriverOnDb = SaveDriverDtoToDb(driverName, driverPath)
+        try {
+
+            val saveDriverOnDb = SaveDriverDtoToDb(driverName, driverPath)
 
 
-        driverToDb.saveANewDriverOnLocalDb(saveDriverOnDb)
+            driverToDb.saveANewDriverOnLocalDb(saveDriverOnDb)
 
-        sucessLabel.text = "Motorista $driverName salvo com sucesso!"
+            showDialog("Motorista $driverName salvo com sucesso!")
 
-        selectedImageFile = null
+            driverNameField.clear()
+
+            selectedImageFile = null
+
+        } catch (e: Exception) {
+
+            showDialog("Erro ao tentar salvar o motorista: ${e.message}")
+
+        }
 
     }
 

@@ -11,16 +11,12 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.AnchorPane
-import pabulo.teste.front.adapters.GsonProvider
 import pabulo.teste.front.connectionBackEnd.CustomerConnection
-import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtoConverter.customer.convertLocalUpdateCustomer
 import pabulo.teste.front.dtos.customer.CustomerUpdateDto
 import pabulo.teste.front.dtos.customer.UpdateCustomerDtoToDb
-import pabulo.teste.front.dtos.orders.OrderUpdateDTO
 import pabulo.teste.front.dtos.orders.OrderUpdateDTOtoDb
 import pabulo.teste.front.entity.Customer
-import pabulo.teste.front.entity.Order
 import pabulo.teste.front.enumms.CustomerMenuEnumms
 import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.orderResource.OrderResource
@@ -140,7 +136,7 @@ class CustomerUpdateControl {
 
     private val customerConnection = CustomerConnection()
 
-    private val orderConnection = OrderConnection(GsonProvider.gson)
+
 
     /*------------------------------------------------Functions------------------------------------------------------*/
 

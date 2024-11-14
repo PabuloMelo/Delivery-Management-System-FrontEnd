@@ -15,6 +15,7 @@ class OrderUpdateToWeb {
         val status: String?,
         val purchaseDate: LocalDate?,
         val invoicingDate: LocalDate?,
+        val orderAddress: String?
 
 
 
@@ -30,6 +31,7 @@ fun convertOrderUpdateLocalToWeb(orderUpdateLocal: OrderUpdateDTOtoDb): OrderUpd
         status = orderUpdateLocal.status?.let { adapterStringInEnumDb(it) },
         purchaseDate = orderUpdateLocal.purchaseDate?.let { convertStringInToLocalDate(it) },
         invoicingDate = orderUpdateLocal.invoicingDate?.let { convertStringInToLocalDate(it) },
+        orderAddress = orderUpdateLocal.orderAddress
 
 
     )

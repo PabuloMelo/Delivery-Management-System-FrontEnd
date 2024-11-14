@@ -7,6 +7,7 @@ import pabulo.teste.front.Main
 import pabulo.teste.front.controllers.seller.SellerMainController
 import pabulo.teste.front.enumms.SellerMenuChoices
 import pabulo.teste.front.scenesManager.ScenesManager
+import pabulo.teste.front.sqlite.main
 
 class SellerMain(private val sellerMain: Stage) {
 
@@ -28,6 +29,8 @@ class SellerMain(private val sellerMain: Stage) {
         controller.setSellerMainApp(this)
 
         sellerMain.scene = sellermainScene
+
+        sellerMain.isResizable = false
 
 
     }

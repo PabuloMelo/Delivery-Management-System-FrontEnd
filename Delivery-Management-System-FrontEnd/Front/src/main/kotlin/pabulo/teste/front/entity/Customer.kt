@@ -6,6 +6,8 @@ data class Customer(
     val customerName: String,
     val phone: String,
     val customerRegistered: String,
-    val customerType: String
+    val customerType: String,
+    val customerSync: String,
+    var customerState: String = " "
 
 )

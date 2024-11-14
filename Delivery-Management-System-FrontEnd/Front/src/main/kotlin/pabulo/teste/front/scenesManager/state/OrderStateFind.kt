@@ -35,6 +35,8 @@ class OrderStateFind(private val orderStateFind: Stage) {
 
         orderStateFind.scene = stateFind
 
+        orderStateFind.isResizable = false
+
 
     }
 

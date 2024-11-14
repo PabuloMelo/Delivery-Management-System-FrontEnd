@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="851.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.order.OrderUpdateController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="851.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pabulo.teste.front.controllers.order.OrderUpdateController">
     <left>
         <AnchorPane prefHeight="790.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
@@ -70,36 +70,37 @@
     <center>
         <AnchorPane prefHeight="801.0" prefWidth="1184.0" styleClass="background-general" stylesheets="@order-style.css" BorderPane.alignment="CENTER">
             <children>
-                <AnchorPane layoutX="23.0" layoutY="14.0" prefHeight="465.0" prefWidth="1024.0" styleClass="background-white" stylesheets="@order-style.css">
+                <AnchorPane layoutX="23.0" layoutY="14.0" prefHeight="507.0" prefWidth="1024.0" styleClass="background-white" stylesheets="@order-style.css">
                     <children>
-                        <AnchorPane layoutX="13.0" layoutY="11.0" prefHeight="434.0" prefWidth="210.0" styleClass="left-edit-panel" stylesheets="@order-style.css">
+                        <AnchorPane layoutX="13.0" layoutY="11.0" prefHeight="478.0" prefWidth="210.0" styleClass="left-edit-panel" stylesheets="@order-style.css">
                             <children>
-                                <Button layoutX="5.0" layoutY="17.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="**Numero do Pedido:" />
-                                <Button layoutX="4.0" layoutY="137.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Codigo do Cliente:" />
-                                <Button layoutX="4.0" layoutY="177.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Nome do Cliente:" />
-                                <Button layoutX="4.0" layoutY="217.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Numero do Carregamento:" />
-                                <Button layoutX="4.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Status do Pedido:" />
-                                <Button layoutX="4.0" layoutY="298.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Tipo de Pedido:" />
-                                <Button layoutX="4.0" layoutY="338.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Data de Venda do Pedido:" />
-                                <Button layoutX="4.0" layoutY="377.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Data do Faturamento do Pedido:" />
-                                <Button layoutX="5.0" layoutY="97.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text=" Cliente Cadastrado:" />
-                                <Button layoutX="5.0" layoutY="59.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Novo Numero do Pedido:" />
+                                <Button layoutX="5.0" layoutY="18.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="**Numero do Pedido:" />
+                                <Button layoutX="4.0" layoutY="148.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Codigo do Cliente:" />
+                                <Button layoutX="4.0" layoutY="187.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Nome do Cliente:" />
+                                <Button layoutX="4.0" layoutY="230.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Numero do Carregamento:" />
+                                <Button layoutX="4.0" layoutY="273.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Status do Pedido:" />
+                                <Button layoutX="4.0" layoutY="313.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Tipo de Pedido:" />
+                                <Button layoutX="4.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Data de Venda do Pedido:" />
+                                <Button layoutX="4.0" layoutY="427.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Data do Faturamento do Pedido:" />
+                                <Button layoutX="4.0" layoutY="109.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text=" Cliente Cadastrado:" />
+                                <Button layoutX="5.0" layoutY="60.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Novo Numero do Pedido:" />
+                        <Button layoutX="4.0" layoutY="350.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="nav-bars-right" stylesheets="@order-style.css" text="Endereço do Pedido" />
                             </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="223.0" layoutY="11.0" prefHeight="435.0" prefWidth="782.0" styleClass="right-fields-panel">
+                        <AnchorPane layoutX="223.0" layoutY="11.0" prefHeight="478.0" prefWidth="782.0" styleClass="right-fields-panel">
                             <children>
                                 <TextField fx:id="orderCodeToFind" layoutX="14.0" layoutY="20.0" prefHeight="25.0" prefWidth="236.0" promptText="Order Code" stylesheets="@order-style.css" />
                                 <TextField fx:id="customerCodeField" layoutX="14.0" layoutY="150.0" prefHeight="25.0" prefWidth="235.0" promptText="Customer Code" stylesheets="@order-style.css" />
-                                <TextField fx:id="customerNameField" editable="false" layoutX="14.0" layoutY="188.0" prefHeight="25.0" prefWidth="550.0" promptText="Customer Name" stylesheets="@order-style.css" />
+                                <TextField fx:id="customerNameField" editable="false" layoutX="14.0" layoutY="188.0" prefHeight="25.0" prefWidth="638.0" promptText="Customer Name" stylesheets="@order-style.css" />
                                 <TextField fx:id="loadCodeField" layoutX="14.0" layoutY="233.0" prefHeight="25.0" prefWidth="183.0" promptText="Load Code" stylesheets="@order-style.css" />
-                                <ChoiceBox fx:id="customerRegistered" layoutX="14.0" layoutY="109.0" prefHeight="27.0" prefWidth="550.0" styleClass="use-btn" stylesheets="@order-style.css" />
-                                <ChoiceBox fx:id="orderStatus" layoutX="14.0" layoutY="274.0" prefHeight="27.0" prefWidth="550.0" styleClass="use-btn" stylesheets="@order-style.css" />
-                                <ChoiceBox fx:id="orderType" layoutX="14.0" layoutY="312.0" prefHeight="27.0" prefWidth="550.0" styleClass="use-btn" stylesheets="@order-style.css" />
-                                <DatePicker fx:id="purchaseDatePicker" layoutX="14.0" layoutY="350.0" prefHeight="25.0" prefWidth="157.0" promptText="Purchase Date" styleClass="calendar-grid" stylesheets="@order-style.css" />
-                                <DatePicker fx:id="invoiceDatePicker" layoutX="14.0" layoutY="392.0" prefHeight="23.0" prefWidth="156.0" promptText="Invoice Date" styleClass="calendar-grid" stylesheets="@order-style.css" />
-                                <TextField fx:id="orderCodeField" layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="550.0" promptText="Order Code" stylesheets="@order-style.css" />
+                                <ChoiceBox fx:id="customerRegistered" layoutX="14.0" layoutY="109.0" prefHeight="27.0" prefWidth="637.0" styleClass="use-btn" stylesheets="@order-style.css" />
+                                <ChoiceBox fx:id="orderStatus" layoutX="14.0" layoutY="274.0" prefHeight="27.0" prefWidth="633.0" styleClass="use-btn" stylesheets="@order-style.css" />
+                                <ChoiceBox fx:id="orderType" layoutX="14.0" layoutY="312.0" prefHeight="27.0" prefWidth="633.0" styleClass="use-btn" stylesheets="@order-style.css" />
+                                <DatePicker fx:id="purchaseDatePicker" layoutX="15.0" layoutY="387.0" prefHeight="30.0" prefWidth="160.0" promptText="Purchase Date" styleClass="calendar-grid" stylesheets="@order-style.css" />
+                                <DatePicker fx:id="invoiceDatePicker" layoutX="15.0" layoutY="427.0" prefHeight="30.0" prefWidth="160.0" promptText="Invoice Date" styleClass="calendar-grid" stylesheets="@order-style.css" />
+                                <TextField fx:id="orderCodeField" layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="633.0" promptText="Order Code" stylesheets="@order-style.css" />
                                 <Button layoutX="263.0" layoutY="20.0" mnemonicParsing="false" onAction="#findOrderToUpdateByCode" prefHeight="25.0" prefWidth="130.0" styleClass="btn-fields" stylesheets="@order-style.css" text="Pesquisar" />
-                        <AnchorPane fx:id="dialogPane" layoutX="10.0" layoutY="58.0" prefHeight="209.0" prefWidth="633.0" styleClass="backgroundAlertPanel">
+                        <AnchorPane fx:id="dialogPane" layoutX="10.0" layoutY="58.0" prefHeight="209.0" prefWidth="633.0" styleClass="backgroundAlertPanel" visible="false">
                            <children>
                               <Button layoutX="493.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleOkButton" prefHeight="25.0" prefWidth="119.0" styleClass="btn-nav" stylesheets="@order-style.css" text="OK" />
                               <Label fx:id="dialogLabel" layoutX="8.0" layoutY="12.0" prefHeight="138.0" prefWidth="605.0" styleClass="labelAlert" text="Label" wrapText="true">
@@ -124,11 +125,13 @@
                                  </font></Label>
                            </children>
                         </AnchorPane>
+                        <ChoiceBox fx:id="orderAddress" layoutX="115.0" layoutY="350.0" prefHeight="30.0" prefWidth="533.0" styleClass="use-btn" stylesheets="@order-style.css" />
+                        <TextField fx:id="orderAddressCodeField" layoutX="15.0" layoutY="349.0" prefHeight="30.0" prefWidth="85.0" promptText="District Code" />
                             </children>
                         </AnchorPane>
                     </children>
                 </AnchorPane>
-                <TableView fx:id="orderTableView" layoutX="23.0" layoutY="499.0" prefHeight="200.0" prefWidth="1036.0" stylesheets="@order-style.css" tableMenuButtonVisible="true">
+                <TableView fx:id="orderTableView" layoutX="23.0" layoutY="538.0" prefHeight="200.0" prefWidth="1036.0" stylesheets="@order-style.css" tableMenuButtonVisible="true">
                     <columns>
                         <TableColumn fx:id="orderCodeColumn" prefWidth="115.0" text="Numero do Pedido" />
                         <TableColumn prefWidth="116.0" text="Cliente Cadastrado" />
@@ -140,9 +143,10 @@
                         <TableColumn fx:id="orderStatusColumn" prefWidth="117.0" text="Status do Pedido" />
                         <TableColumn fx:id="purchaseDateColumn" prefWidth="136.0" text="Data de Venda" />
                         <TableColumn fx:id="invoiceDateColumn" prefWidth="128.0" text="Data do Faturamento" />
+                  <TableColumn fx:id="orderAddressColumn" prefWidth="115.0" text="Endereço" />
                     </columns>
                 </TableView>
-                <Button fx:id="saveUpdateOrder" layoutX="901.0" layoutY="717.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="132.0" styleClass="btn-nav" stylesheets="@order-style.css" text="Salvar" />
+                <Button fx:id="saveUpdateOrder" layoutX="901.0" layoutY="751.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="132.0" styleClass="btn-nav" stylesheets="@order-style.css" text="Salvar" />
             </children>
         </AnchorPane>
     </center>

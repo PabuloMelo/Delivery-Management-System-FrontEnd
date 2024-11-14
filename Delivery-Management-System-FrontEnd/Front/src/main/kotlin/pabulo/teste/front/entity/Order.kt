@@ -16,6 +16,7 @@ data class Order(
     var daysUntilDelivery: Int = 0,
     var orderSCN: Boolean = false,
     var orderFutureDelState: String = "Default",
+    var orderAddress: String
 
     )
 

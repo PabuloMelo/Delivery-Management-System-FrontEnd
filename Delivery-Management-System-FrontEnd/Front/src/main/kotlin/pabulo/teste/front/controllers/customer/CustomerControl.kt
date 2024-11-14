@@ -62,13 +62,6 @@ class CustomerControl {
 private lateinit var customerCode: TextField
 
 
-fun setCustomerName(){
-
-
-
-}
-
-
 
 
 }

@@ -34,6 +34,7 @@ class OrderFind(private val orderFind: Stage) {
         controller.setOrderfindApp(this)
 
         orderFind.scene = orderFindScene
+        orderFind.isResizable = false
 
 
     }

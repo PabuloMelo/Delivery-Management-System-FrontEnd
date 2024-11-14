@@ -32,6 +32,7 @@ class CustomerMenu(private val stageCustomer: Stage) {
 
 
 
+        stageCustomer.isResizable = false
 
         stageCustomer.scene = customerMainScene
 
@@ -63,7 +64,7 @@ class CustomerMenu(private val stageCustomer: Stage) {
 
             CustomerMenuEnumms.Update -> {
 
-              val customerUpdate = CustomerUpdate(stageInit)
+                val customerUpdate = CustomerUpdate(stageInit)
                 customerUpdate.initUpdate(stageInit)
 
             }
@@ -75,10 +76,6 @@ class CustomerMenu(private val stageCustomer: Stage) {
 
 
             }
-
-
-
-
 
 
         }

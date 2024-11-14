@@ -106,7 +106,22 @@
 -fx-text-fill: white;
 -fx-alignment: Center-Left
 
+}
 
 
+.backgroundAlertPanel{
+
+ -fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #ddcfd1 0.0%, #e4dfdf 100.0%)
 
 }
+
+.labelAlert{
+
+-text-size: 20;
+-text-fill: black;
+-fx-font-family: "Book Antiqua"
+}
+
+
+
+

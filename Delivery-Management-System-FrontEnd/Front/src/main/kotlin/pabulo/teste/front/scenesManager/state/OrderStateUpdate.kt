@@ -33,6 +33,7 @@ class OrderStateUpdate(private val orderStateUpdate: Stage) {
         controller.setOrderStateUpdateApp(this)
 
         orderStateUpdate.scene = stateUpdate
+        orderStateUpdate.isResizable = false
 
 
     }

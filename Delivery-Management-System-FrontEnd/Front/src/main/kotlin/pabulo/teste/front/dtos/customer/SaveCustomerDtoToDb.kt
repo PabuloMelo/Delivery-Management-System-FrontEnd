@@ -7,6 +7,7 @@ data class SaveCustomerDtoToDb(
     var phone: String,
     var customerRegistered: String,
     var customerType: String,
+    var customerSync: String
 
 ) {
 
@@ -18,6 +19,7 @@ data class SaveCustomerDtoToDb(
         this.phone = saveCustomerDto.phone.get()
         this.customerRegistered = saveCustomerDto.customerRegistered.get()
         this.customerType = saveCustomerDto.customerType.get()
+        this.customerSync = "Não Sincronizado"
 
 
     }

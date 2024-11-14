@@ -27,6 +27,7 @@ class CustomerFind(private val findStage: Stage) {
         val controller = fxmlLoader.getController<CustomerFindControl>()
         controller.setCustomerFindApp(this)
 
+        findStage.isResizable = false
         findStage.scene = customerFindScene
 
 

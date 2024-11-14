@@ -16,6 +16,7 @@ data class OrderSaveDto(
     val invoicingDate: SimpleStringProperty,
     val sellerRCA: SimpleIntegerProperty,
     val sellerName: String,
+    val orderAddress: SimpleStringProperty
     //val daysUntilDelivery: SimpleIntegerProperty
 
 ) {
@@ -33,8 +34,9 @@ data class OrderSaveDto(
         invoicingDate: String,
         sellerRCA: Int,
         sellerName: String,
+        orderAddress: String
 
-        ) : this(
+    ) : this(
 
         SimpleIntegerProperty(orderCode),
         SimpleIntegerProperty(customerCode),
@@ -45,7 +47,8 @@ data class OrderSaveDto(
         SimpleStringProperty(purchaseDate),
         SimpleStringProperty(invoicingDate),
         SimpleIntegerProperty(sellerRCA),
-        sellerName
+        sellerName,
+        SimpleStringProperty(orderAddress)
 
 
     )
@@ -63,9 +66,10 @@ data class SaverOrderDTOtoDb(
     var purchaseDate: String,
     var invoicingDate: String,
     var sellerRCA: Int,
-    var sellerName: String
+    var sellerName: String,
+    var orderAddress: String
 
-    ) {
+) {
 
     fun convertDTO(saveOrderSaveDto: OrderSaveDto) {
 
@@ -78,6 +82,7 @@ data class SaverOrderDTOtoDb(
         this.purchaseDate = saveOrderSaveDto.purchaseDate.get()
         this.invoicingDate = saveOrderSaveDto.invoicingDate.get()
         this.sellerName = saveOrderSaveDto.sellerName
+        this.orderAddress = saveOrderSaveDto.orderAddress.get()
 
 
     }

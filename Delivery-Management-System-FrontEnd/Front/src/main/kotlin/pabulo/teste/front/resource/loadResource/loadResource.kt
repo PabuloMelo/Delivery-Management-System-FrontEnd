@@ -10,7 +10,7 @@ import java.sql.ResultSet
 
 class LoadResource {
 
-    private val tempUrl = "C:/Users/pabul/projects/FrontEnd/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private val tempUrl = "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
     private val urlLocalDb =
         "jdbc:sqlite:$tempUrl"

@@ -30,6 +30,8 @@ class SellerSave(private val saveSeller: Stage) {
 
         saveSeller.scene = sellerSaveScene
 
+        saveSeller.isResizable = false
+
 
     }
 

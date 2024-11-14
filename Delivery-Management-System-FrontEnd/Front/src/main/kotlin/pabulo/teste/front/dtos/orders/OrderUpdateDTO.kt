@@ -29,6 +29,7 @@ data class OrderUpdateDTO(
     val invoicingDate: SimpleStringProperty?,
     val sellerRCA: SimpleIntegerProperty?,
     val sellerName: String?,
+    val orderAddress: SimpleStringProperty?,
 
     ) {
 
@@ -44,6 +45,7 @@ data class OrderUpdateDTO(
         invoicingDate: String,
         sellerRCA: Int,
         sellerName: String,
+        orderAddress: String,
     ) : this(
 
         SimpleIntegerProperty(orderCode),
@@ -55,7 +57,8 @@ data class OrderUpdateDTO(
         SimpleStringProperty(purchaseDate),
         SimpleStringProperty(invoicingDate),
         SimpleIntegerProperty(sellerRCA),
-        sellerName
+        sellerName,
+        SimpleStringProperty(orderAddress)
 
 
     )
@@ -75,6 +78,7 @@ data class OrderUpdateDTOtoDb(
     var invoicingDate: String? = null,
     var sellerRCA: Int? = null,
     var sellerName: String? = null,
+    var orderAddress: String? = null
 ) {
 
 
@@ -90,6 +94,8 @@ data class OrderUpdateDTOtoDb(
         this.invoicingDate = orderDto.invoicingDate.getValueOrNull()
         this.sellerRCA = orderDto.sellerRCA.getValueOrNull()
         this.sellerName = orderDto.sellerName
+        this.orderAddress = orderDto.orderAddress.getValueOrNull()
+
 
 
     }

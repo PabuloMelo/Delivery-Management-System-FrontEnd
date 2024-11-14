@@ -3,15 +3,16 @@ package pabulo.teste.front.controllers.seller
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextField
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.AnchorPane
 import javafx.stage.FileChooser
+import pabulo.teste.front.adapters.GsonProvider
+import pabulo.teste.front.connectionBackEnd.SellerConnection
 import pabulo.teste.front.dtos.sellers.SaveSellerDto
 import pabulo.teste.front.dtos.sellers.SaveSellerDtoToDb
+import pabulo.teste.front.entity.Seller
 import pabulo.teste.front.enumms.SellerMenuChoices
 import pabulo.teste.front.resource.sellerResource.SellerResource
 import pabulo.teste.front.scenesManager.seller.SellerSave
@@ -104,6 +105,46 @@ class SellerSaveController {
 
     @FXML
 
+    private lateinit var dialogLabel: Label
+
+    @FXML
+
+    private lateinit var dialogPane: AnchorPane
+
+    @FXML
+
+   private lateinit var saveSellerBT: Button
+
+
+    private val sellerConnectionBackend = SellerConnection(GsonProvider.gson)
+
+    private val sellerToDb = SellerResource()
+
+
+    fun handleOkButton() {
+
+        dialogPane.isVisible = false
+        saveSellerBT.isDisable = false
+        saveSellerBT.opacity = 1.0
+
+    }
+
+
+    private fun showDialog(message: String) {
+
+        dialogLabel.text = message
+
+        dialogPane.isVisible = true
+
+        saveSellerBT.isDisable = true
+
+        saveSellerBT.opacity = 0.5
+
+
+    }
+
+    @FXML
+
 
     private fun handleUploadImage() {
 
@@ -166,8 +207,92 @@ class SellerSaveController {
     }
 
 
+    private fun verifieSellerExists() {
+
+        try {
+
+            val sellerRca = sellerRcaField.text.trim().toInt()
+            var sellerFind: Seller? = null
+
+            val verifieOnLocalDb = sellerToDb.findSellerInLocalDbByRca(sellerRca)
+
+
+            try {
+
+                sellerFind = sellerConnectionBackend.fetchSellerByRca(sellerRca.toLong())
+
+                if (sellerFind != null) {
+
+                    showDialog("Já existe Um vendedor salvo com o RCA $sellerRca")
+
+                    sellerRcaField.clear()
+
+                }
+
+            } catch (e: Exception) {
+
+
+                println(e.message)
+
+            }
+
+            if (sellerFind == null) {
+
+                try {
+
+
+                    sellerFind = sellerToDb.findSellerInLocalDbByRca(sellerRca)
+
+                    if (sellerFind != null) {
+
+                        showDialog("Já existe Um vendedor salvo com o RCA $sellerRca")
+
+                        sellerRcaField.clear()
+
+
+                    }
+
+                } catch (e: Exception) {
+
+                    println(e.message)
+
+                }
+            }
+
+
+        } catch (e: NumberFormatException) {
+
+            showDialog("Por favor digite um numero valido maior do que 0")
+
+            sellerRcaField.clear()
+
+
+        }
+
+
+    }
+
+
     @FXML
     private fun saveSeller() {
+
+        when {
+
+            sellerRcaField.text.isNullOrBlank() -> {
+
+                showDialog("O campo codigo do vendedor está vazio por favor digite um numero maior do que 0")
+
+                return
+            }
+
+            sellerNameField.text.isNullOrBlank() -> {
+
+                showDialog("O Vendedor precisa ter um Nome")
+
+                return
+
+            }
+        }
 
         val sellerRca: Int = sellerRcaField.text.trim().toInt()
         val sellerName: String = sellerNameField.text.trim()
@@ -187,7 +312,6 @@ class SellerSaveController {
         }
 
 
-        val sellerToDb = SellerResource()
         val newSellerSave = SaveSellerDto(sellerRca, sellerName, sellerPath)
         val saveSellerDtoToDb = SaveSellerDtoToDb(sellerRca, sellerName, sellerPath)
 
@@ -216,6 +340,18 @@ class SellerSaveController {
 
         sellerRcaColumn.setCellValueFactory { it.value.sellerRca.asObject() }
         sellerNameColumn.setCellValueFactory { it.value.sellerName }
+
+
+        sellerRcaField.focusedProperty().addListener { _, _, newValue ->
+
+            if (!newValue){
+
+                verifieSellerExists()
+
+            }
+
+        }
+
 
         uploadImageBtn.text
 
