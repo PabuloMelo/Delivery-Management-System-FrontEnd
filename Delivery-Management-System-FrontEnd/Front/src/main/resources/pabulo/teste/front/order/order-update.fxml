@@ -99,7 +99,7 @@
                                 <DatePicker fx:id="purchaseDatePicker" layoutX="15.0" layoutY="387.0" prefHeight="30.0" prefWidth="160.0" promptText="Purchase Date" styleClass="calendar-grid" stylesheets="@order-style.css" />
                                 <DatePicker fx:id="invoiceDatePicker" layoutX="15.0" layoutY="427.0" prefHeight="30.0" prefWidth="160.0" promptText="Invoice Date" styleClass="calendar-grid" stylesheets="@order-style.css" />
                                 <TextField fx:id="orderCodeField" layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="633.0" promptText="Order Code" stylesheets="@order-style.css" />
-                                <Button layoutX="263.0" layoutY="20.0" mnemonicParsing="false" onAction="#findOrderToUpdateByCode" prefHeight="25.0" prefWidth="130.0" styleClass="btn-fields" stylesheets="@order-style.css" text="Pesquisar" />
+                                <Button fx:id="findOrderBT" layoutX="263.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" styleClass="btn-fields" stylesheets="@order-style.css" text="Pesquisar" />
                         <AnchorPane fx:id="dialogPane" layoutX="10.0" layoutY="58.0" prefHeight="209.0" prefWidth="633.0" styleClass="backgroundAlertPanel" visible="false">
                            <children>
                               <Button layoutX="493.0" layoutY="163.0" mnemonicParsing="false" onAction="#handleOkButton" prefHeight="25.0" prefWidth="119.0" styleClass="btn-nav" stylesheets="@order-style.css" text="OK" />

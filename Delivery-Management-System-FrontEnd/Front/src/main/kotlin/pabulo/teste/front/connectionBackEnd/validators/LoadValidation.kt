@@ -19,7 +19,7 @@ class LoadValidation {
         val invoiceDateEnd = null
 
 
-        val load = orderConnection.fetchOrdersByUserParameters(  orderCode,
+        val load = orderConnection.fetchOrdersByUserParameters(orderCode,
             customerCode,
             customerName,
             loadCode,
@@ -28,11 +28,12 @@ class LoadValidation {
             purchaseDateEnd,
             invoiceDateInit,
             invoiceDateEnd)
+
+
         var loadExists = " "
 
-        println(load)
 
-        if (load != null) {
+        if (!load.isNullOrEmpty()) {
 
             loadExists = "Já existe um carregamento salvo com o codigo: $loadCode no banco dados web"
 
@@ -44,7 +45,26 @@ class LoadValidation {
 
     fun syncLoad(loadCode: Long): String {
 
-        val loadSync = orderConnection.fetchAllOrdersByLoadCode(loadCode)
+        val orderCode = null
+        val customerCode = null
+        val customerName = null
+        val orderType = null
+        val purchaseDateInit = null
+        val purchaseDateEnd = null
+        val invoiceDateInit = null
+        val invoiceDateEnd = null
+
+
+        val loadSync =  orderConnection.fetchOrdersByUserParameters(orderCode,
+            customerCode,
+            customerName,
+            loadCode,
+            orderType,
+            purchaseDateInit,
+            purchaseDateEnd,
+            invoiceDateInit,
+            invoiceDateEnd)
+
         var result = "Não Sincronizado"
 
         if (loadSync != null) {

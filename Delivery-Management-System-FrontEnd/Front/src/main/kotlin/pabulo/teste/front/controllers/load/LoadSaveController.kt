@@ -305,7 +305,7 @@ class LoadSaveController {
 
     private fun verifieLoadExistTest(loadCode: Int): Boolean {
 
-        val loadTest = loadResource.findLoadByLoadCode(loadCode) ?: return false
+         loadResource.findLoadByLoadCode(loadCode) ?: return false
 
         return true
     }

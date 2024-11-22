@@ -304,11 +304,12 @@ class OrderSaveController {
 
         } else {
 
-            loadCodeDef = loadCodeField.text.trim().toInt()
 
-            loadCodeField.isEditable = true
+            loadCodeDef = 4
 
-            loadCodeField.text = "0"
+            loadCodeField.isEditable = false
+
+            loadCodeField.text = loadCodeDef.toString()
 
         }
 
@@ -424,6 +425,14 @@ class OrderSaveController {
                 showDialog("O campo do codigo do cliente está vazio por favor digite um numero maior do que 0")
 
                 return
+            }
+
+            customerNameField.text.isNullOrBlank() -> {
+
+                showDialog("Nenhum cliente foi selecionado para atribuir ao pedido")
+
+                return
+
             }
 
             purchaseDatePicker.value == null -> {
@@ -578,7 +587,7 @@ class OrderSaveController {
 
         ordertype.value = "Entrega"
 
-        loadCodeField.text = "0"
+        loadCodeField.text = "4"
 
         ordertype.setOnAction { defineLoadByOrderType(ordertype.value) }
 

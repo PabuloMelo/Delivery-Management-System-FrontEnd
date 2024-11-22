@@ -11,7 +11,6 @@ import pabulo.teste.front.adapters.GsonProvider
 import pabulo.teste.front.connectionBackEnd.CustomerConnection
 import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtoConverter.order.OrderUpdateToWeb
-import pabulo.teste.front.dtos.orders.OrderSaveDto
 import pabulo.teste.front.dtos.orders.OrderUpdateDTO
 import pabulo.teste.front.dtos.orders.OrderUpdateDTOtoDb
 import pabulo.teste.front.entity.Order
@@ -214,10 +213,15 @@ class OrderUpdateController {
 
     @FXML
 
-    private lateinit var orderAddressColumn: TableColumn<OrderSaveDto, String>
+    private lateinit var orderAddressColumn: TableColumn<Order, String>
 
     @FXML
     private lateinit var customerFindBtn: Button
+
+
+    @FXML
+
+    private lateinit var findOrderBT: Button
 
     @FXML
 
@@ -227,9 +231,6 @@ class OrderUpdateController {
 
     private lateinit var dialogPane: AnchorPane
 
-    @FXML
-
-    private lateinit var okButonDialog: Button
 
     @FXML
 
@@ -298,54 +299,54 @@ class OrderUpdateController {
 
         clearOrderView()
 
-        if(orderCodeToFind.text.isNullOrBlank()){
+        if (orderCodeToFind.text.isNullOrBlank()) {
 
             showDialog("Campo numero do pedido está vazio por favor digite um numero maior do que 0")
 
             return
         }
 
-            try {
-                val orderCode: Int = orderCodeToFind.text.trim().toInt()
+        try {
+            val orderCode: Int = orderCodeToFind.text.trim().toInt()
 
+            try {
+
+                val orderDb = orderConnection.fetchOrderByCode(orderCode.toLong())
+
+                orderDb?.let { orderList.add(it) }
+
+            } catch (e: Exception) {
+
+                println(e.message)
+
+
+            }
+
+            if (orderList.isEmpty()) {
                 try {
 
-                    val orderDb = orderConnection.fetchOrderByCode(orderCode.toLong())
-
-                    orderDb?.let { orderList.add(it) }
+                    val order = orderResource.findOrderByCode(orderCode)
+                    order?.let { orderList.add(it) }
 
                 } catch (e: Exception) {
 
                     println(e.message)
 
-
                 }
 
                 if (orderList.isEmpty()) {
-                    try {
 
-                        val order = orderResource.findOrderByCode(orderCode)
-                        order?.let { orderList.add(it) }
-
-                    } catch (e: Exception) {
-
-                        println(e.message)
-
-                    }
-
-                    if (orderList.isEmpty()){
-
-                        showDialog("Não há nenhum pedido salvo com o codigo $orderCode")
-
-                    }
+                    showDialog("Não há nenhum pedido salvo com o codigo $orderCode")
 
                 }
-            }catch (e: NumberFormatException){
-
-
-                showDialog("Digite somente numeros")
 
             }
+        } catch (e: NumberFormatException) {
+
+
+            showDialog("Digite somente numeros")
+
+        }
 
 
 
@@ -370,12 +371,6 @@ class OrderUpdateController {
                 customerFinded = customerLocal.customerName
 
             } else if (customerLocal == null && customerWeb != null) {
-
-                customerNameField.text = customerWeb.customerName
-
-                customerFinded = customerWeb.customerName
-
-            } else if (customerLocal != null && customerWeb != null) {
 
                 customerNameField.text = customerWeb.customerName
 
@@ -427,7 +422,7 @@ class OrderUpdateController {
 
             val customerFinded = verifieNewCustomerExists(updateOrderDto.customerCode!!)
 
-            if(customerFinded) {
+            if (customerFinded) {
 
                 try {
 
@@ -446,19 +441,21 @@ class OrderUpdateController {
 
                     orderTableView.refresh()
 
-                }catch (e: Exception){
+                } catch (e: Exception) {
 
                     println(e.message)
 
                 }
 
-            }else{
+            } else {
 
-                showDialog("ERRO: não foi possivel atualizar o pedido no banco de dados web" +
-                        " \n pois o cliente ${updateOrderDto.customerCode} não está salvo no banco de dados web")
+                showDialog(
+                    "ERRO: não foi possivel atualizar o pedido no banco de dados web" +
+                            " \n pois o cliente ${updateOrderDto.customerCode} não está salvo no banco de dados web"
+                )
 
             }
-        }else{
+        } else {
 
             try {
 
@@ -479,12 +476,11 @@ class OrderUpdateController {
 
                 clearFields()
 
-            }catch (e: Exception){
+            } catch (e: Exception) {
 
                 println(e.message)
 
             }
-
 
 
         }
@@ -523,17 +519,114 @@ class OrderUpdateController {
 
     }
 
+    private fun defineLoadByOrderType(orderType: String): Int {
+
+        var loadCodeDef = 0
+
+        loadCodeField.isEditable = true
+
+        when (orderType) {
+            "Retira Posterior" -> {
+
+                loadCodeDef = 1
+
+                loadCodeField.text = loadCodeDef.toString()
+
+                loadCodeField.isEditable = false
+
+
+            }
+
+            "Entrega Futura" -> {
+
+                loadCodeDef = 2
+
+                loadCodeField.text = loadCodeDef.toString()
+
+                loadCodeField.isEditable = false
+
+            }
+
+            "Retira Imediata" -> {
+
+                loadCodeDef = 3
+
+                loadCodeField.text = loadCodeDef.toString()
+
+                loadCodeField.isEditable = false
+
+            }
+
+
+        }
+
+        return loadCodeDef
+
+    }
+
 
     @FXML
 
     private fun orderToUpdate() {
+
+
+        when {
+
+            loadCodeField.text.isNotBlank() && loadCodeField.text == "0" -> {
+
+
+                showDialog("O novo codigo de carregamento não pode ser igual a 0 por favor digite um numero valido")
+
+                return
+
+            }
+
+            loadCodeField.text.isNotBlank() && !loadCodeField.text.trim().all { it.isDigit() } -> {
+
+
+                showDialog("Valor invalido para o novo codigo de carregamento, por favor digite apenas numeros maiores do que 0")
+
+                return
+
+            }
+
+            orderCodeField.text.isNotBlank() && !orderCodeField.text.trim().all { it.isDigit() } -> {
+
+
+                showDialog("Valor invalido para o novo codigo do pedido, por favor digite apenas numeros maiores do que 0")
+
+                return
+
+            }
+
+            orderCodeField.text.isNotBlank() && orderCodeField.text.trim() == "O" -> {
+
+                showDialog("O novo codigo do pedido não pode ser igual a 0 por favor digite um numero valido")
+
+                return
+
+
+            }
+
+
+
+            invoiceDatePicker.value < purchaseDatePicker.value && invoiceDatePicker.value != null  && purchaseDatePicker.value != null -> {
+
+                showDialog("A nova data de faturamento deve ser maior ou igual a da compra")
+
+                return
+
+            }
+
+
+        }
+
 
         val originalOrdercode: Int = orderCodeToFind.text.trim().toInt()
         val updateOrderDto = OrderUpdateDTOtoDb()
         val orderCodeToRca =
             if (orderCodeField.text.isNotBlank()) orderCodeField.text.trim().toInt() else originalOrdercode
         val orderRca = defineRca(orderCodeToRca.toString().toInt())
-
         val orderUpdateDTO = OrderUpdateDTO(
 
             orderCode = orderCodeField.text.takeIf { it.isNotBlank() }?.trim()?.toInt()
@@ -567,12 +660,6 @@ class OrderUpdateController {
 
             saveOrderUpdateOnWeblDb(originalOrdercode, updateOrderDto)
 
-        }else if (verifieOrderOnLocalDb != null && verifieOrderOnWebDb != null){
-
-            saveOrderUpdateOnLocalDb(originalOrdercode, updateOrderDto)
-
-            saveOrderUpdateOnWeblDb(originalOrdercode, updateOrderDto)
-
         }
 
     }
@@ -598,14 +685,14 @@ class OrderUpdateController {
     }
 
 
-    private fun enableSaveButon(){
+    private fun enableSaveButon() {
 
         if (orderList.isEmpty()) {
 
             saveUpdateOrder.isDisable = true
             saveUpdateOrder.opacity = 0.5
 
-        }else {
+        } else {
             saveUpdateOrder.isDisable = false
             saveUpdateOrder.opacity = 1.0
         }
@@ -701,10 +788,12 @@ class OrderUpdateController {
         sellerRcaColumn.setCellValueFactory { cell -> SimpleIntegerProperty(cell.value.orderSellerRca).asObject() }
         invoiceDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.invoiceDate) }
         purchaseDateColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.purchaseDate) }
-        orderAddressColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderAddress.get()) }
+        orderAddressColumn.setCellValueFactory { cell -> SimpleStringProperty(cell.value.orderAddress) }
 
 
         saveUpdateOrder.setOnAction { orderToUpdate() }
+
+        orderType.setOnAction { defineLoadByOrderType(orderType.value) }
 
 
         orderAddressCodeField.focusedProperty().addListener { _, _, newValue ->
@@ -745,8 +834,7 @@ class OrderUpdateController {
         }
 
 
-
-
+        findOrderBT.setOnAction { findOrderToUpdateByCode() }
 
 
         val addressConnection = AddressResource()

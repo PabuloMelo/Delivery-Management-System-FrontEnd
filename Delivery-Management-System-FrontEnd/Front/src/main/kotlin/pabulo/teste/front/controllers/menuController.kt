@@ -14,10 +14,9 @@ import javafx.scene.input.ClipboardContent
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import pabulo.teste.front.Main
-import pabulo.teste.front.connectionBackEnd.validators.CustomerValidation
-import pabulo.teste.front.connectionBackEnd.validators.LoadValidation
-import pabulo.teste.front.connectionBackEnd.validators.OrderValidation
-import pabulo.teste.front.connectionBackEnd.validators.StateValidation
+import pabulo.teste.front.adapters.GsonProvider
+import pabulo.teste.front.connectionBackEnd.*
+import pabulo.teste.front.connectionBackEnd.validators.*
 import pabulo.teste.front.entity.Customer
 import pabulo.teste.front.entity.Load
 import pabulo.teste.front.entity.Order
@@ -26,6 +25,7 @@ import pabulo.teste.front.enumms.MenuChoices
 import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.loadResource.LoadResource
 import pabulo.teste.front.resource.orderResource.OrderResource
+import pabulo.teste.front.resource.sellerResource.SellerResource
 import pabulo.teste.front.resource.stateResource.StateResource
 
 
@@ -147,14 +147,19 @@ class MenuController {
 
     private val customerValidation = CustomerValidation()
 
-    private val orderThrowable = StringBuilder(" ")
+    private var throwableCount: Int = 0
 
+    private val orderConnection = OrderConnection(GsonProvider.gson)
+
+    private val orderValidation = OrderValidation()
+
+    private val customerResource = CustomerResource()
+
+    private val customerConnection = CustomerConnection()
 
     private fun customersOnLocalDb() {
 
         customerList.clear()
-
-        val customerResource = CustomerResource()
 
 
         val customers: List<Customer?> = customerResource.customerListToView()
@@ -163,9 +168,16 @@ class MenuController {
 
             val customerExists = customerValidation.verifiesCustomerExistsOnDataWeb(it?.customerCode!!.toLong())
 
-            it.customerState = customerExists
+            if (customerExists.isNotBlank()) {
+
+                it.customerState = customerExists
+
+                throwableCount++
+
+                println("inicial: $throwableCount")
 
 
+            }
             customerList.add(it)
 
             customerFindTableView.refresh()
@@ -207,6 +219,12 @@ class MenuController {
     private val orderResource = OrderResource()
 
     private val loadResource = LoadResource()
+
+    private val loadValidation = LoadValidation()
+
+    private val loadConnection = LoadConnection(GsonProvider.gson)
+
+    private val testConnection = ConnectionBackend()
 
     /*-------------------------------------------------Load--Table---------------------------------------------------------*/
 
@@ -290,11 +308,27 @@ class MenuController {
 
     private lateinit var orderStateThrowableColumn: TableColumn<State, String>
 
+    @FXML
+
+    private lateinit var syncButton: Button
+
+    private val stateConnection = StateConnection(GsonProvider.gson)
+
 
     private val stateList: ObservableList<State> = FXCollections.observableArrayList()
 
 
     private val stateResource = StateResource()
+
+    private val stateValidation = StateValidation()
+
+    private val sellerConnection = SellerConnection(GsonProvider.gson)
+
+    private val sellerResource = SellerResource()
+
+    private val sellerValidate = SellerValidate()
+
+    private var opensLoads: Int = 0
 
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -305,14 +339,20 @@ class MenuController {
 
         val states: List<State> = stateResource.findAllStateOnLocalDb()
 
-        val stateValidation = StateValidation()
+
 
         states.forEach {
 
-            val stateExists = stateValidation.verifiesOrderStateExists(it!!.orderCodeState.toLong())
+            val stateExists = stateValidation.verifiesOrderStateExists(it.orderCodeState.toLong())
 
-            it.stateThrowble = stateExists
+            if (stateExists.isNotBlank()) {
 
+                it.stateThrowble = stateExists
+
+                throwableCount++
+
+                println("segundo: $throwableCount")
+            }
             stateList.add(it)
 
             stateTableView.refresh()
@@ -327,8 +367,7 @@ class MenuController {
 
         loadList.clear()
 
-        val loadValidation = LoadValidation()
-
+     //  var loadProblem = 0
 
         val loadsOrders: List<Load?> = loadResource.findLoadToTable()
 
@@ -336,52 +375,82 @@ class MenuController {
 
             val loadExists = loadValidation.verifiesLoadExists(it!!.loadCode.toLong())
 
-            it.loadThrowable = loadExists
+            if (loadExists.isNotBlank()) {
 
+                it.loadThrowable = loadExists
 
-            loadList.add(it)
+                throwableCount ++
+
+                println("terceiro: $throwableCount")
+
+            }
+
+        }
+
+        val testLoadsBefore = loadResource.ignoreLoadsDefault()
+
+        println("Carregamentos no DB $testLoadsBefore")
+
+        if (testLoadsBefore.isNotEmpty()) {
+
+            testLoadsBefore.forEach { load -> loadList.add(load) }
 
             loadTableView.refresh()
+
         }
 
 
     }
 
+    private val orderThrowable = StringBuilder(" ")
 
     private fun ordersOnLocalDb() {
 
         orderList.clear()
-        val orderValidation = OrderValidation()
+
+       // var orderProblem = 0
 
         val orders: List<Order?> = orderResource.ordersToTableView()
 
+        println("pediddo: $orders")
+
         orders.forEach {
 
-            val orderExists = orderValidation.verifiesOrderExistsOnWebDb(it!!.orderCode.toLong())
+            orderThrowable.clear()
 
-            orderThrowable.append(orderExists)
+                val orderExists = orderValidation.verifiesOrderExistsOnWebDb(it!!.orderCode.toLong())
+
+                orderThrowable.append(orderExists)
 
 
-            if (it.customerName == "Cliente Não encontardo") {
+                if (orderThrowable.isBlank() && it.customerName == "Cliente Não encontardo") {
 
-                if (orderThrowable.isEmpty()) {
+                    orderThrowable.append("Cadastro do Cliente Pendente")
 
-                    orderThrowable.append(" Cadastro do Cliente Pendente")
+                    throwableCount++
 
-                } else {
+                    println("quarto: $throwableCount")
+
+                } else if (it.customerName == "Cliente Não encontardo" && orderThrowable.isNotBlank()) {
 
                     orderThrowable.append(" e Cadastro do Cliente Pendente")
 
+                    throwableCount += 2
+
+                    println("quarto: $throwableCount")
+
                 }
 
-            }
 
 
-            it.orderTrouble = orderThrowable.toString()
 
-            orderList.add(it)
+                it.orderTrouble = orderThrowable.toString()
 
-            orderTableView.refresh()
+                orderList.add(it)
+                orderTableView.refresh()
+
+
+
 
         }
 
@@ -392,9 +461,11 @@ class MenuController {
     private fun openLoadsFounded(): Int {
 
         val validate = "Validação Pendente"
-        val opensLoads = loadResource.findNotValidateLoadCode(validate)
+        val loadsFounded = loadResource.findNotValidateLoadCode(validate)
 
-        val totalOpenLoad: Int = opensLoads.size
+        val totalOpenLoad: Int = loadsFounded.size
+
+        opensLoads = totalOpenLoad
 
         return totalOpenLoad
     }
@@ -402,10 +473,11 @@ class MenuController {
 
     private fun ordersTrouble(): Int {
 
-        val customerNotFounded = "Cliente Não encontardo"
-        val orders: List<Order?> = orderResource.ordersProblems(customerNotFounded)
+        val ordersTrouble = throwableCount
 
-        val ordersTrouble = orders.size
+        println("total: $throwableCount")
+
+        ordersWithTrouble.text = ordersTrouble.toString()
 
         return ordersTrouble
 
@@ -424,16 +496,185 @@ class MenuController {
 
     private fun tableViewRefresh() {
 
+        throwableCount = 0
+
         ordersOnLocalDb()
         customersOnLocalDb()
         loadsOrdersOnLocalDb()
         stateOrdersOnLocalDb()
+        ordersTrouble()
+        syncButtonManager()
+
+        testConnection.testConnection()
 
 
     }
 
 
+    fun syncDbData() {
+
+
+        val customers = customerResource.customerListToView()
+
+        customers.forEach {
+
+                customer ->
+
+            val testCustomerExists = customerConnection.fetchCustomerOnWebDbByCode(customer!!.customerCode.toLong())
+
+            if (testCustomerExists == null) {
+
+                customerConnection.saveCustomerOnWebDb(customer.customerCode)
+
+                val customerSync = customerValidation.testSyncSuccess(customer.customerCode.toLong())
+
+                customer.apply {
+
+                    customerResource.updateCustomerSync(customerCode, customerSync)
+
+                }
+            }
+
+        }
+
+        val loads = loadResource.loadToTableView()
+
+
+        loads.forEach {
+
+
+                load ->
+
+            val loadExists = orderConnection.fetchAllOrdersByLoadCode(load!!.loadCode.toLong())
+
+            if (loadExists == null) {
+
+                loadConnection.saveLoadOnWebDb(load.loadCode)
+
+                val loadSync = loadValidation.syncLoad(load.loadCode.toLong())
+
+
+                load.apply {
+
+
+                    loadResource.updateLoadSync(loadCode, loadSync)
+
+
+                }
+            }
+
+        }
+
+        val sellers = sellerResource.findAllSellerInLocalDb()
+
+        sellers.forEach {
+
+                seller ->
+
+            val sellerExist = sellerValidate.testSellerExists(seller!!.sellerRca.toLong())
+
+            if (!sellerExist) {
+
+                sellerConnection.saveSellerOnWebDb(seller.sellerRca)
+
+            }
+
+
+        }
+
+
+        val orders = orderResource.ordersToTableView()
+
+        orders.forEach {
+
+                order ->
+
+            val orderExists = orderConnection.fetchOrderByCode(order!!.orderCode.toLong())
+
+            if (orderExists == null) {
+
+                orderConnection.saveOrderOnDBWeb(order.orderCode)
+
+                val orderSync = orderValidation.syncOrderDbValidation(order.orderCode.toLong())
+
+                order.apply {
+
+                    orderResource.updateOrderSync(orderCode, orderSync)
+
+                }
+
+            }
+        }
+
+
+        val states = stateResource.findAllStateOnLocalDb()
+
+        states.forEach {
+
+                state ->
+
+            val stateExists = stateConnection.fetchByOrderStateCode(state.orderCodeState.toLong())
+
+            if (stateExists == null) {
+
+                stateConnection.saveStateOnWebDb(state.orderCodeState)
+
+                val stateSync = stateValidation.stateValidadet(state.orderCodeState.toLong())
+
+                state.apply {
+
+                    stateResource.updateStateSync(state.orderCodeState, stateSync)
+
+                }
+            }
+        }
+
+
+        orderConnection.updateAllOrders()
+
+        customerResource.deleteCustomerValidated()
+        loadResource.deleteLoadValidated()
+        orderResource.deleteOrderValidated()
+        stateResource.deleteStateValidated()
+
+        tableViewRefresh()
+
+        syncButton.isDisable = true
+
+        syncButton.opacity = 0.5
+
+
+    }
+
+
+    private fun syncButtonManager() {
+
+        val testConnectionActive = testConnection.testConnection()
+
+        if (throwableCount > 0 || opensLoads > 0 || testConnectionActive == 2 || testConnectionActive == 3) {
+
+            syncButton.isDisable = true
+
+            syncButton.opacity = 0.5
+
+
+        } else {
+
+            syncButton.isDisable = false
+
+            syncButton.opacity = 1.0
+
+
+        }
+
+    }
+
+
     fun initialize() {
+
+        syncButton.isDisable = true
+
+
         /*-----------------------------------------Customer table-----------------------------------------------------*/
         customerCodeCustomerColumn.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.customerCode).asObject() }
         customerNameColumn.setCellValueFactory { cellData -> SimpleStringProperty(cellData.value.customerName) }

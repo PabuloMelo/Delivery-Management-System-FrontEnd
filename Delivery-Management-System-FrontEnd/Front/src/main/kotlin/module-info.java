@@ -5,6 +5,7 @@ module pabulo.teste.front {
     requires java.sql;
     requires com.google.gson;
     requires okhttp3;
+    requires java.net.http;
 
 
     opens pabulo.teste.front to javafx.fxml;
@@ -36,6 +37,8 @@ module pabulo.teste.front {
     opens pabulo.teste.front.dtoConverter.state to com.google.gson;
 
     opens pabulo.teste.front.dtoConverter.seller to com.google.gson;
+
+    opens pabulo.teste.front.dtos.orders to com.google.gson;
 
 
 

@@ -7,7 +7,8 @@ import java.sql.ResultSet
 
 class SellerResource {
 
-    private val tempUrl = "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private val tempUrl =
+        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
     private val urlLocalDb =
         "jdbc:sqlite:$tempUrl"
@@ -118,5 +119,41 @@ class SellerResource {
 
     }
 
+    fun findAllSellerInLocalDb(): List<Seller?> {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+        val sellerList = mutableListOf<Seller>()
+
+        val query =
+            "SELECT * FROM vendedores"
+
+        val statement = connection.prepareStatement(query)
+
+
+        val resultset: ResultSet = statement.executeQuery()
+
+        while (resultset.next()) {
+
+
+            val seller = Seller(
+
+                sellerRca = resultset.getInt("sellers_rca"),
+                sellerName = resultset.getString("sellers_name"),
+                sellerImagePath = resultset.getString("seller_photo")
+
+            )
+
+            sellerList.add(seller)
+
+        }
+
+        resultset.close()
+        statement.close()
+        connection.close()
+
+        return sellerList
+
+
+    }
 
 }

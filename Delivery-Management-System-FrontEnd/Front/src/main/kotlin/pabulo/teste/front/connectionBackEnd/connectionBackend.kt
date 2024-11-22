@@ -8,15 +8,17 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 
 class ConnectionBackend {
 
 
-
-
-     fun postToBack(endPoint: String, jsonData: String): String {
+    fun postToBack(endPoint: String, jsonData: String): String {
 
         val url = URL(endPoint)
 
@@ -54,7 +56,7 @@ class ConnectionBackend {
 
     }
 
-     fun getFromBack(endPoint: String): String {
+    fun getFromBack(endPoint: String): String {
 
         val url = URL(endPoint)
         val connection = url.openConnection() as HttpURLConnection
@@ -83,6 +85,43 @@ class ConnectionBackend {
         }
     }
 
+    fun testConnection(): Int {
 
+        return try {
+
+
+            val cliente = HttpClient.newBuilder().build()
+
+            val request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/api/database-status"))
+                .GET()
+                .build()
+
+            val response = cliente.send(request, HttpResponse.BodyHandlers.ofString())
+            if (response.statusCode() == 200) {
+
+                println("Sucesso: ${response.body()} ")
+
+                1
+
+            } else {
+
+                println("Falha: ${response.body()}")
+
+                2
+
+
+            }
+
+        } catch (e: Exception) {
+
+            println("Erro de Conexão: ${e.message}")
+
+            3
+
+        }
+
+
+    }
 
 }

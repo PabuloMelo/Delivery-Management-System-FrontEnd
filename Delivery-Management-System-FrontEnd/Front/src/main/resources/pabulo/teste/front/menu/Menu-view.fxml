@@ -98,13 +98,13 @@
          <center>
             <AnchorPane prefHeight="755.0" prefWidth="1135.0" BorderPane.alignment="CENTER">
                <children>
-                  <TabPane layoutX="7.0" layoutY="276.0" prefHeight="458.0" prefWidth="968.0" rotateGraphic="true" styleClass="white-background" stylesheets="@menuStyle.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="276.0">
+                  <TabPane layoutX="7.0" layoutY="276.0" prefHeight="458.0" prefWidth="1055.0" rotateGraphic="true" styleClass="white-background" stylesheets="@menuStyle.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="276.0">
                     <tabs>
                       <Tab text="Clientes">
                            <content>
-                              <ScrollPane prefHeight="429.0" prefWidth="1037.0">
+                              <ScrollPane prefHeight="429.0" prefWidth="1168.0">
                                  <content>
-                                    <AnchorPane prefHeight="434.0" prefWidth="1034.0">
+                                    <AnchorPane prefHeight="434.0" prefWidth="1344.0">
                                        <children>
                                           <TableView fx:id="customerFindTableView" editable="true" prefHeight="434.0" prefWidth="988.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
@@ -124,9 +124,9 @@
                       </Tab>
                       <Tab text="Pedidos">
                            <content>
-                              <ScrollPane hbarPolicy="ALWAYS" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER">
+                              <ScrollPane hbarPolicy="ALWAYS" prefHeight="429.0" prefWidth="1124.0" vbarPolicy="NEVER">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="987.0">
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="1325.0">
                                        <children>
                                           <TableView fx:id="orderTableView" editable="true" prefHeight="431.0" prefWidth="987.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
@@ -148,7 +148,7 @@
                            <content>
                               <ScrollPane prefHeight="429.0" prefWidth="658.0" vbarPolicy="NEVER">
                                  <content>
-                                    <AnchorPane prefHeight="431.0" prefWidth="1094.0">
+                                    <AnchorPane prefHeight="431.0" prefWidth="1452.0">
                                        <children>
                                           <TableView fx:id="loadTableView" editable="true" prefHeight="478.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
@@ -169,9 +169,9 @@
                            <content>
                               <ScrollPane prefHeight="429.0" prefWidth="1712.0" vbarPolicy="NEVER">
                                  <content>
-                                    <AnchorPane prefHeight="431.0" prefWidth="1736.0">
+                                    <AnchorPane prefHeight="431.0" prefWidth="1908.0">
                                        <children>
-                                          <TableView fx:id="stateTableView" editable="true" prefHeight="435.0" prefWidth="1694.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="stateTableView" editable="true" prefHeight="435.0" prefWidth="1774.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-38.0" AnchorPane.topAnchor="0.0">
                                              <columns>
                                                 <TableColumn fx:id="orderStateThrowableColumn" prefWidth="122.0" text="Pendencias" />
                                                 <TableColumn fx:id="orderCodeColumn" prefWidth="114.0" text="Numero do Pedido" />
@@ -219,7 +219,7 @@
                      </children>
                   </AnchorPane>
                   <Button fx:id="updateButton" layoutX="877.0" layoutY="239.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Atualizar" />
-                  <Button layoutX="729.0" layoutY="240.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Sincronizar Tudo" />
+                  <Button fx:id="syncButton" layoutX="729.0" layoutY="240.0" mnemonicParsing="false" onAction="#syncDbData" prefHeight="25.0" prefWidth="135.0" text="Sincronizar Tudo" />
                </children>
             </AnchorPane>
          </center>

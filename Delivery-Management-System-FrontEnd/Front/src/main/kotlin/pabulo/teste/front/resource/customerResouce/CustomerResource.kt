@@ -264,6 +264,35 @@ class CustomerResource {
 
     }
 
+    fun updateCustomerSync(customerCode: Int, sync: String) {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val query = "UPDATE clientes SET customerSCN = ? WHERE customer_code = ? "
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setInt(2, customerCode)
+        statement.setString(1, sync)
+
+        val rowsUpdate = statement.executeUpdate()
+
+        if (rowsUpdate > 0){
+
+            println("Syncronização bem sucedida")
+
+        }else{
+
+            println("Syncronização mal sucedida")
+
+        }
+
+        statement.close()
+        connection.close()
+
+
+    }
+
     fun findCustomerSync(): List<Customer?> {
 
         val connection = DriverManager.getConnection(urlLocalDb)
@@ -306,7 +335,7 @@ class CustomerResource {
     }
 
 
-    fun deleteCustomerValidated(){
+    fun deleteCustomerValidated() {
 
         val connection = DriverManager.getConnection(urlLocalDb)
 
@@ -316,7 +345,7 @@ class CustomerResource {
 
         val statement = connection.prepareStatement(query)
 
-        statement.setString(1,parameter)
+        statement.setString(1, parameter)
 
         val rowsUpdated = statement.executeUpdate()
 

@@ -67,6 +67,7 @@ fun convertStateWebToLocal(stateWebToLocal: StateWebToLocal): State{
         resolve = adapterStringWebToLocal( stateWebToLocal.resolve),
         description = stateWebToLocal.description,
         solveDriver = adapterStringWebToLocal( stateWebToLocal.solveDriver),
+
     )
 }
 

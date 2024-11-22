@@ -123,9 +123,12 @@ object SqliteHelper {
                     address TEXT
                     );""",
 
-                    """ALTER TABLE carregamento ADD COLUMN load_sync TEXT;""",
 
+                    """DELETE FROM carregamento;""",
 
+                    """DELETE FROM pedido;""",
+
+                    """DELETE FROM motoristas""",
 
 
                 )
@@ -143,7 +146,7 @@ object SqliteHelper {
 
                 // """DELETE FROM clientes""",
 
-
+             //   """ALTER TABLE situacao ADD COLUMN state_sync TEXT;""",
 
 
                 connect().use { conn ->

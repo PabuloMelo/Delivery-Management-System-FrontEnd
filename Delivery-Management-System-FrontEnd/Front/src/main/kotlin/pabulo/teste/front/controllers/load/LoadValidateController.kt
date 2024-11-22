@@ -344,7 +344,7 @@ class LoadValidateController {
     private fun validateLoad() {
 
 
-        when{
+        when {
 
             orderList.isEmpty() -> {
 
@@ -370,6 +370,12 @@ class LoadValidateController {
 
             }
 
+            newLoadCodeField.text.trim().toInt() == 0 -> {
+
+                showDialog("O novo numero de carregamento não pode ser igual a 0")
+
+                return
+            }
 
         }
 
@@ -477,10 +483,12 @@ class LoadValidateController {
 
                     verifieNewLoadAlreadExists(loadCode)
 
-                }catch (e:NumberFormatException){
+                } catch (e: NumberFormatException) {
 
-                    showDialog("Erro: Valor Invalido para o campo codigo do carregamento, " +
-                            "por favor digite um numero maior do que 0")
+                    showDialog(
+                        "Erro: Valor Invalido para o campo codigo do carregamento, " +
+                                "por favor digite um numero maior do que 0"
+                    )
 
                 }
             }

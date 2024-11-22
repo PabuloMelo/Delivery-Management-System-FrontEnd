@@ -595,4 +595,66 @@ class OrderResource {
 
     }
 
+    fun updateOrderSync(orderCode: Int, sync: String) {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val query = "UPDATE pedido SET orderSCN = ? WHERE order_code = ? "
+
+        val statement = connection.prepareStatement(query)
+
+
+
+        statement.setInt(2, orderCode)
+        statement.setString(1, sync)
+
+        println(statement)
+
+        val rowsUpdate = statement.executeUpdate()
+
+
+
+        if (rowsUpdate > 0){
+
+            println("Syncronização bem sucedida")
+
+        }else{
+
+            println("Syncronização mal sucedida")
+
+        }
+
+        statement.close()
+        connection.close()
+
+
+    }
+
+    fun deleteOrderValidated() {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val parameter = "Sincronizado"
+
+        val query = "DELETE FROM pedido WHERE orderSCN = ?"
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setString(1, parameter)
+
+        val rowsUpdated = statement.executeUpdate()
+
+        println(rowsUpdated)
+
+
+
+        statement.close()
+
+        connection.close()
+
+    }
+
+
+
+
 }

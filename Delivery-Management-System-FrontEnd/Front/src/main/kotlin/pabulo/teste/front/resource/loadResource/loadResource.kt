@@ -10,7 +10,8 @@ import java.sql.ResultSet
 
 class LoadResource {
 
-    private val tempUrl = "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private val tempUrl =
+        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
     private val urlLocalDb =
         "jdbc:sqlite:$tempUrl"
@@ -92,13 +93,13 @@ class LoadResource {
 
         while (resultSet.next()) {
 
-           val load = Load(
+            val load = Load(
 
-                   loadCode = resultSet.getInt("load_code"),
-                   driver = resultSet.getString("driver"),
-                   departureDate = resultSet.getString("departure_date"),
-                   loadValidate = resultSet.getString("load_validate")
-           )
+                loadCode = resultSet.getInt("load_code"),
+                driver = resultSet.getString("driver"),
+                departureDate = resultSet.getString("departure_date"),
+                loadValidate = resultSet.getString("load_validate")
+            )
             loadsList.add(load)
         }
         connection.close()
@@ -123,8 +124,8 @@ class LoadResource {
 
         val resultSet: ResultSet = statement.executeQuery()
 
-         while (resultSet.next()) {
-             loadsList.add(resultSet.getString("load_code"))
+        while (resultSet.next()) {
+            loadsList.add(resultSet.getString("load_code"))
         }
         connection.close()
         resultSet.close()
@@ -148,7 +149,7 @@ class LoadResource {
                 "UPDATE carregamento SET load_code = ?, load_validate = ? WHERE load_code = ?"
             )
             statement.setInt(1, newLoad.loadCode)
-            statement.setString(2,newLoad.loadValidate)
+            statement.setString(2, newLoad.loadValidate)
             statement.setInt(3, loadCode)
 
 
@@ -239,7 +240,7 @@ class LoadResource {
         val resultSet: ResultSet = statement.executeQuery()
 
         val driver: Driver? = if (resultSet.next()) {
-            
+
 
             Driver(
                 driverID = resultSet.getInt("driverId"),
@@ -267,7 +268,8 @@ class LoadResource {
 
 
         val statement = connection.createStatement()
-        val resultSet = statement.executeQuery("SELECT driver_Name FROM motoristas WHERE driver_Name NOT IN ('Retira Posterior', 'Entrega Futura', 'Retira Imediata')")
+        val resultSet =
+            statement.executeQuery("SELECT driver_Name FROM motoristas WHERE driver_Name NOT IN ('Retira Posterior', 'Entrega Futura', 'Retira Imediata')")
 
         while (resultSet.next()) {
             drivers.add(resultSet.getString("driver_Name"))
@@ -283,13 +285,140 @@ class LoadResource {
     }
 
 
+    fun loadToTableView(): List<Load?> {
+
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val loadsList = mutableListOf<Load>()
+
+        val statment = connection.createStatement()
+
+        val resultSet = statment.executeQuery("SELECT * FROM carregamento")
+
+        while (resultSet.next()) {
+
+            val loads = Load(
+
+                loadCode = resultSet.getInt("load_code"),
+                driver = resultSet.getString("driver"),
+                departureDate = resultSet.getString("departure_date"),
+                loadValidate = resultSet.getString("load_validate")
+            )
+
+            loadsList.add(loads)
+
+        }
+
+        connection.close()
+        statment.close()
+        resultSet.close()
+
+        return loadsList
+
+
+    }
+
+    fun updateLoadSync(loadCode: Int, sync: String) {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val query = "UPDATE carregamento SET load_sync = ? WHERE load_code = ? "
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setInt(2, loadCode)
+        statement.setString(1, sync)
+
+        val rowsUpdate = statement.executeUpdate()
+
+        if (rowsUpdate > 0) {
+
+            println("Syncronização bem sucedida")
+
+        } else {
+
+            println("Syncronização mal sucedida")
+
+        }
+
+        statement.close()
+        connection.close()
+
+
+    }
+
+    fun ignoreLoadsDefault(): List<Load?> {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+        val defaultloadsList = mutableListOf<Load>()
+
+       // val loadSync = "Não Sincronizado"
+
+
+        val query =
+            "SELECT * FROM carregamento WHERE driver NOT IN('Retira Posterior', 'Entrega Futura', 'Retira Imediata') AND load_validate NOT IN ('DEFAULT')"
+
+
+        val statement = connection.prepareStatement(query)
+       // statement.setString(1, loadSync)
+
+
+        val resultSet = statement.executeQuery()
+
+        while (resultSet.next()) {
+
+            val load = Load(
+
+                loadCode = resultSet.getInt("load_code"),
+                driver = resultSet.getString("driver"),
+                departureDate = resultSet.getString("departure_date"),
+                loadValidate = resultSet.getString("load_validate")
+
+            )
+
+
+            defaultloadsList.add(load)
+
+        }
+
+        resultSet.close()
+        statement.close()
+        connection.close()
+
+
+        return defaultloadsList
+
+    }
+
+    fun deleteLoadValidated() {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val parameter = "Sincronizado"
+        val validade = "VALIDADO"
+
+        val query = "DELETE FROM carregamento WHERE load_sync = ? AND load_validate = ?"
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setString(1, parameter)
+        statement.setString(2, validade)
+
+        val rowsUpdated = statement.executeUpdate()
+
+        println(rowsUpdated)
+
+
+
+        statement.close()
+
+        connection.close()
+
+    }
+
+
 }
-
-
-
-
-
-
 
 
 

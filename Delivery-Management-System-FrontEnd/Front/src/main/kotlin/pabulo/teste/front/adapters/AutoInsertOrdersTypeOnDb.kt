@@ -16,7 +16,7 @@ class AutoInsertOrdersTypeOnDb {
         val retiraImediata = "Retira Imediata"
         val defaultDriver = "Default"
         val departureDateDefault = "2024-01-01"
-        val loadValidateDefault = "VALIDADO"
+        val loadValidateDefault = "DEFAULT"
 
 
         val retiraPosteriorDTO = SaveDriverDtoToDb(retiraPosterior, driverPhotoPath)
@@ -54,6 +54,12 @@ class AutoInsertOrdersTypeOnDb {
         val loadDTORI = LoadDTOtoDB(loadCodeRI,retiraImediata,departureDateDefault,loadValidateDefault)
 
         loadResource.saveLoadOnLocalDb(loadDTORI)
+
+        val loadCodeDefault = 4
+
+        val loadDefaultDefaultDTO = LoadDTOtoDB(loadCodeDefault,defaultDriver,departureDateDefault,loadValidateDefault)
+
+        loadResource.saveLoadOnLocalDb(loadDefaultDefaultDTO)
 
     }
 

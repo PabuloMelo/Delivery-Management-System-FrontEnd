@@ -78,7 +78,7 @@ class StateResource {
                 solveDate = resultSet.getString("solve_date"),
                 solveDriver = resultSet.getString("solve_driver"),
                 resolve = resultSet.getString("resolve"),
-                loadCode = 1
+                loadCode = 1,
 
             )
 
@@ -127,7 +127,8 @@ class StateResource {
                 solveDate = resultSet.getString("solve_date"),
                 solveDriver = resultSet.getString("solve_driver"),
                 resolve = resultSet.getString("resolve"),
-                loadCode = 1
+                loadCode = 1,
+
 
             )
         } else {
@@ -280,7 +281,8 @@ class StateResource {
                 solveDate = resultSet.getString("solve_date"),
                 solveDriver = resultSet.getString("solve_driver"),
                 resolve = resultSet.getString("resolve"),
-                loadCode = 1
+                loadCode = 1,
+
 
             )
             statesList.add(states)
@@ -411,7 +413,8 @@ class StateResource {
                         solveDate = resultSet.getString("solve_date"),
                         solveDriver = resultSet.getString("solve_driver"),
                         resolve = resultSet.getString("resolve"),
-                        loadCode = 1
+                        loadCode = 1,
+
 
                     )
 
@@ -468,7 +471,8 @@ class StateResource {
                 solveDate = resultSet.getString("solve_date"),
                 solveDriver = resultSet.getString("solve_driver"),
                 resolve = resultSet.getString("resolve"),
-                loadCode = 1
+                loadCode = 1,
+
 
             )
 
@@ -486,6 +490,67 @@ class StateResource {
 
         return stateList
     }
+
+    fun updateStateSync(orderStateCode: Int, sync: String) {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val query = "UPDATE situacao SET state_sync = ? WHERE order_number = ? "
+
+        val statement = connection.prepareStatement(query)
+
+
+
+        statement.setInt(2, orderStateCode)
+        statement.setString(1, sync)
+
+        println(statement)
+
+        val rowsUpdate = statement.executeUpdate()
+
+
+
+        if (rowsUpdate > 0){
+
+            println("Syncronização bem sucedida")
+
+        }else{
+
+            println("Syncronização mal sucedida")
+
+        }
+
+        statement.close()
+        connection.close()
+
+
+    }
+
+
+    fun deleteStateValidated() {
+
+        val connection = DriverManager.getConnection(urlLocalDb)
+
+        val parameter = "Sincronizado"
+
+        val query = "DELETE FROM situacao WHERE state_sync = ?"
+
+        val statement = connection.prepareStatement(query)
+
+        statement.setString(1, parameter)
+
+        val rowsUpdated = statement.executeUpdate()
+
+        println(rowsUpdated)
+
+
+
+        statement.close()
+
+        connection.close()
+
+    }
+
 
 
 }
