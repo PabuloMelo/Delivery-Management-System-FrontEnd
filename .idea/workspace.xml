@@ -5,28 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="518fe2cf-7454-456b-9e2e-bdb9731997c5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/validators/SellerValidate.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/adapters/AutoInsertOrdersTypeOnDb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/adapters/AutoInsertOrdersTypeOnDb.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/connectionBackend.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/connectionBackend.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/validators/LoadValidation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/validators/LoadValidation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/LoadConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/connectionBackEnd/LoadConnection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/TestController.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/load/LoadSaveController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/load/LoadSaveController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/load/LoadValidateController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/load/LoadValidateController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/menuController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/menuController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/order/OrderSaveController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/order/OrderSaveController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/order/OrderUpdateController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/order/OrderUpdateController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/state/OrderStateSaveController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/state/OrderStateSaveController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/dtoConverter/order/OrderWebConverter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/dtoConverter/order/OrderWebConverter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/dtoConverter/state/StateWebConverter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/dtoConverter/state/StateWebConverter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/entity/State.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/entity/State.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/customerResouce/CustomerResource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/customerResouce/CustomerResource.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/loadResource/loadResource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/loadResource/loadResource.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/orderResource/OrderResource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/orderResource/OrderResource.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/sellerResource/SellerResource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/sellerResource/SellerResource.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/stateResource/StateResource.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/resource/stateResource/StateResource.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/scenesManager/TestEndPointsScene.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/sqlite/SqliteHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/sqlite/SqliteHelper.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/menu/Menu-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/menu/Menu-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/order/order-update.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/order/order-update.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/menu/report-connection-DB.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +44,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/load/LoadSaveController.kt" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/order/OrderSaveController.kt" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/state/OrderStateSaveController.kt" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -142,7 +137,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/Delivery-Management-System-FrontEnd/Front/src/main/kotlin/pabulo/teste/front/controllers/order/OrderUpdateController.kt</url>
-          <line>642</line>
+          <line>733</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

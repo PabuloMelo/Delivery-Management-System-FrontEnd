@@ -83,14 +83,6 @@ class MenuController {
 
     }
 
-    @FXML
-
-    private fun testeArea() {
-
-        mainApp.changeScene(MenuChoices.TestArea)
-
-    }
-
 
     /*---------------------------------------------------------Cards---Area--------------------------------------------*/
 
@@ -312,6 +304,10 @@ class MenuController {
 
     private lateinit var syncButton: Button
 
+    @FXML
+
+    private lateinit var serverStatusLabel: Label
+
     private val stateConnection = StateConnection(GsonProvider.gson)
 
 
@@ -367,19 +363,21 @@ class MenuController {
 
         loadList.clear()
 
-     //  var loadProblem = 0
+        //  var loadProblem = 0
 
-        val loadsOrders: List<Load?> = loadResource.findLoadToTable()
+        val loadsOrders: List<Load?> = loadResource.ignoreLoadsDefault()
 
         loadsOrders.forEach {
 
             val loadExists = loadValidation.verifiesLoadExists(it!!.loadCode.toLong())
 
+            println("teste de validação $loadExists")
+
             if (loadExists.isNotBlank()) {
 
                 it.loadThrowable = loadExists
 
-                throwableCount ++
+                throwableCount++
 
                 println("terceiro: $throwableCount")
 
@@ -408,7 +406,7 @@ class MenuController {
 
         orderList.clear()
 
-       // var orderProblem = 0
+        // var orderProblem = 0
 
         val orders: List<Order?> = orderResource.ordersToTableView()
 
@@ -418,38 +416,36 @@ class MenuController {
 
             orderThrowable.clear()
 
-                val orderExists = orderValidation.verifiesOrderExistsOnWebDb(it!!.orderCode.toLong())
+            val orderExists = orderValidation.verifiesOrderExistsOnWebDb(it!!.orderCode.toLong())
 
-                orderThrowable.append(orderExists)
-
-
-                if (orderThrowable.isBlank() && it.customerName == "Cliente Não encontardo") {
-
-                    orderThrowable.append("Cadastro do Cliente Pendente")
-
-                    throwableCount++
-
-                    println("quarto: $throwableCount")
-
-                } else if (it.customerName == "Cliente Não encontardo" && orderThrowable.isNotBlank()) {
-
-                    orderThrowable.append(" e Cadastro do Cliente Pendente")
-
-                    throwableCount += 2
-
-                    println("quarto: $throwableCount")
-
-                }
+            orderThrowable.append(orderExists)
 
 
+            if (orderThrowable.isBlank() && it.customerName == "Cliente Não encontardo") {
+
+                orderThrowable.append("Cadastro do Cliente Pendente")
+
+                throwableCount++
+
+                println("quarto: $throwableCount")
+
+            } else if (it.customerName == "Cliente Não encontardo" && orderThrowable.isNotBlank()) {
+
+                orderThrowable.append(" e Cadastro do Cliente Pendente")
+
+                throwableCount += 2
+
+                println("quarto: $throwableCount")
+
+            }
 
 
-                it.orderTrouble = orderThrowable.toString()
-
-                orderList.add(it)
-                orderTableView.refresh()
 
 
+            it.orderTrouble = orderThrowable.toString()
+
+            orderList.add(it)
+            orderTableView.refresh()
 
 
         }
@@ -506,6 +502,7 @@ class MenuController {
         syncButtonManager()
 
         testConnection.testConnection()
+        testServerConnectionToLabel()
 
 
     }
@@ -617,7 +614,9 @@ class MenuController {
 
             if (stateExists == null) {
 
-                stateConnection.saveStateOnWebDb(state.orderCodeState)
+              val stateTest =  stateConnection.saveStateOnWebDb(state.orderCodeState)
+
+                println(stateTest)
 
                 val stateSync = stateValidation.stateValidadet(state.orderCodeState.toLong())
 
@@ -643,6 +642,32 @@ class MenuController {
 
         syncButton.opacity = 0.5
 
+        throwableCount = 0
+
+
+    }
+
+    private fun testServerConnectionToLabel() {
+
+        val connection = testConnection.testConnection()
+
+        if (connection == 1) {
+
+            serverStatusLabel.text = "Banco de dados Ativo"
+
+        } else {
+
+
+            serverStatusLabel.text = "Banco de dados Inativo"
+
+        }
+
+
+    }
+
+    private fun verifieListEmpty(): Boolean {
+
+        return orderList.isEmpty() && loadList.isEmpty() && customerList.isEmpty() && stateList.isEmpty()
 
     }
 
@@ -651,7 +676,7 @@ class MenuController {
 
         val testConnectionActive = testConnection.testConnection()
 
-        if (throwableCount > 0 || opensLoads > 0 || testConnectionActive == 2 || testConnectionActive == 3) {
+        if (throwableCount > 0 || opensLoads > 0 || testConnectionActive == 2 || testConnectionActive == 3 || verifieListEmpty()) {
 
             syncButton.isDisable = true
 
@@ -672,8 +697,12 @@ class MenuController {
 
     fun initialize() {
 
+
+
+
         syncButton.isDisable = true
 
+        testServerConnectionToLabel()
 
         /*-----------------------------------------Customer table-----------------------------------------------------*/
         customerCodeCustomerColumn.setCellValueFactory { cellData -> SimpleIntegerProperty(cellData.value.customerCode).asObject() }

@@ -128,6 +128,8 @@ object SqliteHelper {
 
                     """DELETE FROM pedido;""",
 
+                    """DELETE FROM situacao;""",
+
                     """DELETE FROM motoristas""",
 
 

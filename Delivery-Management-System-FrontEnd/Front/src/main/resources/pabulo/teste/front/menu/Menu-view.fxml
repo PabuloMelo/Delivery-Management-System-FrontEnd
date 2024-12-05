@@ -31,6 +31,12 @@
                         <Image url="@../icons/caminhão.png" />
                      </image>
                   </ImageView>
+                  <Label layoutX="800.0" layoutY="11.0" prefHeight="23.0" prefWidth="208.0" styleClass="cards-text" text="STATUS DO SERVIDOR:" />
+                  <Label fx:id="serverStatusLabel" layoutX="1021.0" layoutY="13.0" prefHeight="20.0" prefWidth="166.0" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </top>
@@ -85,7 +91,6 @@
                         <Image url="@../icons/motorista-icon.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="18.0" layoutY="493.0" mnemonicParsing="false" onAction="#testeArea" prefHeight="25.0" prefWidth="157.0" text="teste Area" />
                   <Button layoutX="19.0" layoutY="442.0" mnemonicParsing="false" onAction="#addressMenu" prefHeight="30.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@menuStyle.css" text="Endereços" />
                   <ImageView fitHeight="22.0" fitWidth="23.0" layoutX="28.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
                      <image>

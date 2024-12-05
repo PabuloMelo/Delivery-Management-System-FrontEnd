@@ -8,7 +8,6 @@ import pabulo.teste.front.adapters.AutoInsertOrdersTypeOnDb
 import pabulo.teste.front.controllers.MenuController
 import pabulo.teste.front.enumms.MenuChoices
 import pabulo.teste.front.scenesManager.ScenesManager
-import pabulo.teste.front.scenesManager.TestMenu
 import pabulo.teste.front.scenesManager.address.AddressInit
 import pabulo.teste.front.scenesManager.customer.CustomerMenu
 import pabulo.teste.front.scenesManager.driver.DriverMenu
@@ -107,12 +106,7 @@ class Main : Application() {
 
             }
 
-            MenuChoices.TestArea -> {
 
-                val test = TestMenu(stageInit)
-                test.showTestMenu(stageInit)
-
-            }
 
 
 

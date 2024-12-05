@@ -9,6 +9,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.AnchorPane
 import pabulo.teste.front.adapters.GsonProvider
 import pabulo.teste.front.connectionBackEnd.CustomerConnection
+import pabulo.teste.front.connectionBackEnd.LoadConnection
 import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtoConverter.order.OrderUpdateToWeb
 import pabulo.teste.front.dtos.orders.OrderUpdateDTO
@@ -20,6 +21,8 @@ import pabulo.teste.front.resource.customerResouce.CustomerResource
 import pabulo.teste.front.resource.orderResource.OrderResource
 import pabulo.teste.front.resource.sellerResource.SellerResource
 import pabulo.teste.front.scenesManager.order.OrderUpdate
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class OrderUpdateController {
 
@@ -242,9 +245,12 @@ class OrderUpdateController {
     private val orderConnection = OrderConnection(GsonProvider.gson)
     private val customerConnection = CustomerConnection()
     private val addressConnection = AddressResource()
+    private val loadConnection = LoadConnection(GsonProvider.gson)
 
 
     private val orderList: ObservableList<Order> = FXCollections.observableArrayList()
+
+    private var orderHandle: Order? = null
 
 
     @FXML
@@ -253,9 +259,6 @@ class OrderUpdateController {
 
         dialogPane.isVisible = false
 
-        saveUpdateOrder.isDisable = false
-
-        saveUpdateOrder.opacity = 1.0
     }
 
     fun showDialog(message: String) {
@@ -264,9 +267,6 @@ class OrderUpdateController {
 
         dialogPane.isVisible = true
 
-        saveUpdateOrder.isDisable = true
-
-        saveUpdateOrder.opacity = 0.5
 
     }
 
@@ -309,9 +309,13 @@ class OrderUpdateController {
         try {
             val orderCode: Int = orderCodeToFind.text.trim().toInt()
 
+            orderHandle = null
+
             try {
 
                 val orderDb = orderConnection.fetchOrderByCode(orderCode.toLong())
+
+                orderHandle = orderDb
 
                 orderDb?.let { orderList.add(it) }
 
@@ -326,6 +330,9 @@ class OrderUpdateController {
                 try {
 
                     val order = orderResource.findOrderByCode(orderCode)
+
+                    orderHandle = order
+
                     order?.let { orderList.add(it) }
 
                 } catch (e: Exception) {
@@ -348,9 +355,9 @@ class OrderUpdateController {
 
         }
 
-
-
         orderTableView.refresh()
+
+        enableSaveButon()
     }
 
     @FXML
@@ -472,6 +479,10 @@ class OrderUpdateController {
 
                 showDialog("pedido atualizado com sucesso no banco de dados Web")
 
+
+                saveUpdateOrder.isDisable = true
+                saveUpdateOrder.opacity = 0.5
+
                 orderTableView.refresh()
 
                 clearFields()
@@ -508,6 +519,9 @@ class OrderUpdateController {
             clearOrderView()
 
             showDialog("pedido atualizado com sucesso no banco de dados local")
+
+            saveUpdateOrder.isDisable = true
+            saveUpdateOrder.opacity = 0.5
 
             orderList.add(orderUpdate)
 
@@ -565,6 +579,15 @@ class OrderUpdateController {
     }
 
 
+    private fun convertStringInToLocalDate(dateAtConverter: String): LocalDate {
+
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val date = LocalDate.parse(dateAtConverter, dateFormatter)
+
+        return date
+    }
+
+
     @FXML
 
     private fun orderToUpdate() {
@@ -609,8 +632,79 @@ class OrderUpdateController {
             }
 
 
+            customerCodeField.text.isNotBlank() && !customerCodeField.text.trim().all { it.isDigit() } -> {
 
-            invoiceDatePicker.value < purchaseDatePicker.value && invoiceDatePicker.value != null  && purchaseDatePicker.value != null -> {
+
+                showDialog("Valor invalido para o novo codigo do cliente, por favor digite apenas numeros maiores do que 0")
+
+                return
+
+            }
+
+            customerCodeField.text.isNotBlank() && customerCodeField.text.trim() == "0" -> {
+
+                showDialog("O novo codigo do cliente não pode ser igual a 0 por favor digite um numero valido")
+
+                return
+
+
+            }
+
+            customerCodeField.text.isNotBlank() -> {
+
+
+                val customer = customerConnection.fetchCustomerOnWebDbByCode(customerCodeField.text.trim().toLong())
+
+                if (customer == null) {
+
+
+                    showDialog("Novo Cliente selecionado não se encontra salvo no banco de dados, por favor selecione outro ou salve-o primeiro")
+
+                    return
+                }
+
+            }
+
+            loadCodeField.text.isNotBlank() -> {
+
+
+                val loadOnWebDb = loadConnection.fetchLoadByLoadCode(loadCodeField.text.toLong())
+
+                if (loadOnWebDb) {
+
+                    showDialog("O novo numero de carregamento selecionado não se encontra salvo no banco de dados, por favor selecione outro ou salve-o primeiro")
+                    return
+                }
+
+            }
+
+            orderHandle?.orderType == "ENTREGA FUTURA" && !orderStatus.value.isNullOrBlank() && orderStatus.value != "Pendente"
+                    && invoiceDatePicker.value == null -> {
+
+                showDialog("Pedidos do tipo entrega futura com status diferente de 'Pendente' precisam ter uma data de faturamento ")
+
+                return
+            }
+
+            purchaseDatePicker.value != null && purchaseDatePicker.value > convertStringInToLocalDate(orderHandle!!.invoiceDate) && invoiceDatePicker.value == null -> {
+
+                showDialog("A nova data de compra não deve ser maior do que a data de faturamento anterior")
+
+                return
+            }
+
+            invoiceDatePicker.value != null && invoiceDatePicker.value > convertStringInToLocalDate(orderHandle!!.purchaseDate) && purchaseDatePicker.value == null -> {
+
+                showDialog("A nova data de faturamento não deve ser maior do que a data de compra anterior")
+
+                return
+
+            }
+
+            invoiceDatePicker.value == null && purchaseDatePicker.value == null -> {}
+
+
+            invoiceDatePicker.value < purchaseDatePicker.value && invoiceDatePicker.value != null && purchaseDatePicker.value != null -> {
 
                 showDialog("A nova data de faturamento deve ser maior ou igual a da compra")
 
@@ -618,10 +712,7 @@ class OrderUpdateController {
 
             }
 
-
         }
-
-
         val originalOrdercode: Int = orderCodeToFind.text.trim().toInt()
         val updateOrderDto = OrderUpdateDTOtoDb()
         val orderCodeToRca =
@@ -645,22 +736,39 @@ class OrderUpdateController {
             orderAddress = orderAddress.value?.takeIf { it.isNotBlank() }?.let { SimpleStringProperty(it) }
 
         )
+        println(invoiceDatePicker.value)
 
-        updateOrderDto.convertDTOtoDB(orderUpdateDTO)
+        if (orderCodeField.text.isNullOrEmpty() &&
+            customerCodeField.text.isNullOrEmpty() &&
+            loadCodeField.text.isNullOrEmpty() && orderType.value.isNullOrEmpty() && orderStatus.value.isNullOrEmpty() && invoiceDatePicker.value == null && purchaseDatePicker.value == null && orderAddress.value.isNullOrEmpty()
+        ) {
+
+            showDialog("Nenhum parametro fornecido para atualizar o pedido")
+
+            return
 
 
-        val verifieOrderOnLocalDb = orderResource.findOrderByCode(originalOrdercode)
-        val verifieOrderOnWebDb = orderConnection.fetchOrderByCode(originalOrdercode.toLong())
+        } else {
 
-        if (verifieOrderOnLocalDb != null && verifieOrderOnWebDb == null) {
+            updateOrderDto.convertDTOtoDB(orderUpdateDTO)
 
-            saveOrderUpdateOnLocalDb(originalOrdercode, updateOrderDto)
 
-        } else if (verifieOrderOnLocalDb == null && verifieOrderOnWebDb != null) {
+            val verifieOrderOnLocalDb = orderResource.findOrderByCode(originalOrdercode)
+            val verifieOrderOnWebDb = orderConnection.fetchOrderByCode(originalOrdercode.toLong())
 
-            saveOrderUpdateOnWeblDb(originalOrdercode, updateOrderDto)
+            if (verifieOrderOnLocalDb != null && verifieOrderOnWebDb == null) {
+
+                saveOrderUpdateOnLocalDb(originalOrdercode, updateOrderDto)
+
+            } else if (verifieOrderOnLocalDb == null && verifieOrderOnWebDb != null) {
+
+                saveOrderUpdateOnWeblDb(originalOrdercode, updateOrderDto)
+
+            }
+
 
         }
+
 
     }
 
@@ -706,15 +814,9 @@ class OrderUpdateController {
     fun initialize() {
 
         customerRegistered.items = FXCollections.observableArrayList(" SIM", "NAO", "Default")
-
-
-
-
-
         orderStatus.items = FXCollections.observableArrayList(
             "Default",
             "Em Rota De Entrega",
-            "Aguardando Solicitacao",
             "Pendente",
             "Entregue",
             "Cancelada",

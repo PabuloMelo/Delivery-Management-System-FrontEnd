@@ -19,6 +19,7 @@ import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtos.load.LoadDTOtoDB
 import pabulo.teste.front.dtos.orders.OrderSaveDto
 import pabulo.teste.front.dtos.orders.SaverOrderDTOtoDb
+import pabulo.teste.front.entity.Customer
 import pabulo.teste.front.entity.Order
 import pabulo.teste.front.enumms.OrderChoicesMenu
 import pabulo.teste.front.resource.addressResource.AddressResource
@@ -305,7 +306,7 @@ class LoadSaveController {
 
     private fun verifieLoadExistTest(loadCode: Int): Boolean {
 
-         loadResource.findLoadByLoadCode(loadCode) ?: return false
+        loadResource.findLoadByLoadCode(loadCode) ?: return false
 
         return true
     }
@@ -330,48 +331,78 @@ class LoadSaveController {
 
         var customerFinded: String = " "
 
+        var customerHandle: Customer? = null
 
-        try {
 
-            val customerWeb = webDb.fetchCustomerOnWebDbByCode(customerCode.toLong())
 
-            if (customerWeb != null) {
+        if (customerCodeField.text.isNullOrBlank()) {
 
-                customerNameField.text = customerWeb.customerName
 
-                customerFinded = customerWeb.customerName
+            showDialog("O campo do codigo do cliente está vazio por favor digite um numero maior do que 0")
+
+
+        } else {
+
+
+            try {
+
+
+                try {
+
+                    val customerWeb = webDb.fetchCustomerOnWebDbByCode(customerCode.toLong())
+
+                    if (customerWeb != null) {
+
+                        customerHandle = customerWeb
+
+                        customerNameField.text = customerWeb.customerName
+
+                        customerFinded = customerWeb.customerName
+                    }
+
+                } catch (e: Exception) {
+
+                    println(e)
+                }
+
+                if (customerHandle == null) {
+
+                    try {
+
+                        val customerResource = CustomerResource()
+                        val customer = customerResource.findCustomerByCodeInLocalDb(customerCode)
+
+                        customerFinded = if (customer != null) {
+
+                            customerNameField.text = customer.customerName
+
+                            customer.customerName
+
+                        } else {
+
+                            customerNameField.text = "Cliente Não Encontrado"
+
+                            "Cliente Não encontardo"
+
+                        }
+                    } catch (e: Exception) {
+
+                        println(e)
+
+                    }
+
+                }
+
+            } catch (e: NumberFormatException) {
+
+                println(e.message)
             }
 
-        } catch (e: Exception) {
-
-            println(e)
-        }
-
-        try {
-
-            val customerResource = CustomerResource()
-            val customer = customerResource.findCustomerByCodeInLocalDb(customerCode)
-
-            customerFinded = if (customer != null) {
-
-                customerNameField.text = customer.customerName
-
-                customer.customerName
-
-            } else {
-
-                customerNameField.text = "Cliente Não Encontrado"
-
-                "Cliente Não encontardo"
-
-            }
-        } catch (e: Exception) {
-
-            println(e)
 
         }
 
         return customerFinded
+
 
     }
 
@@ -863,7 +894,6 @@ class LoadSaveController {
         orderStatus.items = FXCollections.observableArrayList(
             "Default",
             "Em Rota De Entrega",
-            "Aguardando Solicitacao",
             "Pendente",
             "Entregue",
             "Cancelada",

@@ -12,7 +12,7 @@ data class OrderWebConverter(
     val loadNumber: Long,
     val status: String,
     val orderType: String,
-    val purchaseDate: LocalDate,
+    val purchaseDate: LocalDate?,
     val invoicingDate: LocalDate?,
     val daysUntilDelivery: Int,
     val orderFutureDelState: String,
@@ -35,7 +35,7 @@ data class WebOrder(
     val orderFutureDelState: String,
     val orderAddress: String
 
-    )
+)
 
 
 fun covertOrderLocalToWeb(localOrder: Order): OrderWebConverter {
@@ -57,13 +57,20 @@ fun covertOrderLocalToWeb(localOrder: Order): OrderWebConverter {
 
 }
 
-fun convertStringInToLocalDate(dateAtConverter: String): LocalDate {
+fun convertStringInToLocalDate(dateAtConverter: String): LocalDate? {
 
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val date = LocalDate.parse(dateAtConverter, dateFormatter)
+    if (dateAtConverter.isBlank()) {
+
+        return null
+
+    } else {
+
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val date = LocalDate.parse(dateAtConverter, dateFormatter)
 
 
-    return date
+        return date
+    }
 
 }
 
@@ -94,18 +101,18 @@ fun convertWebOrderToLocalOrder(webOrder: WebOrder): Order {
         customerCode = webOrder.customer.toInt(),
         loadCode = webOrder.loadNumber.toInt(),
         customerName = webOrder.customerName,
-        orderType = adapterStringWebToLocal (webOrder.orderType),
-        orderStatus = adapterStringWebToLocal (webOrder.status),
+        orderType = adapterStringWebToLocal(webOrder.orderType),
+        orderStatus = adapterStringWebToLocal(webOrder.status),
         invoiceDate = webOrder.invoicingDate.toString().replace("-", "/"),
         purchaseDate = webOrder.purchaseDate.toString().replace("-", "/"),
         orderSellerRca = webOrder.orderRca.toInt(),
         sellerName = "Vendedor Não Cadastrado No Servidor Web",
         orderTrouble = " ",
         daysUntilDelivery = webOrder.daysUntilDelivery,
-        orderFutureDelState = adapterStringWebToLocal (webOrder.orderFutureDelState),
+        orderFutureDelState = adapterStringWebToLocal(webOrder.orderFutureDelState),
         orderAddress = adapterStringWebToLocal(webOrder.orderAddress)
 
-        )
+    )
 }
 
 fun adapterStringWebToLocal(string: String): String {

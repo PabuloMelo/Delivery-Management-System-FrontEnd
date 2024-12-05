@@ -18,7 +18,7 @@ data class StateWebConverter(
 
 fun convertLocalStateToWeb(localState: State): StateWebConverter {
 
-    return StateWebConverter(
+    val state = StateWebConverter(
 
         orderNumber = localState.orderCodeState.toLong(),
         state = adapterStringInEnumnDb(localState.state),
@@ -29,6 +29,10 @@ fun convertLocalStateToWeb(localState: State): StateWebConverter {
         solveDate = convertStringInToLocalDate(localState.solveDate),
 
     )
+
+    println("Data null convertida ${state.solveDate} ")
+
+    return state
 
 }
 
@@ -52,7 +56,7 @@ data class StateWebToLocal(
 
 fun convertStateWebToLocal(stateWebToLocal: StateWebToLocal): State{
 
-    return State(
+   return State(
 
         orderCodeState = stateWebToLocal.orderNumber.toInt(),
         customerCode = stateWebToLocal.customerCode.toInt(),
@@ -69,11 +73,14 @@ fun convertStateWebToLocal(stateWebToLocal: StateWebToLocal): State{
         solveDriver = adapterStringWebToLocal( stateWebToLocal.solveDriver),
 
     )
+
 }
 
 fun convertStringInToLocalDate(dateAtConverter: String?): LocalDate? {
 
     if (dateAtConverter.isNullOrBlank()) {
+
+
 
         return null
     }

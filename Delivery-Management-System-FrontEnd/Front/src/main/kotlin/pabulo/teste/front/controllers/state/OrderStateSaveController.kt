@@ -19,6 +19,8 @@ import pabulo.teste.front.resource.loadResource.LoadResource
 import pabulo.teste.front.resource.orderResource.OrderResource
 import pabulo.teste.front.resource.stateResource.StateResource
 import pabulo.teste.front.scenesManager.state.OrderStateSave
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class OrderStateSaveController {
 
@@ -240,6 +242,8 @@ class OrderStateSaveController {
 
     private lateinit var stateSaveBt: Button
 
+    private var orderHandle: Order? = null
+
 
     fun handleOkButton() {
 
@@ -279,6 +283,8 @@ class OrderStateSaveController {
 
             if (orderWeb != null) {
 
+                orderHandle = orderWeb
+
                 customerCodeField.text = orderWeb.customerCode.toString()
                 customerNameField.text = orderWeb.customerName
 
@@ -299,6 +305,8 @@ class OrderStateSaveController {
             orderFounded = order
 
             if (order != null) {
+
+                orderHandle = order
 
                 customerCodeField.text = order.customerCode.toString()
                 customerNameField.text = order.customerName
@@ -361,23 +369,33 @@ class OrderStateSaveController {
 
     private fun defineActualStatus(state: String, solveDate: String): String {
 
-        var actualStatus: String = " "
+        var actualStatus = " "
 
         if (state == "Sem Pendencias" || state == "Default") {
 
             actualStatus = "Sem Problemas"
 
-        } else if (state == "Com Pendencias" || state == "Não Entregue" && solveDate.isNullOrBlank()) {
+        } else if (state == "Com Pendencias" && solveDate.isBlank() || state == "Não Entregue" && solveDate.isBlank()) {
 
             actualStatus = "Pendente"
 
-        } else if (state == "Com Pendencias" || state == "Não Entregue" && !solveDate.isNullOrBlank()) {
+        } else if (state == "Com Pendencias" && solveDate.isNotBlank() || state == "Não Entregue" && solveDate.isNotBlank()) {
 
             actualStatus = "Resolvido"
 
         }
 
         return actualStatus
+
+    }
+
+    private fun convertStringInToLocalDate(dateAtConverter: String): LocalDate {
+
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val date = LocalDate.parse(dateAtConverter, dateFormatter)
+
+
+        return date
 
     }
 
@@ -393,6 +411,19 @@ class OrderStateSaveController {
                 showDialog("O campo codigo do pedido está vazio, por favor digite um numero maior do que 0")
 
                 return
+
+            }
+
+            resolveDate.value != null -> {
+
+                if (resolveDate.value < convertStringInToLocalDate(orderHandle!!.invoiceDate) ){
+
+                    showDialog("A data de resolução deve ser maior ou igual a data de faturamento")
+
+
+                    return
+
+                }
 
             }
 

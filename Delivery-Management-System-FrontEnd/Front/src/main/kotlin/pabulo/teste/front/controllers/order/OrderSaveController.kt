@@ -12,6 +12,7 @@ import pabulo.teste.front.connectionBackEnd.CustomerConnection
 import pabulo.teste.front.connectionBackEnd.OrderConnection
 import pabulo.teste.front.dtos.orders.OrderSaveDto
 import pabulo.teste.front.dtos.orders.SaverOrderDTOtoDb
+import pabulo.teste.front.entity.Customer
 import pabulo.teste.front.enumms.OrderChoicesMenu
 import pabulo.teste.front.resource.addressResource.AddressResource
 import pabulo.teste.front.resource.customerResouce.CustomerResource
@@ -350,11 +351,15 @@ class OrderSaveController {
 
                 val customerCode: Int = customerCodeField.text.toInt()
 
+                var customerHandle: Customer? = null
+
                 try {
 
                     val customerWeb = webDb.fetchCustomerOnWebDbByCode(customerCode.toLong())
 
                     if (customerWeb != null) {
+
+                        customerHandle = customerWeb
 
                         customerNameField.text = customerWeb.customerName
 
@@ -366,31 +371,35 @@ class OrderSaveController {
                     println(e)
                 }
 
-                try {
+                if (customerHandle == null) {
 
-                    val customerResource = CustomerResource()
-                    val customer = customerResource.findCustomerByCodeInLocalDb(customerCode)
+                    try {
 
-
-                    customerFinded = if (customer != null) {
-
-
-                        customerNameField.text = customer.customerName
-
-                        customer.customerName
+                        val customerResource = CustomerResource()
+                        val customer = customerResource.findCustomerByCodeInLocalDb(customerCode)
 
 
-                    } else {
+                        customerFinded = if (customer != null) {
 
-                        customerNameField.text = "Cliente Não Encontrado"
 
-                        "Cliente Não encontardo"
+                            customerNameField.text = customer.customerName
+
+                            customer.customerName
+
+
+                        } else {
+
+                            customerNameField.text = "Cliente Não Encontrado"
+
+                            "Cliente Não encontardo"
+
+                        }
+
+                    } catch (e: Exception) {
+
+                        println(e)
 
                     }
-
-                } catch (e: Exception) {
-
-                    println(e)
 
                 }
             } catch (e: NumberFormatException) {
@@ -403,6 +412,9 @@ class OrderSaveController {
         return customerFinded
 
     }
+
+
+    private fun defineInvoiceDateDefault() {}
 
 
     /*--------------------------------------------------------------------------------------------------------------*/
@@ -442,7 +454,6 @@ class OrderSaveController {
                 return
             }
 
-
             ordertype.value != "Entrega Futura" && invoiceDatePicker.value == null -> {
 
 
@@ -451,10 +462,27 @@ class OrderSaveController {
                 return
             }
 
-            invoiceDatePicker.value == null -> {}
+            orderAddress.value.isNullOrBlank() -> {
 
 
-            invoiceDatePicker.value < purchaseDatePicker.value && invoiceDatePicker.value != null -> {
+                showDialog("Por favor selecione um bairro para o pedido")
+
+                return
+
+            }
+
+
+            ordertype.value == "Entrega Futura" &&
+                    invoiceDatePicker.value == null &&
+                    (orderStatus.value != "Pendente" && orderStatus.value != "Aguardando Solicitação") -> {
+
+                showDialog("É necessário informar uma data de faturamento para pedidos do tipo entrega futura com status diferente de 'Pendente'.")
+                return
+            }
+
+
+            purchaseDatePicker.value != null && invoiceDatePicker.value != null &&
+                    invoiceDatePicker.value < purchaseDatePicker.value -> {
 
                 showDialog("A data de faturamento deve ser maior ou igual a da compra")
 
@@ -563,10 +591,20 @@ class OrderSaveController {
 
         customerRegistered.value = "Default"
 
+
+        if (invoiceDatePicker.value == null) {
+            println("Data de faturamento está nula")
+        } else {
+            println("Data de faturamento: ${invoiceDatePicker.value}")
+        }
+
+
+
+
+
         orderStatus.items = FXCollections.observableArrayList(
             "Default",
             "Em Rota De Entrega",
-            "Aguardando Solicitação",
             "Pendente",
             "Entregue",
             "Cancelada",
