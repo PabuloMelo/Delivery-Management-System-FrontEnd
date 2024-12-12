@@ -446,6 +446,8 @@ class OrderUpdateController {
 
                     showDialog("pedido atualizado com sucesso no banco de dados Web")
 
+                    orderConnection.updateAllOrders()
+
                     orderTableView.refresh()
 
                 } catch (e: Exception) {
@@ -581,7 +583,7 @@ class OrderUpdateController {
 
     private fun convertStringInToLocalDate(dateAtConverter: String): LocalDate {
 
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val date = LocalDate.parse(dateAtConverter, dateFormatter)
 
         return date
@@ -693,9 +695,10 @@ class OrderUpdateController {
                 return
             }
 
-            invoiceDatePicker.value != null && invoiceDatePicker.value > convertStringInToLocalDate(orderHandle!!.purchaseDate) && purchaseDatePicker.value == null -> {
+            invoiceDatePicker.value != null && invoiceDatePicker.value < convertStringInToLocalDate(orderHandle!!.purchaseDate)
+                    && purchaseDatePicker.value == null -> {
 
-                showDialog("A nova data de faturamento não deve ser maior do que a data de compra anterior")
+                showDialog("A nova data de faturamento  deve ser maior ou igual do que a data de compra anterior")
 
                 return
 
@@ -704,7 +707,8 @@ class OrderUpdateController {
             invoiceDatePicker.value == null && purchaseDatePicker.value == null -> {}
 
 
-            invoiceDatePicker.value < purchaseDatePicker.value && invoiceDatePicker.value != null && purchaseDatePicker.value != null -> {
+            invoiceDatePicker.value != null && purchaseDatePicker.value != null &&
+                    invoiceDatePicker.value < purchaseDatePicker.value   -> {
 
                 showDialog("A nova data de faturamento deve ser maior ou igual a da compra")
 
@@ -765,6 +769,8 @@ class OrderUpdateController {
                 saveOrderUpdateOnWeblDb(originalOrdercode, updateOrderDto)
 
             }
+
+            showDialog("Pedido atualizado com sucesso")
 
 
         }

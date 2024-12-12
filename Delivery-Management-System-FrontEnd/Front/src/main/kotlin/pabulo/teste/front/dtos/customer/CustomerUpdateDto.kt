@@ -5,11 +5,15 @@ import javafx.beans.property.SimpleStringProperty
 
 
 fun SimpleIntegerProperty?.getValueOrNull(): Int? {
-    return this?.takeIf { it.value != null }?.get()
+
+    return this?.value
+
 }
 
 fun SimpleStringProperty?.getValueOrNull(): String? {
-    return this?.takeIf { it.get().isNotBlank() }?.get()
+
+    return this?.get()?.takeIf { it.isNotBlank() }
+
 }
 
 data class CustomerUpdateDto(
@@ -32,11 +36,11 @@ data class UpdateCustomerDtoToDb(
 
     fun convertDto(updateCustomerDto: CustomerUpdateDto) {
 
-        this.customerCode = updateCustomerDto.customerCode.getValueOrNull()
-        this.customerName = updateCustomerDto.customerName.getValueOrNull()
-        this.phone = updateCustomerDto.phone.getValueOrNull()
-        this.customerType = updateCustomerDto.customerType.getValueOrNull()
-        this.customerRegistered = updateCustomerDto.customerRegistered.getValueOrNull()
+        this.customerCode = updateCustomerDto.customerCode?.getValueOrNull()
+        this.customerName = updateCustomerDto.customerName?.getValueOrNull()
+        this.phone = updateCustomerDto.phone?.getValueOrNull()
+        this.customerType = updateCustomerDto.customerType?.getValueOrNull()
+        this.customerRegistered = updateCustomerDto.customerRegistered?.getValueOrNull()
 
 
     }

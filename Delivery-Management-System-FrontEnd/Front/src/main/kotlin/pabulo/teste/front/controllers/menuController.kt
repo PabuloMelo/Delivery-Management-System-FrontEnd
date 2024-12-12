@@ -500,7 +500,8 @@ class MenuController {
         stateOrdersOnLocalDb()
         ordersTrouble()
         syncButtonManager()
-
+        val ordersTotal = ordersTotalCount()
+        orderTotalCountLabel.text = ordersTotal
         testConnection.testConnection()
         testServerConnectionToLabel()
 
@@ -637,6 +638,9 @@ class MenuController {
         stateResource.deleteStateValidated()
 
         tableViewRefresh()
+
+        val ordersTotal = ordersTotalCount()
+        orderTotalCountLabel.text = ordersTotal
 
         syncButton.isDisable = true
 

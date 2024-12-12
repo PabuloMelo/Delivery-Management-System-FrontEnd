@@ -2,16 +2,21 @@ package pabulo.teste.front.resource.sellerResource
 
 import pabulo.teste.front.dtos.sellers.SaveSellerDtoToDb
 import pabulo.teste.front.entity.Seller
+import java.nio.file.Paths
 import java.sql.DriverManager
 import java.sql.ResultSet
 
 class SellerResource {
 
-    private val tempUrl =
-        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private val dbUrl: String = getDbUrl()
 
-    private val urlLocalDb =
-        "jdbc:sqlite:$tempUrl"
+    private fun getDbUrl(): String {
+        val resourceUrl = javaClass.getResource("/pabulo/teste/front/DB/deliverySystemDb.db")
+            ?: throw IllegalArgumentException("Database file not found")
+        return "jdbc:sqlite:${Paths.get(resourceUrl.toURI())}"
+    }
+
+    private val urlLocalDb = dbUrl
 
     fun saveSellerOnDb(saveSellerToDb: SaveSellerDtoToDb) {
 

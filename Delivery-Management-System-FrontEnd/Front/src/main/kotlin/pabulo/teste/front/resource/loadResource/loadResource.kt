@@ -5,16 +5,23 @@ import pabulo.teste.front.dtos.load.LoadDTOtoDB
 import pabulo.teste.front.dtos.load.LoadUpdateDto
 import pabulo.teste.front.entity.Driver
 import pabulo.teste.front.entity.Load
+import java.nio.file.Paths
 import java.sql.DriverManager
 import java.sql.ResultSet
 
 class LoadResource {
 
-    private val tempUrl =
-        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
-    private val urlLocalDb =
-        "jdbc:sqlite:$tempUrl"
+    private val dbUrl: String = getDbUrl()
+
+    private fun getDbUrl(): String {
+        val resourceUrl = javaClass.getResource("/pabulo/teste/front/DB/deliverySystemDb.db")
+            ?: throw IllegalArgumentException("Database file not found")
+        return "jdbc:sqlite:${Paths.get(resourceUrl.toURI())}"
+    }
+
+
+    private val urlLocalDb = dbUrl
 
     fun saveLoadOnLocalDb(load: LoadDTOtoDB) {
 

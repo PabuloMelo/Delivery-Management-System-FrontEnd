@@ -3,17 +3,24 @@ package pabulo.teste.front.resource.orderResource
 import pabulo.teste.front.dtos.orders.OrderUpdateDTOtoDb
 import pabulo.teste.front.dtos.orders.SaverOrderDTOtoDb
 import pabulo.teste.front.entity.Order
+import java.nio.file.Paths
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class OrderResource {
-    private val tempUrl =
-        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
-    private val urlLocalDb =
-        "jdbc:sqlite:$tempUrl"
 
+    private val dbUrl: String = getDbUrl()
+
+    private fun getDbUrl(): String {
+        val resourceUrl = javaClass.getResource("/pabulo/teste/front/DB/deliverySystemDb.db")
+            ?: throw IllegalArgumentException("Database file not found")
+        return "jdbc:sqlite:${Paths.get(resourceUrl.toURI())}"
+    }
+
+
+    private val urlLocalDb = dbUrl
 
     fun saveOrderOnLocalDb(orderSaverOrderDTOtoDb: SaverOrderDTOtoDb) {
 

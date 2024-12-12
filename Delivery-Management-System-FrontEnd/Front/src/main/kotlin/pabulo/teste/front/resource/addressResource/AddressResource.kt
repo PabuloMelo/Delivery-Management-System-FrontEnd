@@ -3,16 +3,22 @@ package pabulo.teste.front.resource.addressResource
 import pabulo.teste.front.dtos.address.SaveAddressDTO
 import pabulo.teste.front.dtos.address.UpdateAddressDTO
 import pabulo.teste.front.entity.Address
+import java.nio.file.Paths
 import java.sql.DriverManager
 import java.sql.ResultSet
 
 class AddressResource {
 
-    private val tempUrl =
-        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
-    private val urlLocalDb =
-        "jdbc:sqlite:$tempUrl"
+    private val dbUrl: String = getDbUrl()
+
+    private fun getDbUrl(): String {
+        val resourceUrl = javaClass.getResource("/pabulo/teste/front/DB/deliverySystemDb.db")
+            ?: throw IllegalArgumentException("Database file not found")
+        return "jdbc:sqlite:${Paths.get(resourceUrl.toURI())}"
+    }
+
+    private val urlLocalDb = dbUrl
 
 
 

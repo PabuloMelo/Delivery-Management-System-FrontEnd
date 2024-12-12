@@ -3,16 +3,23 @@ package pabulo.teste.front.resource.stateResource
 import pabulo.teste.front.dtos.state.SaveStateDTOtoDB
 import pabulo.teste.front.dtos.state.StateUpdateDTOtoDB
 import pabulo.teste.front.entity.State
+import java.nio.file.Paths
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class StateResource {
 
-    private val tempUrl =
-        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
+    private val dbUrl: String = getDbUrl()
+
+    private fun getDbUrl(): String {
+        val resourceUrl = javaClass.getResource("/pabulo/teste/front/DB/deliverySystemDb.db")
+            ?: throw IllegalArgumentException("Database file not found")
+        return "jdbc:sqlite:${Paths.get(resourceUrl.toURI())}"
+    }
+
     private val urlLocalDb =
-        "jdbc:sqlite:$tempUrl"
+      dbUrl
 
 
     fun saveStateOnLocalDb(stateSave: SaveStateDTOtoDB) {

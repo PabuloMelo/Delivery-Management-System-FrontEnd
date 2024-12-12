@@ -7,13 +7,13 @@ import pabulo.teste.front.dtos.customer.getValueOrNull
 
 fun SimpleIntegerProperty?.getValueOrNull(): Int? {
 
-    return this?.takeIf { it.value != null }?.get()
+    return this?.value
 
 }
 
 fun SimpleStringProperty?.getValueOrNull(): String? {
 
-    return this?.takeIf { it.get().isNotBlank() }?.get()
+    return this?.get()?.takeIf { it.isNotBlank() }
 
 }
 
@@ -84,17 +84,17 @@ data class OrderUpdateDTOtoDb(
 
     fun convertDTOtoDB(orderDto: OrderUpdateDTO) {
 
-        this.orderCode = orderDto.orderCode.getValueOrNull()
-        this.customerCode = orderDto.customerCode.getValueOrNull()
-        this.customerName = orderDto.customerName.getValueOrNull()
-        this.loadNumber = orderDto.loadNumber.getValueOrNull()
-        this.status = orderDto.status.getValueOrNull()
-        this.orderType = orderDto.orderType.getValueOrNull()
-        this.purchaseDate = orderDto.purchaseDate.getValueOrNull()
-        this.invoicingDate = orderDto.invoicingDate.getValueOrNull()
-        this.sellerRCA = orderDto.sellerRCA.getValueOrNull()
+        this.orderCode = orderDto.orderCode?.getValueOrNull()
+        this.customerCode = orderDto.customerCode?.getValueOrNull()
+        this.customerName = orderDto.customerName?.getValueOrNull()
+        this.loadNumber = orderDto.loadNumber?.getValueOrNull()
+        this.status = orderDto.status?.getValueOrNull()
+        this.orderType = orderDto.orderType?.getValueOrNull()
+        this.purchaseDate = orderDto.purchaseDate?.getValueOrNull()
+        this.invoicingDate = orderDto.invoicingDate?.getValueOrNull()
+        this.sellerRCA = orderDto.sellerRCA?.getValueOrNull()
         this.sellerName = orderDto.sellerName
-        this.orderAddress = orderDto.orderAddress.getValueOrNull()
+        this.orderAddress = orderDto.orderAddress?.getValueOrNull()
 
 
 

@@ -3,18 +3,23 @@ package pabulo.teste.front.resource.customerResouce
 import pabulo.teste.front.dtos.customer.SaveCustomerDtoToDb
 import pabulo.teste.front.dtos.customer.UpdateCustomerDtoToDb
 import pabulo.teste.front.entity.Customer
+import java.nio.file.Paths
 import java.sql.DriverManager
 import java.sql.ResultSet
 
 
 class CustomerResource {
 
-    private val tempUrl =
-        "C:/Users/USUARIO/Desktop/ProjectFront/Delivery-Management-System-FrontEnd/Front/src/main/resources/pabulo/teste/front/DB/deliverySystemDb.db"
 
-    private val urlLocalDb =
+    private val dbUrl: String = getDbUrl()
 
-        "jdbc:sqlite:$tempUrl"
+    private fun getDbUrl(): String {
+        val resourceUrl = javaClass.getResource("/pabulo/teste/front/DB/deliverySystemDb.db")
+            ?: throw IllegalArgumentException("Database file not found")
+        return "jdbc:sqlite:${Paths.get(resourceUrl.toURI())}"
+    }
+
+    private val urlLocalDb = dbUrl
 
     fun saveCustomerToLocalDB(customerDtoToDb: SaveCustomerDtoToDb) {
 
